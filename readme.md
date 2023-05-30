@@ -6,5 +6,6 @@ Benedikt Stern
 Johny Hashemi
 Keinam Shegow
 Thomas Kostic
+Isaac Schneider
 
 Owned by everyone codes.
