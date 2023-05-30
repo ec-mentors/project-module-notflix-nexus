@@ -20,17 +20,17 @@ public class User {
         private String username;
         private String password;
         private Set<String> authorities;
-        private WatchedList watchedList;
+        private WatchList watchList;
 
         public User() {
         }
 
-        public User(Long id, String username, String password, Set<String> authorities, WatchedList watchedList) {
+        public User(Long id, String username, String password, Set<String> authorities, WatchList watchList) {
                 this.id = id;
                 this.username = username;
                 this.password = password;
                 this.authorities = authorities;
-                this.watchedList = watchedList;
+                this.watchList = watchList;
         }
 
         @Override
@@ -40,7 +40,7 @@ public class User {
                         ", username='" + username + '\'' +
                         ", password='" + password + '\'' +
                         ", authorities=" + authorities +
-                        ", watchedList=" + watchedList +
+                        ", watchedList=" + watchList +
                         '}';
         }
 
@@ -49,12 +49,12 @@ public class User {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
                 User user = (User) o;
-                return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(authorities, user.authorities) && Objects.equals(watchedList, user.watchedList);
+                return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(authorities, user.authorities) && Objects.equals(watchList, user.watchList);
         }
 
         @Override
         public int hashCode() {
-                return Objects.hash(id, username, password, authorities, watchedList);
+                return Objects.hash(id, username, password, authorities, watchList);
         }
 
         public Long getId() {
@@ -89,11 +89,11 @@ public class User {
                 this.authorities = authorities;
         }
 
-        public WatchedList getWatchedList() {
-                return watchedList;
+        public WatchList getWatchedList() {
+                return watchList;
         }
 
-        public void setWatchedList(WatchedList watchedList) {
-                this.watchedList = watchedList;
+        public void setWatchedList(WatchList watchedList) {
+                this.watchList = watchList;
         }
 }
