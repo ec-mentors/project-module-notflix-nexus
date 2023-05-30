@@ -1,4 +1,4 @@
-package io.everyonecodes.project.movie_recommendations.endpoint;
+package io.everyonecodes.project.movie_recommendations.communication.endpoint;
 
 import io.everyonecodes.project.movie_recommendations.logic.WatchListService;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
