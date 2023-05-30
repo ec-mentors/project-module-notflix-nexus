@@ -50,5 +50,4 @@ public class SecurityConfiguration {
         authenticationProvider.setUserDetailsService(userDetailsService);
         return authenticationProvider;
     }
-    //test
 }
