@@ -1,0 +1,9 @@
+
+spring:
+    datasource:
+        url: jdbc:mysql://localhost/notflix_nexus?useSSL=false
+        username: root
+        password: root
+    jpa:
+        hibernate:
+            ddl-auto: update
