@@ -1,7 +1,8 @@
-package io.everyonecodes.project.movie_recommendations.Communication;
+package io.everyonecodes.project.movie_recommendations.logic;
 
-import io.everyonecodes.project.movie_recommendations.Domain.User;
-import io.everyonecodes.project.movie_recommendations.Repo.UserRepository;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
+import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +18,19 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> findByName (String username) {
+    public Optional<UserEntity> findByName (String username) {
         if (username == null){
             throw new UsernameNotFoundException("Please enter a valid username");
         }
         return userRepository.findByUsername(username);
     }
 
-    public void createUser (String username, String password, Set<String> authorities, Watchedlist watchedlist){
-        User user = new User();
+    public void createUser (String username, String password, Set<String> authorities){
+        UserEntity user = new UserEntity();
         user.setUsername(username);
         user.setPassword(password);
         user.setAuthorities(authorities);
-        user.setWatchedList(watchedlist);
+//        user.setWatchedList(watchlist);
         userRepository.save(user);
     }
 

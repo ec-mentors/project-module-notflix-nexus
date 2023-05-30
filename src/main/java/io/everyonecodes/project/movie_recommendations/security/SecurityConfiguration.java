@@ -1,6 +1,6 @@
-package io.everyonecodes.project.movie_recommendations.Security;
+package io.everyonecodes.project.movie_recommendations.security;
 
-import io.everyonecodes.project.movie_recommendations.Repo.UserRepository;
+import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

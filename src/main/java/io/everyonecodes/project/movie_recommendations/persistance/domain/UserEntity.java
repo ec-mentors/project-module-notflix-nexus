@@ -1,31 +1,30 @@
-package io.everyonecodes.project.movie_recommendations.Domain;
+package io.everyonecodes.project.movie_recommendations.persistance.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class User {
+public class UserEntity {
 
         @Id
         @GeneratedValue
         private Long id;
 
-        @NotNull
+        @NotBlank
         @Column(unique = true)
         private String username;
         private String password;
+        @ElementCollection(fetch = FetchType.EAGER)
         private Set<String> authorities;
+        @OneToOne
         private WatchList watchList;
 
-        public User() {
+        public UserEntity() {
         }
 
-        public User(Long id, String username, String password, Set<String> authorities, WatchList watchList) {
+        public UserEntity(Long id, String username, String password, Set<String> authorities, WatchList watchList) {
                 this.id = id;
                 this.username = username;
                 this.password = password;
@@ -48,7 +47,7 @@ public class User {
         public boolean equals(Object o) {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
-                User user = (User) o;
+                UserEntity user = (UserEntity) o;
                 return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(authorities, user.authorities) && Objects.equals(watchList, user.watchList);
         }
 

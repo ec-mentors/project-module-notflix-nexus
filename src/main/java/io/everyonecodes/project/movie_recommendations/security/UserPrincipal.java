@@ -1,6 +1,6 @@
-package io.everyonecodes.project.movie_recommendations.Security;
+package io.everyonecodes.project.movie_recommendations.security;
 
-import io.everyonecodes.project.movie_recommendations.Domain.User;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
-    private final User user;
+    private final UserEntity user;
 
-    public UserPrincipal(User user) {
+    public UserPrincipal(UserEntity user) {
         this.user = user;
     }
 
