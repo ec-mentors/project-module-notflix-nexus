@@ -23,7 +23,7 @@ public class UserService {
     private final PasswordEncoder encoder;
     private final String userRole;
 
-    public UserService(UserRepository userRepository, WatchListRepository watchListRepository, MovieService movieService, PasswordEncoder encoder, @Value("${authentication.roles.user}") String userRole) {
+    public UserService(UserRepository userRepository, WatchListRepository watchListRepository, MovieService movieService, PasswordEncoder encoder, @Value("${notflix.roles.user}") String userRole) {
         this.userRepository = userRepository;
         this.watchListRepository = watchListRepository;
         this.movieService = movieService;

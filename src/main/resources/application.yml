@@ -1,17 +1,15 @@
-authentication:
+notflix:
     roles:
         admin: "ROLE_ADMIN"
         user: "ROLE_USER"
     users:
         - username: admin
           password: admin
-          authorities: ${authentication.roles.admin}, ${authentication.roles.user}
+          authorities: ${notflix.roles.admin}, ${notflix.roles.user}
         - username: dummy
           password: dummy
-          authorities: ${authentication.roles.user}
-
-movies:
-    default:
+          authorities: ${notflix.roles.user}
+    movies:
         - title: movie
           genre: love
           releaseYear: 2022
