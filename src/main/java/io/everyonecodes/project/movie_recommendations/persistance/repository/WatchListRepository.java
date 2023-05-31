@@ -4,4 +4,5 @@ import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchLi
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WatchListRepository extends JpaRepository<WatchList, Long> {
+
 }

@@ -15,12 +15,20 @@ public class Movie {
     private String genre;
     private int releaseYear;
 
-    public long getId() {return id;}
+    public Movie() {}
+
+    public Movie(String title, String genre, int releaseYear) {
+        this.title = title;
+        this.genre = genre;
+        this.releaseYear = releaseYear;
+    }
+
+    public Long getId() {return id;}
     public String getTitle() {return title;}
     public String getGenre() {return genre;}
     public int getReleaseYear() {return releaseYear;}
 
-    public void setId(long id) {this.id = id;}
+    public void setId(Long id) {this.id = id;}
     public void setTitle(String title) {this.title = title;}
     public void setGenre(String genre) {this.genre = genre;}
     public void setReleaseYear(int releaseYear) {this.releaseYear = releaseYear;}

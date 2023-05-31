@@ -1,3 +1,23 @@
+authentication:
+    roles:
+        admin: "ROLE_ADMIN"
+        user: "ROLE_USER"
+    users:
+        - username: admin
+          password: admin
+          authorities: ${authentication.roles.admin}, ${authentication.roles.user}
+        - username: dummy
+          password: dummy
+          authorities: ${authentication.roles.user}
+
+movies:
+    default:
+        - title: movie
+          genre: love
+          releaseYear: 2022
+        - title: film
+          genre: action
+          releaseYear: 1970
 
 spring:
     datasource:
@@ -7,8 +27,3 @@ spring:
     jpa:
         hibernate:
             ddl-auto: update
-    userdata:
-        admin:
-            username: admin
-            password: admin
-            authorities: ROLE_ADMIN, ROLE_USER

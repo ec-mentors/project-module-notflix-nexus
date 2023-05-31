@@ -22,7 +22,8 @@ public class MovieService {
 
     public Movie addMovie(Movie movie) {
         Optional<Movie> optionalMovie = movieRepository.findFirstByTitleAndGenreAndReleaseYear(movie.getTitle(), movie.getGenre(), movie.getReleaseYear());
-        return optionalMovie.orElse(movieRepository.save(movie));
+
+        return optionalMovie.orElseGet(() -> movieRepository.save(movie));
     }
 
 }

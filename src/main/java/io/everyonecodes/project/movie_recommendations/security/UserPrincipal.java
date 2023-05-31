@@ -22,7 +22,6 @@ public class UserPrincipal implements UserDetails {
                 .stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
-
     }
 
     @Override

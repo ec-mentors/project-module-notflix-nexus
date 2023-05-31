@@ -15,11 +15,12 @@ public class UserEntity {
         @NotBlank
         @Column(unique = true)
         private String username;
+        @NotBlank
         private String password;
         @ElementCollection(fetch = FetchType.EAGER)
         private Set<String> authorities;
-        @OneToOne
-        private WatchList watchList;
+        @OneToOne(fetch = FetchType.EAGER)
+        private WatchList watchList = new WatchList();
 
         public UserEntity() {
         }
@@ -39,7 +40,7 @@ public class UserEntity {
                         ", username='" + username + '\'' +
                         ", password='" + password + '\'' +
                         ", authorities=" + authorities +
-                        ", watchedList=" + watchList +
+                        ", watchList=" + watchList +
                         '}';
         }
 
@@ -88,11 +89,13 @@ public class UserEntity {
                 this.authorities = authorities;
         }
 
-        public WatchList getWatchedList() {
+        public WatchList getWatchList() {
                 return watchList;
         }
 
-        public void setWatchedList(WatchList watchedList) {
+        public void setWatchList(WatchList watchList) {
                 this.watchList = watchList;
         }
+
+        public void addMovieToWatchList(Movie movie) {watchList.addMovie(movie);}
 }
