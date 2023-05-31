@@ -5,6 +5,7 @@ import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchLi
 import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,7 +17,11 @@ public class WatchListService {
         this.movieService = movieService;
         this.watchListRepository = watchListRepository;}
 
-    public Optional<WatchList> getWatchListById(Long id) {
+    public List<WatchList> findAllWatchLists() {
+        return watchListRepository.findAll();
+    }
+
+    public Optional<WatchList> findWatchListById(Long id) {
         return watchListRepository.findById(id);
     }
 
@@ -32,11 +37,17 @@ public class WatchListService {
 
     public void clearWatchListById(Long watchListId) {
         Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
-        optionalWatchList.ifPresent(WatchList::clear);
+        if (optionalWatchList.isPresent()) {
+            optionalWatchList.get().clear();
+            watchListRepository.save(optionalWatchList.get());
+        }
     }
 
     public void removeMovieByIds(Long watchListId, Long movieId) {
         Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
-        optionalWatchList.ifPresent(watchList -> watchList.removeMovieById(movieId));
+        if (optionalWatchList.isPresent()) {
+            optionalWatchList.get().removeMovieById(movieId);
+            watchListRepository.save(optionalWatchList.get());
+        }
     }
 }

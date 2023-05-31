@@ -7,18 +7,26 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/watch_list")
+@RequestMapping("/watchlists")
 public class WatchListEndpoint {
     private final WatchListService watchListService;
 
     public WatchListEndpoint(WatchListService watchListService) {this.watchListService = watchListService;}
 
+    @GetMapping
+    @Secured("ROLE_ADMIN")
+    List<WatchList> getWatchLists() {
+        return watchListService.findAllWatchLists();
+    }
+
     @GetMapping("/{watchListId}")
+    @Secured("ROLE_ADMIN")
     Optional<WatchList> getWatchListById(@PathVariable Long watchListId) {
-        return watchListService.getWatchListById(watchListId);
+        return watchListService.findWatchListById(watchListId);
     }
 
     @PostMapping("/{watchListId}")
@@ -27,13 +35,13 @@ public class WatchListEndpoint {
         return watchListService.addMovieById(watchListId, movie);
     }
 
-    @DeleteMapping("/{watchListId}/delete)")
+    @DeleteMapping("/{watchListId}")
     @Secured("ROLE_ADMIN")
     void clearWatchListById(@PathVariable Long watchListId) {
         watchListService.clearWatchListById(watchListId);
     }
 
-    @DeleteMapping("/{watchListId}/delete/{movieId}")
+    @DeleteMapping("/{watchListId}/movies/{movieId}")
     @Secured("ROLE_ADMIN")
     void removeMovieByIds(@PathVariable Long watchListId, @PathVariable Long movieId) {
         watchListService.removeMovieByIds(watchListId, movieId);
