@@ -11,7 +11,7 @@ public class WatchList {
     @Id
     @GeneratedValue
     private Long id;
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Movie> movies = new ArrayList<>();
 
     public void addMovie(Movie movie) {movies.add(movie);}

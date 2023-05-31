@@ -34,8 +34,9 @@ public class UserService {
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
-    public Optional<UserEntity> findByName (String username) {
-        if (username == null){
+
+    public Optional<UserEntity> findByName(String username) {
+        if (username == null) {
             throw new UsernameNotFoundException("Please enter a valid username");
         }
         return userRepository.findByUsername(username);
@@ -44,10 +45,11 @@ public class UserService {
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
+
     public UserEntity addUser(UserEntity user) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(user.getUsername());
         //TODO: everyone happy with returning unchanged user if username already exists? (will not happen because of validation..?)
-        if(optionalUser.isEmpty()) {
+        if (optionalUser.isEmpty()) {
             user.setAuthorities(Set.of(userRole));
             user.setPassword(encoder.encode(user.getPassword()));
             user.setWatchList(watchListRepository.save(new WatchList()));
@@ -58,7 +60,7 @@ public class UserService {
 
     public Optional<WatchList> getWatchListByUsername(String username) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        return optionalUser.isPresent() ? Optional.ofNullable(optionalUser.get().getWatchList()) : Optional.empty();
+        return optionalUser.map(UserEntity::getWatchList);
     }
 
     public Movie addToWatchListByUsername(String username, Movie movie) {
@@ -66,14 +68,16 @@ public class UserService {
         if (optionalUser.isPresent()) {
             movie = movieService.addMovie(movie);
             UserEntity user = optionalUser.get();
-            user.addMovieToWatchList(movie);
+            if (!user.getWatchList().getMovies().contains(movie)) {
+                user.addMovieToWatchList(movie);
+            }
             watchListRepository.save(user.getWatchList());
             userRepository.save(user);
         }
         return movie;
     }
 
-    public void createUser (String username, String password, Set<String> authorities){
+    public void createUser(String username, String password, Set<String> authorities) {
         UserEntity user = new UserEntity();
         user.setUsername(username);
         user.setPassword(password);
