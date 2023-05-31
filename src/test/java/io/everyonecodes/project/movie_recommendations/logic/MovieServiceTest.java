@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,9 @@ class MovieServiceTest {
 
     @MockBean
     MovieRepository movieRepository;
+
+    @MockBean
+    SecurityFilterChain filterChain;
 
     @BeforeEach
     void setUp() {
@@ -48,7 +52,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void changeMovie1() {
+    void changeMovie_MovieFound() {
         Movie movie = new Movie("Title", "Genre", 2023);
 
         when(movieRepository.findById(movie.getId())).thenReturn(Optional.of(movie));
@@ -60,7 +64,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void changeMovie2() {
+    void changeMovie_MovieNotFound() {
         Movie movie = new Movie("Title", "Genre", 2023);
 
         when(movieRepository.findById(movie.getId())).thenReturn(Optional.empty());
@@ -68,11 +72,11 @@ class MovieServiceTest {
         movieService.changeMovie(movie);
 
         verify(movieRepository).findById(movie.getId());
-        verify(movieRepository).save(movie);
+        verifyNoMoreInteractions(movieRepository);
     }
 
     @Test
-    void addMovie1() {
+    void addMovie_MovieFound() {
         Movie movie = new Movie("Title", "Genre", 2023);
 
         when(movieRepository.findFirstByTitleAndGenreAndReleaseYear(movie.getTitle(), movie.getGenre(), movie.getReleaseYear())).thenReturn(Optional.of(movie));
@@ -84,7 +88,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void addMovie2() {
+    void addMovie_MovieNotFound() {
         Movie movie = new Movie("Title", "Genre", 2023);
 
         when(movieRepository.findFirstByTitleAndGenreAndReleaseYear(movie.getTitle(), movie.getGenre(), movie.getReleaseYear())).thenReturn(Optional.empty());
