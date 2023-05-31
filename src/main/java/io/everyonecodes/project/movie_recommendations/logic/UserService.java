@@ -48,7 +48,6 @@ public class UserService {
 
     public UserEntity addUser(UserEntity user) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(user.getUsername());
-        //TODO: everyone happy with returning unchanged user if username already exists? (will not happen because of validation..?)
         if (optionalUser.isEmpty()) {
             user.setAuthorities(Set.of(userRole));
             user.setPassword(encoder.encode(user.getPassword()));
@@ -76,18 +75,4 @@ public class UserService {
         }
         return movie;
     }
-
-    public void createUser(String username, String password, Set<String> authorities) {
-        UserEntity user = new UserEntity();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setAuthorities(authorities);
-//        user.setWatchedList(watchlist);
-        userRepository.save(user);
-    }
-
-    /*
-
-     */
-
 }

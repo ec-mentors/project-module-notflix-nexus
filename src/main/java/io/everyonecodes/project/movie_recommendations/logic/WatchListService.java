@@ -2,7 +2,6 @@ package io.everyonecodes.project.movie_recommendations.logic;
 
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
-import io.everyonecodes.project.movie_recommendations.persistance.repository.MovieRepository;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +30,13 @@ public class WatchListService {
         return newMovie;
     }
 
+    public void clearWatchListById(Long watchListId) {
+        Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
+        optionalWatchList.ifPresent(WatchList::clear);
+    }
+
     public void removeMovieByIds(Long watchListId, Long movieId) {
         Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
         optionalWatchList.ifPresent(watchList -> watchList.removeMovieById(movieId));
     }
-
-//    public void changeMovie(Movie movie) {
-//        movieService.changeMovie(movie);
-//    }
 }

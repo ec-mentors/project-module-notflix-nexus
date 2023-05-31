@@ -19,6 +19,7 @@ public class WatchList {
         Optional<Movie> optionalMovie = movies.stream().filter(movie -> id.equals(movie.getId())).findFirst();
         optionalMovie.ifPresent(movie -> movies.remove(movie));
     }
+    public void clear() {movies.clear();}
     public Long getId() {return id;}
     public List<Movie> getMovies() {return movies;}
     public void setId(Long id) {this.id = id;}

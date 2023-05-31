@@ -15,15 +15,22 @@ public class MovieService {
 
     public List<Movie> findAllMovies() {return movieRepository.findAll();}
 
-    public void changeMovie(Movie movie) {
-        Optional<Movie> optionalMovie = movieRepository.findById(movie.getId());
-        if(optionalMovie.isPresent()) movieRepository.save(movie);
+    public Optional<Movie> findMovieById(Long movieId) {return movieRepository.findById(movieId);}
+
+    public void changeMovie(Long movieId, Movie movie) {
+        Optional<Movie> optionalMovie = movieRepository.findById(movieId);
+        if(optionalMovie.isPresent()) {
+            movie.setId(optionalMovie.get().getId());
+            movieRepository.save(movie);
+        }
     }
 
     public Movie addMovie(Movie movie) {
         Optional<Movie> optionalMovie = movieRepository.findFirstByTitleAndGenreAndReleaseYear(movie.getTitle(), movie.getGenre(), movie.getReleaseYear());
-
         return optionalMovie.orElseGet(() -> movieRepository.save(movie));
     }
 
+    public void deleteById(Long movieId) {
+        if(movieRepository.existsById(movieId)) movieRepository.deleteById(movieId);
+    }
 }
