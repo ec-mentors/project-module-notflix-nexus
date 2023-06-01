@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Service
 public class WatchListService {
@@ -29,27 +30,23 @@ public class WatchListService {
     }
 
     public Movie addMovieById(Long watchListId, Movie movie) {
-        Movie newMovie = movieService.addMovie(movie);
-        Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
-        optionalWatchList.ifPresent(watchList -> {
-            watchList.addMovie(newMovie);
-            watchListRepository.save(watchList);
-        });
-        return newMovie;
+        movieService.addMovie(movie);
+        ifPresentById(watchListId, watchList -> watchList.addMovie(movie));
+        return movie;
     }
 
     public void clearWatchListById(Long watchListId) {
-        Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
-        optionalWatchList.ifPresent(watchList -> {
-            watchList.clear();
-            watchListRepository.save(watchList);
-        });
+        ifPresentById(watchListId, WatchList::clear);
     }
 
     public void removeMovieByIds(Long watchListId, Long movieId) {
+        ifPresentById(watchListId, watchList -> watchList.removeMovieById(movieId));
+    }
+
+    private void ifPresentById(Long watchListId, Consumer<WatchList> action) {
         Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
         optionalWatchList.ifPresent(watchList -> {
-            watchList.removeMovieById(movieId);
+            action.accept(watchList);
             watchListRepository.save(watchList);
         });
     }
