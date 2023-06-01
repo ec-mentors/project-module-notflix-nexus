@@ -15,11 +15,10 @@ public class WatchListService {
 
     public WatchListService(MovieService movieService, WatchListRepository watchListRepository) {
         this.movieService = movieService;
-        this.watchListRepository = watchListRepository;}
-
-    public WatchList createNewWatchList() {
-        return watchListRepository.save(new WatchList());
+        this.watchListRepository = watchListRepository;
     }
+
+    public WatchList createNewWatchList() {return watchListRepository.save(new WatchList());}
 
     public List<WatchList> findAllWatchLists() {
         return watchListRepository.findAll();

@@ -1,10 +1,12 @@
 package io.everyonecodes.project.movie_recommendations.logic;
 
+import io.everyonecodes.project.movie_recommendations.configuration.DefaultUserRunner;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.MovieRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -27,6 +30,9 @@ class MovieServiceTest {
 
     @MockBean
     SecurityFilterChain filterChain;
+
+    @MockBean
+    DefaultUserRunner defaultUserRunner;
 
     @BeforeEach
     void setUp() {
@@ -47,31 +53,40 @@ class MovieServiceTest {
 
         List<Movie> result = movieService.findAllMovies();
 
-        Assertions.assertEquals(movies, result);
+        assertEquals(movies, result);
         verify(movieRepository).findAll();
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0", "999"})
+    void findMovieById(Long movieId) {
+        movieService.findMovieById(movieId);
+        verify(movieRepository).findById(movieId);
     }
 
     @Test
     void changeMovie_MovieFound() {
         Movie movie = new Movie("Title", "Genre", 2023);
+        Long movieId = 0L;
 
         when(movieRepository.findById(movie.getId())).thenReturn(Optional.of(movie));
 
-        movieService.changeMovie(movie);
+        movieService.changeMovie(movieId, movie);
 
-        verify(movieRepository).findById(movie.getId());
-        verify(movieRepository).save(movie);
+        verify(movieRepository).findById(movieId);
+        verifyNoMoreInteractions(movieRepository);
     }
 
     @Test
     void changeMovie_MovieNotFound() {
         Movie movie = new Movie("Title", "Genre", 2023);
+        Long movieId = 0L;
 
         when(movieRepository.findById(movie.getId())).thenReturn(Optional.empty());
 
-        movieService.changeMovie(movie);
+        movieService.changeMovie(movieId, movie);
 
-        verify(movieRepository).findById(movie.getId());
+        verify(movieRepository).findById(movieId);
         verifyNoMoreInteractions(movieRepository);
     }
 
@@ -83,7 +98,7 @@ class MovieServiceTest {
 
         Movie result = movieService.addMovie(movie);
 
-        Assertions.assertEquals(movie, result);
+        assertEquals(movie, result);
         verify(movieRepository, never()).save(movie);
     }
 
@@ -96,7 +111,29 @@ class MovieServiceTest {
 
         Movie result = movieService.addMovie(movie);
 
-        Assertions.assertEquals(movie, result);
+        assertEquals(movie, result);
         verify(movieRepository).save(movie);
+    }
+
+    @Test
+    void deleteById_MovieIdFound() {
+        when(movieRepository.existsById(anyLong())).thenReturn(true);
+        Long movieId = 0L;
+
+        movieService.deleteById(movieId);
+
+        verify(movieRepository).existsById(movieId);
+        verify(movieRepository).deleteById(movieId);
+    }
+
+    @Test
+    void deleteById_MovieIdNotFound() {
+        when(movieRepository.existsById(anyLong())).thenReturn(false);
+        Long movieId = 0L;
+
+        movieService.deleteById(movieId);
+
+        verify(movieRepository).existsById(movieId);
+        verifyNoMoreInteractions(movieRepository);
     }
 }
