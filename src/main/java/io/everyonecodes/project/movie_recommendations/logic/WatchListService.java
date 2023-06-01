@@ -31,22 +31,22 @@ public class WatchListService {
 
     public Movie addMovieById(Long watchListId, Movie movie) {
         movieService.addMovie(movie);
-        ifPresentById(watchListId, watchList -> watchList.addMovie(movie));
+        changeIfPresentById(watchListId, watchList -> watchList.addMovie(movie));
         return movie;
     }
 
     public void clearWatchListById(Long watchListId) {
-        ifPresentById(watchListId, WatchList::clear);
+        changeIfPresentById(watchListId, WatchList::clear);
     }
 
     public void removeMovieByIds(Long watchListId, Long movieId) {
-        ifPresentById(watchListId, watchList -> watchList.removeMovieById(movieId));
+        changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(movieId));
     }
 
-    private void ifPresentById(Long watchListId, Consumer<WatchList> action) {
+    private void changeIfPresentById(Long watchListId, Consumer<WatchList> change) {
         Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
         optionalWatchList.ifPresent(watchList -> {
-            action.accept(watchList);
+            change.accept(watchList);
             watchListRepository.save(watchList);
         });
     }
