@@ -17,6 +17,10 @@ public class WatchListService {
         this.movieService = movieService;
         this.watchListRepository = watchListRepository;}
 
+    public WatchList createNewWatchList() {
+        return watchListRepository.save(new WatchList());
+    }
+
     public List<WatchList> findAllWatchLists() {
         return watchListRepository.findAll();
     }
@@ -37,17 +41,17 @@ public class WatchListService {
 
     public void clearWatchListById(Long watchListId) {
         Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
-        if (optionalWatchList.isPresent()) {
-            optionalWatchList.get().clear();
-            watchListRepository.save(optionalWatchList.get());
-        }
+        optionalWatchList.ifPresent(watchList -> {
+            watchList.clear();
+            watchListRepository.save(watchList);
+        });
     }
 
     public void removeMovieByIds(Long watchListId, Long movieId) {
         Optional<WatchList> optionalWatchList = watchListRepository.findById(watchListId);
-        if (optionalWatchList.isPresent()) {
-            optionalWatchList.get().removeMovieById(movieId);
-            watchListRepository.save(optionalWatchList.get());
-        }
+        optionalWatchList.ifPresent(watchList -> {
+            watchList.removeMovieById(movieId);
+            watchListRepository.save(watchList);
+        });
     }
 }
