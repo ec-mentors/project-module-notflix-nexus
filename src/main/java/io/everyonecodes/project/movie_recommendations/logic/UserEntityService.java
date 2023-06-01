@@ -3,7 +3,7 @@ package io.everyonecodes.project.movie_recommendations.logic;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
-import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
+import io.everyonecodes.project.movie_recommendations.persistance.repository.UserEntityRepository;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,16 +15,16 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class UserService {
+public class UserEntityService {
 
-    private final UserRepository userRepository;
+    private final UserEntityRepository userEntityRepository;
     private final WatchListRepository watchListRepository;
     private final MovieService movieService;
     private final PasswordEncoder encoder;
     private final String userRole;
 
-    public UserService(UserRepository userRepository, WatchListRepository watchListRepository, MovieService movieService, PasswordEncoder encoder, @Value("${authentication.roles.user}") String userRole) {
-        this.userRepository = userRepository;
+    public UserEntityService(UserEntityRepository userEntityRepository, WatchListRepository watchListRepository, MovieService movieService, PasswordEncoder encoder, @Value("${authentication.roles.user}") String userRole) {
+        this.userEntityRepository = userEntityRepository;
         this.watchListRepository = watchListRepository;
         this.movieService = movieService;
         this.encoder = encoder;
@@ -32,39 +32,39 @@ public class UserService {
     }
 
     public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+        return userEntityRepository.findAll();
     }
 
     public Optional<UserEntity> findByName(String username) {
         if (username == null) {
             throw new UsernameNotFoundException("Please enter a valid username");
         }
-        return userRepository.findByUsername(username);
+        return userEntityRepository.findByUsername(username);
     }
 
     public boolean existsByUsername(String username) {
-        return userRepository.existsByUsername(username);
+        return userEntityRepository.existsByUsername(username);
     }
 
     public UserEntity addUser(UserEntity user) {
-        Optional<UserEntity> optionalUser = userRepository.findByUsername(user.getUsername());
+        Optional<UserEntity> optionalUser = userEntityRepository.findByUsername(user.getUsername());
         //TODO: everyone happy with returning unchanged user if username already exists? (will not happen because of validation..?)
         if (optionalUser.isEmpty()) {
             user.setAuthorities(Set.of(userRole));
             user.setPassword(encoder.encode(user.getPassword()));
             user.setWatchList(watchListRepository.save(new WatchList()));
-            userRepository.save(user);
+            userEntityRepository.save(user);
         }
         return user;
     }
 
     public Optional<WatchList> getWatchListByUsername(String username) {
-        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        Optional<UserEntity> optionalUser = userEntityRepository.findByUsername(username);
         return optionalUser.map(UserEntity::getWatchList);
     }
 
     public Movie addToWatchListByUsername(String username, Movie movie) {
-        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        Optional<UserEntity> optionalUser = userEntityRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             movie = movieService.addMovie(movie);
             UserEntity user = optionalUser.get();
@@ -72,7 +72,7 @@ public class UserService {
                 user.addMovieToWatchList(movie);
             }
             watchListRepository.save(user.getWatchList());
-            userRepository.save(user);
+            userEntityRepository.save(user);
         }
         return movie;
     }
@@ -82,12 +82,7 @@ public class UserService {
         user.setUsername(username);
         user.setPassword(password);
         user.setAuthorities(authorities);
-//        user.setWatchedList(watchlist);
-        userRepository.save(user);
+        userEntityRepository.save(user);
     }
-
-    /*
-
-     */
 
 }

@@ -1,6 +1,6 @@
 package io.everyonecodes.project.movie_recommendations.security;
 
-import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
+import io.everyonecodes.project.movie_recommendations.persistance.repository.UserEntityRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,9 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
-    private final UserRepository repository;
+    private final UserEntityRepository repository;
 
-    public SecurityConfiguration(UserRepository repository) {
+    public SecurityConfiguration(UserEntityRepository repository) {
         this.repository = repository;
     }
 
@@ -39,9 +39,9 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    UserDetailsService userDetailsService(UserRepository userRepository) {
+    UserDetailsService userDetailsService(UserEntityRepository userEntityRepository) {
         return username -> repository.findByUsername(username)
-                .map(UserPrincipal::new).orElseThrow(() -> new UsernameNotFoundException(username));
+                .map(UserEntityPrincipal::new).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
     @Bean

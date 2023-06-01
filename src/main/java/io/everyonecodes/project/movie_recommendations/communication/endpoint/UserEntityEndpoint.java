@@ -1,6 +1,6 @@
 package io.everyonecodes.project.movie_recommendations.communication.endpoint;
 
-import io.everyonecodes.project.movie_recommendations.logic.UserService;
+import io.everyonecodes.project.movie_recommendations.logic.UserEntityService;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
@@ -14,32 +14,32 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
-public class UserEndpoint {
-    private final UserService userService;
+public class UserEntityEndpoint {
+    private final UserEntityService userEntityService;
 
-    public UserEndpoint(UserService userService) {this.userService = userService;}
+    public UserEntityEndpoint(UserEntityService userEntityService) {this.userEntityService = userEntityService;}
 
     @PostMapping
     UserEntity postUser(@Valid @RequestBody UserEntity user) {
-        return userService.addUser(user);
+        return userEntityService.addUser(user);
     }
 
     @GetMapping
     @Secured("ROLE_ADMIN")
     List<UserEntity> getAllUsers() {
-        return userService.getAllUsers();
+        return userEntityService.getAllUsers();
     }
 
     @GetMapping("/current/watchlist")
     @Secured("ROLE_USER")
     Optional<WatchList> getWatchList(Principal principal) {
-        return userService.getWatchListByUsername(principal.getName());
+        return userEntityService.getWatchListByUsername(principal.getName());
     }
 
     @PostMapping("/current/watchlist")
     @Secured("ROLE_USER")
     Movie postMovieToCurrentWatchList(Principal principal, @Valid @RequestBody Movie movie) {
-        return userService.addToWatchListByUsername(principal.getName(), movie);
+        return userEntityService.addToWatchListByUsername(principal.getName(), movie);
     }
 
 }
