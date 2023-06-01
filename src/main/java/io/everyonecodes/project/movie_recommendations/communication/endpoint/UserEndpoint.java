@@ -19,15 +19,22 @@ public class UserEndpoint {
 
     public UserEndpoint(UserService userService) {this.userService = userService;}
 
-    @PostMapping
-    UserEntity postUser(@Valid @RequestBody UserEntity user) {
-        return userService.addUser(user);
-    }
-
     @GetMapping
     @Secured("ROLE_ADMIN")
     List<UserEntity> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping
+    @Secured("ROLE_ADMIN")
+    UserEntity postUser(@Valid @RequestBody UserEntity user) {
+        return userService.addUser(user);
+    }
+
+    @DeleteMapping("/{userId}")
+    @Secured("ROLE_ADMIN")
+    void deleteUserById(@PathVariable Long userId) {
+        userService.deleteUserById(userId);
     }
 
     @GetMapping("/current/watchlist")
@@ -42,4 +49,9 @@ public class UserEndpoint {
         return userService.addToWatchListByUsername(principal.getName(), movie);
     }
 
+    @DeleteMapping("/current/watchlist/{movieId}")
+    @Secured("ROLE_USER")
+    void deleteMovieFromCurrentWatchListById(Principal principal, @PathVariable Long movieId) {
+        userService.removeFromWatchList(principal.getName(), movieId);
+    }
 }

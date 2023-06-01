@@ -15,14 +15,6 @@ public class Movie {
     private String genre;
     private int releaseYear;
 
-    public Movie() {}
-
-    public Movie(String title, String genre, int releaseYear) {
-        this.title = title;
-        this.genre = genre;
-        this.releaseYear = releaseYear;
-    }
-
     public Long getId() {return id;}
     public String getTitle() {return title;}
     public String getGenre() {return genre;}

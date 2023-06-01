@@ -22,16 +22,7 @@ public class UserEntity {
         @OneToOne(fetch = FetchType.EAGER)
         private WatchList watchList = new WatchList();
 
-        public UserEntity() {
-        }
-
-        public UserEntity(Long id, String username, String password, Set<String> authorities, WatchList watchList) {
-                this.id = id;
-                this.username = username;
-                this.password = password;
-                this.authorities = authorities;
-                this.watchList = watchList;
-        }
+        public void addMovieToWatchList(Movie movie) {watchList.addMovie(movie);}
 
         @Override
         public String toString() {
@@ -89,13 +80,10 @@ public class UserEntity {
                 this.authorities = authorities;
         }
 
-        public WatchList getWatchList() {
-                return watchList;
-        }
+        public WatchList getWatchList() {return watchList;}
 
         public void setWatchList(WatchList watchList) {
                 this.watchList = watchList;
         }
 
-        public void addMovieToWatchList(Movie movie) {watchList.addMovie(movie);}
 }

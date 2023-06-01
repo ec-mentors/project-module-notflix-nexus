@@ -18,13 +18,15 @@ import java.util.Set;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final WatchListService watchListService;
     private final WatchListRepository watchListRepository;
     private final MovieService movieService;
     private final PasswordEncoder encoder;
     private final String userRole;
 
-    public UserService(UserRepository userRepository, WatchListRepository watchListRepository, MovieService movieService, PasswordEncoder encoder, @Value("${notflix.roles.user}") String userRole) {
+    public UserService(UserRepository userRepository, WatchListService watchListService, WatchListRepository watchListRepository, MovieService movieService, PasswordEncoder encoder, @Value("${notflix.roles.user}") String userRole) {
         this.userRepository = userRepository;
+        this.watchListService = watchListService;
         this.watchListRepository = watchListRepository;
         this.movieService = movieService;
         this.encoder = encoder;
@@ -35,26 +37,21 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<UserEntity> findByName(String username) {
-        if (username == null) {
-            throw new UsernameNotFoundException("Please enter a valid username");
-        }
-        return userRepository.findByUsername(username);
-    }
-
-    public boolean existsByUsername(String username) {
-        return userRepository.existsByUsername(username);
-    }
 
     public UserEntity addUser(UserEntity user) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(user.getUsername());
         if (optionalUser.isEmpty()) {
             user.setAuthorities(Set.of(userRole));
             user.setPassword(encoder.encode(user.getPassword()));
+            //TODO: WatchListService.createEmptyWatchList() (in WLS!)
             user.setWatchList(watchListRepository.save(new WatchList()));
             userRepository.save(user);
         }
         return user;
+    }
+
+    public void deleteUserById(Long userId) {
+        userRepository.deleteById(userId);
     }
 
     public Optional<WatchList> getWatchListByUsername(String username) {
@@ -67,6 +64,7 @@ public class UserService {
         if (optionalUser.isPresent()) {
             movie = movieService.addMovie(movie);
             UserEntity user = optionalUser.get();
+            //TODO: move functionality below into WLService
             if (!user.getWatchList().getMovies().contains(movie)) {
                 user.addMovieToWatchList(movie);
             }
@@ -74,5 +72,14 @@ public class UserService {
             userRepository.save(user);
         }
         return movie;
+    }
+
+    public void removeFromWatchList(String username, Long movieId) {
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            UserEntity user = optionalUser.get();
+            watchListService.removeMovieByIds(user.getWatchList().getId(), movieId);
+            userRepository.save(user);
+        }
     }
 }
