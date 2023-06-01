@@ -73,12 +73,13 @@ public class UserService {
         return movie;
     }
 
+    public void clearWatchlistByUsername(String username) {
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        optionalUser.ifPresent(user -> watchListService.clearWatchListById(user.getWatchList().getId()));
+    }
+
     public void removeFromWatchList(String username, Long movieId) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        if (optionalUser.isPresent()) {
-            UserEntity user = optionalUser.get();
-            watchListService.removeMovieByIds(user.getWatchList().getId(), movieId);
-            userRepository.save(user);
-        }
+        optionalUser.ifPresent(user -> watchListService.removeMovieByIds(user.getWatchList().getId(), movieId));
     }
 }

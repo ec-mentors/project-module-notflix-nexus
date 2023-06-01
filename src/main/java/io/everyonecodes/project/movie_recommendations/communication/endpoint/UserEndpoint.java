@@ -49,6 +49,13 @@ public class UserEndpoint {
         return userService.addToWatchListByUsername(principal.getName(), movie);
     }
 
+    @DeleteMapping("/current/watchlist")
+    @Secured("ROLE_USER")
+    void clearCurrentWatchList(Principal principal) {
+        userService.clearWatchlistByUsername(principal.getName());
+    }
+
+
     @DeleteMapping("/current/watchlist/{movieId}")
     @Secured("ROLE_USER")
     void deleteMovieFromCurrentWatchListById(Principal principal, @PathVariable Long movieId) {
