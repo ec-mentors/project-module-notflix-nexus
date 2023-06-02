@@ -5,7 +5,6 @@ import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
-import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,7 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,14 +33,8 @@ class UserServiceTest {
     @MockBean
     PasswordEncoder encoder;
 
-//    @MockBean
-//    WatchListRepository watchListRepository;
-
     @MockBean
     WatchListService watchListService;
-
-//    @MockBean
-//    MovieService movieService;
 
     @MockBean
     SecurityFilterChain securityFilterChain;
@@ -134,5 +126,37 @@ class UserServiceTest {
 
         verify(userRepository).findByUsername(username);
         verify(watchListService).addMovieById(Mockito.anyLong(), Mockito.any(Movie.class));
+    }
+
+
+    @Test
+    void clearWatchlistByUsername_UserFound() {
+        Long watchListId = 123L;
+        UserEntity user = new UserEntity();
+        WatchList watchList = new WatchList();
+        watchList.setId(watchListId);
+        user.setWatchList(watchList);
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+
+        userService.clearWatchlistByUsername(username);
+
+        verify(watchListService.findWatchListById(watchListId));
+    }
+
+    @Test
+    void removeFromWatchList_UserFound() {
+        Long watchListId = 123L;
+        Long movieId = 345L;
+        WatchList watchList = new WatchList();
+        watchList.setId(watchListId);
+        UserEntity user = new UserEntity();
+        user.setWatchList(watchList);
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+
+        userService.removeFromWatchList(username, movieId);
+
+        verify(watchListService).removeMovieByIds(watchListId, movieId);
     }
 }
