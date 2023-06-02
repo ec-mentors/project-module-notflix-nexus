@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -39,6 +40,9 @@ class UserEntityServiceTest {
 
     @MockBean
     MovieService movieService;
+
+    @MockBean
+    SecurityFilterChain securityFilterChain;
 
     private final String username = "testuser";
     private final String password = "password";
