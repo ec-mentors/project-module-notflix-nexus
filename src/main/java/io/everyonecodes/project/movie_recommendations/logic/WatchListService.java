@@ -30,9 +30,11 @@ public class WatchListService {
     }
 
     public Movie addMovieById(Long watchListId, Movie movie) {
-        movieService.addMovie(movie);
-        changeIfPresentById(watchListId, watchList -> watchList.addMovie(movie));
-        return movie;
+        Movie returnedMovie = movieService.addMovie(movie);
+        changeIfPresentById(watchListId, watchList -> {
+            if (!watchList.getMovies().contains(returnedMovie)) watchList.addMovie(movie);
+        });
+        return returnedMovie;
     }
 
     public void clearWatchListById(Long watchListId) {
