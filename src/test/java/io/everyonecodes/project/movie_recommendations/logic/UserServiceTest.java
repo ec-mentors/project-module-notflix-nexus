@@ -83,6 +83,15 @@ class UserServiceTest {
     }
 
     @Test
+    void deleteUserByIdTest() {
+        Long userId = 1L;
+
+        userService.deleteUserById(userId);
+
+        verify(userRepository).deleteById(userId);
+    }
+
+    @Test
     public void testGetWatchListByUsernameIfExists() {
         UserEntity user = new UserEntity();
         user.setUsername(username);
