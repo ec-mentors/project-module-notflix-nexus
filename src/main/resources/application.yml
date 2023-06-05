@@ -1,3 +1,21 @@
+notflix:
+    roles:
+        admin: "ROLE_ADMIN"
+        user: "ROLE_USER"
+    users:
+        - username: admin
+          password: admin
+          authorities: ${notflix.roles.admin}, ${notflix.roles.user}
+        - username: dummy
+          password: dummy
+          authorities: ${notflix.roles.user}
+    movies:
+        - title: movie
+          genre: love
+          releaseYear: 2022
+        - title: film
+          genre: action
+          releaseYear: 1970
 
 spring:
     datasource:
