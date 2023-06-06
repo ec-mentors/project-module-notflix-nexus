@@ -1,5 +1,6 @@
 package io.everyonecodes.project.movie_recommendations.logic;
 
+import io.everyonecodes.project.movie_recommendations.persistance.domain.LikedMoviesList;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
@@ -17,12 +18,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final WatchListService watchListService;
+    private final LikedMoviesListService likedMoviesListService;
     private final PasswordEncoder encoder;
     private final String userRole;
 
-    public UserService(UserRepository userRepository, WatchListService watchListService, PasswordEncoder encoder, @Value("${notflix.roles.user}") String userRole) {
+    public UserService(UserRepository userRepository, WatchListService watchListService, LikedMoviesListService likedMoviesListService, PasswordEncoder encoder, @Value("${notflix.roles.user}") String userRole) {
         this.userRepository = userRepository;
         this.watchListService = watchListService;
+        this.likedMoviesListService = likedMoviesListService;
         this.encoder = encoder;
         this.userRole = userRole;
     }
@@ -36,6 +39,7 @@ public class UserService {
             user.setAuthorities(Set.of(userRole));
             user.setPassword(encoder.encode(user.getPassword()));
             user.setWatchList(watchListService.createNewWatchList());
+            user.setLikedMovies(likedMoviesListService.createNewLikedMoviesList());
             userRepository.save(user);
         }
         return user;
