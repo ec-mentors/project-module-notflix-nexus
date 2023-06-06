@@ -27,8 +27,6 @@ public class UserEntity {
         @OneToOne(fetch = FetchType.LAZY)
         private LikedMoviesList likedMovies = new LikedMoviesList();
 
-        public void addMovieToWatchList(Movie movie) {watchList.addMovie(movie);}
-
         @Override
         public String toString() {
                 return "UserEntity{" +

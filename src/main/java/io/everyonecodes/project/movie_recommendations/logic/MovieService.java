@@ -20,9 +20,14 @@ public class MovieService {
 
     public List<Movie> findAllMovies() {return movieRepository.findAll();}
 
-    public Optional<Movie> findMovieById(Long movieId) {return movieRepository.findById(movieId);}
-
-    public Optional<Movie> findMovieByImdbId(String imdbId) {return movieApiClient.findByID(imdbId);}
+    public Optional<Movie> findMovieByImdbId(String imdbId) {
+        Optional<Movie> optionalMovie = movieRepository.findByImdbId(imdbId);
+        if(optionalMovie.isEmpty()) {
+            optionalMovie = movieApiClient.findByID(imdbId);
+            optionalMovie.ifPresent(this::addMovie);
+        }
+        return optionalMovie;
+    }
 
     public void changeMovie(Long movieId, Movie movie) {
         Optional<Movie> optionalMovie = movieRepository.findById(movieId);
