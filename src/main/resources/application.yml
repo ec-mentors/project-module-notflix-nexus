@@ -11,13 +11,16 @@ notflix:
           authorities: ${notflix.roles.user}
     movies:
         - title: movie
-          genre: love
+          genres: love
           releaseYear: 2022
         - title: film
-          genre: action
+          genres: action
           releaseYear: 1970
 
 spring:
+    mvc:
+        format:
+            date: yyyy-MM-dd
     datasource:
         url: jdbc:mysql://localhost/notflix_nexus?useSSL=false
         username: root
@@ -25,3 +28,9 @@ spring:
     jpa:
         hibernate:
             ddl-auto: update
+
+api:
+    url: https://api.themoviedb.org
+    key: 7c0af285bec5ba381f87bb2a0eea17a0
+    searchbyname: /3/search/movie?query=
+    getbyid: /3/movie/
