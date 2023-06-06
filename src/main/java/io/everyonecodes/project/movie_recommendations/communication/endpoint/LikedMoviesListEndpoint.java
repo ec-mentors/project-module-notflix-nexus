@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/likedMoviesList")
+@RequestMapping("/likedmovies")
 public class LikedMoviesListEndpoint {
 
     private final LikedMoviesListService likedMoviesListService;

@@ -25,7 +25,6 @@ public class UserEntity {
         @OneToOne(fetch = FetchType.LAZY)
         private WatchList watchList = new WatchList();
         @OneToOne(fetch = FetchType.LAZY)
-        //@LazyCollection(LazyCollectionOption.FALSE)
         private LikedMoviesList likedMovies = new LikedMoviesList();
 
         public void addMovieToWatchList(Movie movie) {watchList.addMovie(movie);}
