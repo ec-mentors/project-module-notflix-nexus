@@ -1,5 +1,8 @@
 package io.everyonecodes.project.movie_recommendations.persistance.domain;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
@@ -19,10 +22,11 @@ public class UserEntity {
         private String password;
         @ElementCollection(fetch = FetchType.EAGER)
         private Set<String> authorities;
-        @OneToOne(fetch = FetchType.EAGER)
+        @OneToOne(fetch = FetchType.LAZY)
         private WatchList watchList = new WatchList();
-        @OneToOne(fetch = FetchType.EAGER)
-        private Set<Movie> likedMovies;
+        @OneToOne(fetch = FetchType.LAZY)
+        //@LazyCollection(LazyCollectionOption.FALSE)
+        private LikedMoviesList likedMovies = new LikedMoviesList();
 
         public void addMovieToWatchList(Movie movie) {watchList.addMovie(movie);}
 
@@ -89,11 +93,11 @@ public class UserEntity {
                 this.watchList = watchList;
         }
 
-        public Set<Movie> getLikedMovies() {
+        public LikedMoviesList getLikedMovies() {
                 return likedMovies;
         }
 
-        public void setLikedMovies(Set<Movie> likedMovies) {
+        public void setLikedMovies(LikedMoviesList likedMovies) {
                 this.likedMovies = likedMovies;
         }
 }

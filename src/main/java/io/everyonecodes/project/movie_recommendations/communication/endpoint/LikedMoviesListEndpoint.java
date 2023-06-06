@@ -22,7 +22,7 @@ public class LikedMoviesListEndpoint {
 
     @GetMapping
     @Secured("ROLE_ADMIN")
-    List<LikedMoviesList> getlikedMoviesList() {
+    List<LikedMoviesList> getLikedMoviesList() {
         return likedMoviesListService.findAllLikedMoviesLists();
     }
 
