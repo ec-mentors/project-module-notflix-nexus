@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -42,10 +43,9 @@ public class MovieApiClient {
                 .collect(toList());
     }
 
-    public List<Movie> findByID(int id) {
-        MovieDto dto = restTemplate.getForObject(url + urlGetByID + id + "&api_key=" + apiKey, MovieDto.class);
-        return Stream.of(dto)
-                .map(movieTranslator::fromDTO)
-                .collect(toList());
+    public Optional<Movie> findByID(String imdbId) {
+        //TODO: catch client exception, if movie is not found
+        MovieDto dto = restTemplate.getForObject(url + urlGetByID + imdbId + "?api_key=" + apiKey, MovieDto.class);
+        return dto == null ? Optional.empty() : Optional.ofNullable(movieTranslator.fromDTO(dto));
     }
 }
