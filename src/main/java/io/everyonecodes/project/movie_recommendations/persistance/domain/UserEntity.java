@@ -21,17 +21,20 @@ public class UserEntity {
         private Set<String> authorities;
         @OneToOne(fetch = FetchType.EAGER)
         private WatchList watchList = new WatchList();
+        @OneToOne(fetch = FetchType.EAGER)
+        private Set<Movie> likedMovies;
 
         public void addMovieToWatchList(Movie movie) {watchList.addMovie(movie);}
 
         @Override
         public String toString() {
-                return "User{" +
+                return "UserEntity{" +
                         "id=" + id +
                         ", username='" + username + '\'' +
                         ", password='" + password + '\'' +
                         ", authorities=" + authorities +
                         ", watchList=" + watchList +
+                        ", likedMovies=" + likedMovies +
                         '}';
         }
 
@@ -39,13 +42,13 @@ public class UserEntity {
         public boolean equals(Object o) {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
-                UserEntity user = (UserEntity) o;
-                return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(authorities, user.authorities) && Objects.equals(watchList, user.watchList);
+                UserEntity that = (UserEntity) o;
+                return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(authorities, that.authorities) && Objects.equals(watchList, that.watchList) && Objects.equals(likedMovies, that.likedMovies);
         }
 
         @Override
         public int hashCode() {
-                return Objects.hash(id, username, password, authorities, watchList);
+                return Objects.hash(id, username, password, authorities, watchList, likedMovies);
         }
 
         public Long getId() {
@@ -86,4 +89,11 @@ public class UserEntity {
                 this.watchList = watchList;
         }
 
+        public Set<Movie> getLikedMovies() {
+                return likedMovies;
+        }
+
+        public void setLikedMovies(Set<Movie> likedMovies) {
+                this.likedMovies = likedMovies;
+        }
 }

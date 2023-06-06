@@ -1,5 +1,7 @@
 package io.everyonecodes.project.movie_recommendations.communication.endpoint;
 
+import io.everyonecodes.project.movie_recommendations.logic.LikedMoviesListService;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.LikedMoviesList;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -12,16 +14,16 @@ import java.util.Optional;
 @RequestMapping("/likedMoviesList")
 public class LikedMoviesListEndpoint {
 
-    private final LikedMoviesList likedMoviesList;
+    private final LikedMoviesListService likedMoviesListService;
 
-    public LikedMoviesListEndpoint(LikedMoviesList likedMoviesList) {
-        this.likedMoviesList = likedMoviesList;
+    public LikedMoviesListEndpoint(LikedMoviesListService likedMoviesList) {
+        this.likedMoviesListService = likedMoviesList;
     }
 
     @GetMapping
     @Secured("ROLE_ADMIN")
     List<LikedMoviesList> getlikedMoviesList() {
-        return likedMoviesList.findAllLikedMoviesLists();
+        return likedMoviesListService.findAllLikedMoviesLists();
     }
 
     @GetMapping("/{likedMoviesListId}")
