@@ -25,10 +25,15 @@ public class MovieEndpoint {
         return movieService.addMovie(movie);
     }
 
-    @GetMapping("/{movieId}")
-    @Secured("ROLE_ADMIN")
-    Optional<Movie> getMovieById(@PathVariable Long movieId) {
-        return movieService.findMovieById(movieId);
+//    @GetMapping("/{movieId}")
+//    @Secured("ROLE_ADMIN")
+//    Optional<Movie> getMovieById(@PathVariable Long movieId) {
+//        return movieService.findMovieById(movieId);
+//    }
+
+    @GetMapping("/{imdbId}")
+    Optional<Movie> getMovieByImdbId(@PathVariable String imdbId) {
+        return movieService.findMovieByImdbId(imdbId);
     }
 
     @PutMapping("/{movieId}")

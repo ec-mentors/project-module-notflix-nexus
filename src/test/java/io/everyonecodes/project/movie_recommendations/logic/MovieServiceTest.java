@@ -57,12 +57,12 @@ class MovieServiceTest {
         verify(movieRepository).findAll();
     }
 
-    @ParameterizedTest
-    @CsvSource({"0", "999"})
-    void findMovieById(Long movieId) {
-        movieService.findMovieById(movieId);
-        verify(movieRepository).findById(movieId);
-    }
+//    @ParameterizedTest
+//    @CsvSource({"0", "999"})
+//    void findMovieById(Long movieId) {
+//        movieService.findMovieById(movieId);
+//        verify(movieRepository).findById(movieId);
+//    }
 
     @Test
     void changeMovie_MovieFound() {
