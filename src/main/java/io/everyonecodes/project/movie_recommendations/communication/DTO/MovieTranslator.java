@@ -10,6 +10,6 @@ import java.util.stream.Collectors;
 public class MovieTranslator {
     public Movie fromDTO(MovieDto dto) {
         List<String> genres = dto.getGenres().stream().map(GenreDto::getName).collect(Collectors.toList());
-        return new Movie(dto.getImdb_id(), dto.getTitle(), genres, dto.getRelease_date().getYear());
+        return new Movie(dto.getImdbId(), dto.getTitle(), genres, dto.getRelease_date().getYear());
     }
 }
