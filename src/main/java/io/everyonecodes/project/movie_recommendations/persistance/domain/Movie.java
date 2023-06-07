@@ -16,6 +16,8 @@ public class Movie {
     private List<String> genres;
     private int releaseYear;
 
+    public Movie() {}
+
     public Movie(String imdbId, String title, List<String> genres, int releaseYear) {
         this.imdbId = imdbId;
         this.title = title;

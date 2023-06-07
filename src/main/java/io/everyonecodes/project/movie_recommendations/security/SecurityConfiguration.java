@@ -33,6 +33,7 @@ public class SecurityConfiguration {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/movies/{imdbId}").permitAll()
+                .antMatchers(HttpMethod.GET, "/movies").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
