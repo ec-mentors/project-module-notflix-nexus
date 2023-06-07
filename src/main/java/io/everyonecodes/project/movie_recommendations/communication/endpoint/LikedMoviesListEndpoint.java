@@ -49,4 +49,28 @@ public class LikedMoviesListEndpoint {
     void removeMovieByIds(@PathVariable Long likedMoviesListId, @PathVariable Long movieId) {
         likedMoviesListService.removeMovieByIds(likedMoviesListId, movieId);
     }
+
+    @GetMapping("/{likedMoviesListId}/id/{imdbId}")
+    @Secured("ROLE_ADMIN")
+    String addMovieByImdbId(@PathVariable Long likedMoviesListId, @PathVariable String imdbId) {
+        return likedMoviesListService.addMovieByImdbId(likedMoviesListId, imdbId);
+    }
+
+    @GetMapping("/{likedMoviesListId}/title/{movieTitle}")
+    @Secured("ROLE_ADMIN")
+    String addMovieByTitle(@PathVariable Long likedMoviesListId, @PathVariable String movieTitle) {
+        return likedMoviesListService.addMovieByTitle(likedMoviesListId, movieTitle);
+    }
+
+    @DeleteMapping("/{likedMoviesListId}/id/{imdbId}")
+    @Secured("ROLE_ADMIN")
+    void removeMovieByImdbId(@PathVariable Long likedMoviesListId, @PathVariable String imdbId) {
+        likedMoviesListService.removeMovieByImdbId(likedMoviesListId, imdbId);
+    }
+
+    @DeleteMapping("/{likedMoviesListId}/title/{movieTitle}")
+    @Secured("ROLE_ADMIN")
+    void removeMovieByTitle(@PathVariable Long likedMoviesListId, @PathVariable String movieTitle) {
+        likedMoviesListService.removeMovieByTitle(likedMoviesListId, movieTitle);
+    }
 }

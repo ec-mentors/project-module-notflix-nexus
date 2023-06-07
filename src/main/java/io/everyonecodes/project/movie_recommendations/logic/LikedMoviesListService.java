@@ -58,9 +58,24 @@ public class LikedMoviesListService {
         });
     }
 
+    public void removeMovieByImdbId(Long likedMoviesListId, String imdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+        returnedMovie.ifPresent(movie -> changeIfPresentById(likedMoviesListId, likedMoviesList -> {
+            likedMoviesList.removeMovieById(movie.getId());
+        }));
+    }
+
+    public void removeMovieByTitle(Long likedMoviesListId, String title) {
+        Optional<Movie> returnedMovie = movieService.findMoviesByTitle(title).stream().findFirst();
+        returnedMovie.ifPresent(movie -> changeIfPresentById(likedMoviesListId, likedMoviesList -> {
+            likedMoviesList.removeMovieById(movie.getId());
+        }));
+    }
+
     public String addMovieByImdbId(Long likedMoviesListId, String imdbId) {
         Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
         if (returnedMovie.isPresent()) {
+            movieService.addMovie(returnedMovie.get());
             changeIfPresentById(likedMoviesListId, likedMoviesList -> {
                 if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
                     likedMoviesList.addMovie(returnedMovie.get());
@@ -73,6 +88,7 @@ public class LikedMoviesListService {
     public String addMovieByTitle(Long likedMoviesListId, String movieTitle) {
         Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
         if (returnedMovie.isPresent()) {
+            movieService.addMovie(returnedMovie.get());
             changeIfPresentById(likedMoviesListId, likedMoviesList -> {
                 if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
                     likedMoviesList.addMovie(returnedMovie.get());

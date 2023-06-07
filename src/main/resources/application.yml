@@ -10,20 +10,12 @@ notflix:
           password: dummy
           authorities: ${notflix.roles.user}
     movies:
-        - imdbId: "1234"
-          title: "movie"
-          genres:
-            - "love"
-            - "romance"
+        - title: movie
+#          genres: love
           releaseYear: 2022
-        - imdbId: "5678"
-          title: "film"
-          genres:
-            - "action"
-            - "thriller"
+        - title: film
+#          genres: action
           releaseYear: 1970
-    fail:
-        message: Movie not found.
 
 spring:
     mvc:
