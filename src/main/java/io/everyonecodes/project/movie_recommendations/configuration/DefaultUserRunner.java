@@ -1,11 +1,11 @@
 package io.everyonecodes.project.movie_recommendations.configuration;
 
+import io.everyonecodes.project.movie_recommendations.communication.client.MovieApiClient;
 import io.everyonecodes.project.movie_recommendations.logic.UserService;
-import io.everyonecodes.project.movie_recommendations.persistance.domain.LikedMoviesList;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
-import io.everyonecodes.project.movie_recommendations.persistance.repository.LikedMoviesListRepository;
+import io.everyonecodes.project.movie_recommendations.persistance.repository.GenreRepository;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.MovieRepository;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
@@ -23,11 +23,12 @@ import java.util.Set;
 public class DefaultUserRunner {
     private List<UserEntity> users;
     private Set<Movie> movies;
+
     public void setUsers(List<UserEntity> users) {this.users = users;}
     public void setMovies(Set<Movie> movies) {this.movies = movies;}
 
     @Bean
-    ApplicationRunner createDefaultUsers(UserService userService, UserRepository userRepository, WatchListRepository watchListRepository, LikedMoviesListRepository likedMoviesListRepository, MovieRepository movieRepository, PasswordEncoder encoder) {
+    ApplicationRunner createDefaultUsers(UserService userService, UserRepository userRepository, WatchListRepository watchListRepository, MovieRepository movieRepository, MovieApiClient movieApiClient, GenreRepository genreRepository, PasswordEncoder encoder) {
         return args -> {
             userRepository.deleteAll();
             watchListRepository.deleteAll();
@@ -36,10 +37,11 @@ public class DefaultUserRunner {
             users.forEach(user -> {
                 user.setPassword(encoder.encode(user.getPassword()));
                 user.setWatchList(watchListRepository.save(new WatchList()));
-                user.setLikedMovies(likedMoviesListRepository.save(new LikedMoviesList()));
                 userRepository.save(user);
             });
+            //TODO: would be nice to get movies from client instead
             movies.forEach(movie -> userService.addToWatchListByUsername(users.get(1).getUsername(), movie));
+            movieApiClient.getListOfGenres().forEach(genreRepository::save);
         };
     }
 }

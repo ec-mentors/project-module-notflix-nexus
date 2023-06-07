@@ -24,7 +24,7 @@ public class UserEntity {
         private Set<String> authorities;
         @OneToOne(fetch = FetchType.LAZY)
         private WatchList watchList = new WatchList();
-        @OneToOne(fetch = FetchType.LAZY)
+        @OneToOne(cascade = CascadeType.ALL)
         private LikedMoviesList likedMovies = new LikedMoviesList();
 
         @Override
