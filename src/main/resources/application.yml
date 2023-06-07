@@ -11,10 +11,10 @@ notflix:
           authorities: ${notflix.roles.user}
     movies:
         - title: movie
-          genres: love
+#          genres: love
           releaseYear: 2022
         - title: film
-          genres: action
+#          genres: action
           releaseYear: 1970
 
 spring:
