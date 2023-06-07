@@ -1,4 +1,4 @@
-package io.everyonecodes.project.movie_recommendations.communication.DTO;
+package io.everyonecodes.project.movie_recommendations.communication.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MovieDto {
 
-    @JsonProperty("imdb_id")
+    @JsonProperty("id")
     private String imdbId;
     private String title;
     private List<GenreDto> genres;

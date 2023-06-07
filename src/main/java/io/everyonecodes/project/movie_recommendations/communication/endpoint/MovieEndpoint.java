@@ -21,14 +21,15 @@ public class MovieEndpoint {
 
     @PostMapping
     @Secured("ROLE_ADMIN")
-    Movie MovieById(@Valid @RequestBody Movie movie) {
-        return movieService.addMovie(movie);
-    }
+    Movie postMovie(@Valid @RequestBody Movie movie) {return movieService.addMovie(movie);}
 
     @GetMapping("/{imdbId}")
     Optional<Movie> getMovieByImdbId(@PathVariable String imdbId) {
         return movieService.findMovieByImdbId(imdbId);
     }
+
+    @GetMapping("/by_title/{title}")
+    List<Movie> getMoviesByTitle(@PathVariable String title) {return movieService.findMoviesByTitle(title);}
 
     @PutMapping("/{movieId}")
     @Secured("ROLE_ADMIN")

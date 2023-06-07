@@ -1,4 +1,4 @@
-package io.everyonecodes.project.movie_recommendations.communication.DTO;
+package io.everyonecodes.project.movie_recommendations.communication.dto;
 
 public class GenreDto {
     private int id;
