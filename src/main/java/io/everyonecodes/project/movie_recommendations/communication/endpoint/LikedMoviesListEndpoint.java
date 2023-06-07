@@ -47,7 +47,7 @@ public class LikedMoviesListEndpoint {
     @DeleteMapping("/{likedMoviesListId}/movies/{movieId}")
     @Secured("ROLE_ADMIN")
     void removeMovieByIds(@PathVariable Long likedMoviesListId, @PathVariable Long movieId) {
-        likedMoviesListService.removeMovieByIds(likedMoviesListId, movieId);
+     //   likedMoviesListService.removeMovieByIds(likedMoviesListId, movieId);
     }
 
     @GetMapping("/{likedMoviesListId}/id/{imdbId}")
