@@ -3,16 +3,15 @@ package io.everyonecodes.project.movie_recommendations.communication.client;
 import io.everyonecodes.project.movie_recommendations.communication.dto.MovieDto;
 import io.everyonecodes.project.movie_recommendations.communication.dto.MovieTranslator;
 import io.everyonecodes.project.movie_recommendations.communication.dto.ResultPageDto;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.Genre;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import static java.util.stream.Collectors.toList;
 
 @Controller
@@ -48,5 +47,11 @@ public class MovieApiClient {
         //TODO: catch client exception, if movie is not found
         MovieDto dto = restTemplate.getForObject(url + urlGetByID + imdbId + "?api_key=" + apiKey, MovieDto.class);
         return dto == null ? Optional.empty() : Optional.ofNullable(movieTranslator.fromDTO(dto));
+    }
+
+    public List<Genre> getListOfGenres() {
+        System.out.println(url + "/3/genre/movie/list?language=en" + "&api_key=" + apiKey);
+        Genre[] genres = restTemplate.getForObject(url + "/3/genre/movie/list?language=en" + "&api_key=" + apiKey, Genre[].class);
+        return Arrays.asList(genres);
     }
 }
