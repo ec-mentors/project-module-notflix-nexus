@@ -1,15 +1,17 @@
 package io.everyonecodes.project.movie_recommendations.communication.client;
 
-import io.everyonecodes.project.movie_recommendations.communication.DTO.MovieDto;
-import io.everyonecodes.project.movie_recommendations.communication.DTO.MovieTranslator;
+import io.everyonecodes.project.movie_recommendations.communication.dto.MovieDto;
+import io.everyonecodes.project.movie_recommendations.communication.dto.MovieTranslator;
+import io.everyonecodes.project.movie_recommendations.communication.dto.ResultPageDto;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -36,11 +38,10 @@ public class MovieApiClient {
         this.urlGetByID = urlGetByID;
     }
 
-    public List<Movie> findByName(String movieTitle) {
-        MovieDto[] dtos = restTemplate.getForObject(url + urlSearchByName + movieTitle + "&api_key=" + apiKey, MovieDto[].class);
-        return Stream.of(dtos)
-                .map(movieTranslator::fromDTO)
-                .collect(toList());
+    public List<Movie> findByTitle(String movieTitle) {
+        //TODO: GENRES are deactivated in Translator
+        ResultPageDto page = Objects.requireNonNull(restTemplate.getForObject(url + urlSearchByName + movieTitle + "&api_key=" + apiKey, ResultPageDto.class));
+        return page.getResults().stream().map(movieTranslator::fromDTO).collect(toList());
     }
 
     public Optional<Movie> findByID(String imdbId) {

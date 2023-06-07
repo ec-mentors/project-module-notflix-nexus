@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
@@ -27,6 +28,10 @@ public class MovieService {
             optionalMovie.ifPresent(this::addMovie);
         }
         return optionalMovie;
+    }
+
+    public List<Movie> findMoviesByTitle(String title) {
+        return movieApiClient.findByTitle(title).stream().map(this::addMovie).collect(Collectors.toList());
     }
 
     public void changeMovie(Long movieId, Movie movie) {
