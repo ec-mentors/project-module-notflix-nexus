@@ -37,7 +37,7 @@ public class LikedMoviesListService {
     public Movie addMovieById(Long likedMoviesListId, Movie movie) {
         Movie returnedMovie = movieService.addMovie(movie);
         changeIfPresentById(likedMoviesListId, likedMoviesList -> {
-            if (!likedMoviesList.getMovies().contains(returnedMovie)) likedMoviesList.addMovie(movie);
+            if (!likedMoviesList.getLikedMovies().contains(returnedMovie)) likedMoviesList.addMovie(movie);
         });
         return returnedMovie;
     }
@@ -58,12 +58,27 @@ public class LikedMoviesListService {
         });
     }
 
-//    public Movie addMovieByImdbId(Long likedMoviesListId, String imdbId) {
-//        Movie returnedMovie = movieService.findMovieByImdbId();
-//        changeIfPresentById(likedMoviesListId, likedMoviesList -> {
-//            if (!likedMoviesList.getLikedMovies().contains(returnedMovie)) likedMoviesList.addMovie(returnedMovie);
-//        });
-//        return returnedMovie;
-//    }
+    public String addMovieByImdbId(Long likedMoviesListId, String imdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+        if (returnedMovie.isPresent()) {
+            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
+                if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
+                    likedMoviesList.addMovie(returnedMovie.get());
+            });
+            return imdbId;
+        }
+        return failMessage;
+    }
 
+    public String addMovieByTitle(Long likedMoviesListId, String movieTitle) {
+        Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        if (returnedMovie.isPresent()) {
+            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
+                if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
+                    likedMoviesList.addMovie(returnedMovie.get());
+            });
+            return movieTitle;
+        }
+        return failMessage;
+    }
 }

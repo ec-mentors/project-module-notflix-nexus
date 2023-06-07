@@ -13,18 +13,18 @@ public class LikedMoviesList {
     private Long id;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Movie> movies = new ArrayList<>();
+    private List<Movie> likedMovies = new ArrayList<>();
 
     public void addMovie(Movie movie) {
-        movies.add(movie);
+        likedMovies.add(movie);
     }
     public void removeMovieById(Long id) {
-        Optional<Movie> optionalMovie = movies.stream().filter(movie -> id.equals(movie.getId())).findFirst();
-        optionalMovie.ifPresent(movie -> movies.remove(movie));
+        Optional<Movie> optionalMovie = likedMovies.stream().filter(movie -> id.equals(movie.getId())).findFirst();
+        optionalMovie.ifPresent(movie -> likedMovies.remove(movie));
     }
 
     public void clear() {
-        movies.clear();
+        likedMovies.clear();
     }
 
     public Long getId() {
@@ -35,11 +35,11 @@ public class LikedMoviesList {
         this.id = id;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
+    public List<Movie> getLikedMovies() {
+        return likedMovies;
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setLikedMovies(List<Movie> likedMovies) {
+        this.likedMovies = likedMovies;
     }
 }
