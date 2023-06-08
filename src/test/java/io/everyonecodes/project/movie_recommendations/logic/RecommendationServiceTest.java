@@ -19,8 +19,8 @@ class RecommendationServiceTest {
     RecommendationService recommendationService;
 
     @Test
-    void recommendSameGenreMovies() {
-        recommendationService.recommendMovies("876792");
+    void recommend() {
+        recommendationService.recommendMovies("916224");
     }
 
     @ParameterizedTest

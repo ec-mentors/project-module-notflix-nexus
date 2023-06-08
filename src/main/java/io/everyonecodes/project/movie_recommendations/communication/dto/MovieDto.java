@@ -6,6 +6,7 @@ import io.everyonecodes.project.movie_recommendations.persistance.domain.Genre;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MovieDto {
 
@@ -65,5 +66,18 @@ public class MovieDto {
 
     public void setImdbId(String imdbId) {
         this.imdbId = imdbId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MovieDto movieDto = (MovieDto) o;
+        return Objects.equals(tmdbId, movieDto.tmdbId) && Objects.equals(imdbId, movieDto.imdbId) && Objects.equals(title, movieDto.title) && Objects.equals(genres, movieDto.genres) && Objects.equals(genreIds, movieDto.genreIds) && Objects.equals(release_date, movieDto.release_date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tmdbId, imdbId, title, genres, genreIds, release_date);
     }
 }

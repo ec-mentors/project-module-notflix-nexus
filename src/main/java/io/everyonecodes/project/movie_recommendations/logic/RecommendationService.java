@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import io.everyonecodes.project.movie_recommendations.communication.client.MovieApiClient;
 import io.everyonecodes.project.movie_recommendations.communication.client.RequestController;
+import io.everyonecodes.project.movie_recommendations.communication.dto.MovieDto;
 import io.everyonecodes.project.movie_recommendations.communication.dto.MovieTranslator;
 import io.everyonecodes.project.movie_recommendations.communication.dto.ResultPageDto;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Genre;
@@ -63,11 +64,10 @@ public class RecommendationService {
         List<Long> listOfGenreId = inputMovie.getGenres().stream().map(Genre::getId).collect(toList());
         Set<Long> listOfKeywordId = client.getListOfKeywordsById(inputMovie.getTmdbID()).stream().map(Keyword::getId).collect(Collectors.toSet());
         List<Long> weightedGenres = keepAPercentageOfItems(100, listOfGenreId);
-//        List<Long> randomKeywords = pickRandomElements(2, listOfKeywordId);
         String genreQueryParam = weightedGenres.stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
-        Set<ResultPageDto> pages = new HashSet<>();
+        Set<MovieDto> movieDtoSet = new HashSet<>();
         ResultPageDto page;
         for (int i = listOfKeywordId.size(); i >= 1; i--) {
             var combinations = Sets.combinations(listOfKeywordId, i);
@@ -85,15 +85,13 @@ public class RecommendationService {
                         .queryParam("with_keywords", keywordQueryParam);
                 String request = builder.toUriString();
                 page = Objects.requireNonNull(restTemplate.getForObject(request, ResultPageDto.class));
-                if (page.getTotalResults() >= 10) {
-                    return page.getResults().stream().map(movieTranslator::fromDTO).collect(toList());
+                movieDtoSet.addAll(page.getResults());
+                if (movieDtoSet.size() >= 5) {
+                    return movieDtoSet.stream().map(movieTranslator::fromDTO).collect(toList());
                 }
-                pages.add(page);
             }
         }
-        var pageWithHighestResults = pages.stream()
-                .max(Comparator.comparing(ResultPageDto::getTotalResults));
-        return pageWithHighestResults.map(resultPageDto -> resultPageDto.getResults().stream().map(movieTranslator::fromDTO).collect(toList())).orElse(Collections.emptyList());
+        return movieDtoSet.stream().map(movieTranslator::fromDTO).collect(toList());
     }
 
     List<Long> keepAPercentageOfItems(int percentage, List<Long> list) {
