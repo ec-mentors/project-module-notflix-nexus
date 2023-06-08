@@ -44,6 +44,7 @@ public class RecommendationService {
         this.requestController = requestController;
     }
 
+    //TODO: reduce time complexity
     public List<Movie> recommendMovies(String movieIdOrTitle) {
         String input = movieIdOrTitle.trim();
         Movie inputMovie;
