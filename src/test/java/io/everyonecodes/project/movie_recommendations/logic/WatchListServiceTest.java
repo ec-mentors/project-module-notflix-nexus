@@ -1,6 +1,7 @@
 package io.everyonecodes.project.movie_recommendations.logic;
 
 import io.everyonecodes.project.movie_recommendations.configuration.DefaultUserRunner;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.Genre;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -67,7 +69,7 @@ class WatchListServiceTest {
     @Test
     void addMovieById() {
         Long id = 123L;
-        Movie movie = new Movie("Movie", "Genre", 2023);
+        Movie movie = new Movie("1234", "Movie", List.of(new Genre()), 2023);
         WatchList watchList = new WatchList();
         when(movieService.addMovie(movie)).thenReturn(movie);
         when(watchListRepository.findById(id)).thenReturn(Optional.of(watchList));
