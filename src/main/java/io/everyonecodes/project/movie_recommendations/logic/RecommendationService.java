@@ -105,27 +105,19 @@ public class RecommendationService {
     }
 
     public Set<Long> createSubsetWithRandomElements(Set<Long> set, int numElementsToKeep) {
-        // Create a copy of the original set
         Set<Long> subset = new HashSet<>(set);
-
-        int numElementsToRemove = subset.size() - numElementsToKeep;  // Calculate the number of elements to remove
+        int numElementsToRemove = subset.size() - numElementsToKeep;
         Random random = new Random();
-
-        // Remove random elements until the desired number of elements are left
         while (numElementsToRemove > 0) {
-            // Get a random element from the set
             Long randomElement = subset.stream()
                     .skip(random.nextInt(subset.size()))
                     .findFirst()
                     .orElse(null);
-
-            // Remove the random element from the set
             if (randomElement != null) {
                 subset.remove(randomElement);
                 numElementsToRemove--;
             }
         }
-
         return subset;
     }
 
