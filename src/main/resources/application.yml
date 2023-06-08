@@ -34,3 +34,5 @@ api:
     key: 7c0af285bec5ba381f87bb2a0eea17a0
     searchbyname: /3/search/movie?query=
     getbyid: /3/movie/
+    discover: /3/discover/movie
+    keywords: /3/movie/{movie_id}/keywords

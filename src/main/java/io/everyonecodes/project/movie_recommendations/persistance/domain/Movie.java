@@ -11,6 +11,7 @@ public class Movie {
     @GeneratedValue
     private Long id;
     private String imdbId;
+    private String tmdbID;
     @NotBlank
     private String title;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -21,6 +22,14 @@ public class Movie {
 
     public Movie(String imdbId, String title, List<Genre> genres, int releaseYear) {
         this.imdbId = imdbId;
+        this.title = title;
+        this.genres = genres;
+        this.releaseYear = releaseYear;
+    }
+
+    public Movie(String imdbId, String tmdbID, String title, List<Genre> genres, int releaseYear) {
+        this.imdbId = imdbId;
+        this.tmdbID = tmdbID;
         this.title = title;
         this.genres = genres;
         this.releaseYear = releaseYear;
@@ -37,4 +46,12 @@ public class Movie {
     public void setTitle(String title) {this.title = title;}
     public void setGenres(List<Genre> genres) {this.genres = genres;}
     public void setReleaseYear(int releaseYear) {this.releaseYear = releaseYear;}
+
+    public String getTmdbID() {
+        return tmdbID;
+    }
+
+    public void setTmdbID(String tmdbID) {
+        this.tmdbID = tmdbID;
+    }
 }
