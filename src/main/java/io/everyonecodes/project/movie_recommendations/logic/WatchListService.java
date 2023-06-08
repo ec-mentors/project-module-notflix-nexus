@@ -83,22 +83,13 @@ public class WatchListService {
         }
     }
 
-//    public void removeMovieByTitle(Long watchListId, String movieTitle) {
-//        Optional<Movie> movie = movieService.findMovieByTitle(movieTitle);
-//        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
-//    }
+    public void removeMovieByTitle(Long watchListId, String movieTitle) {
+        Optional<Movie> movie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
+    }
 
-//    public String addMovieByTitleFromApi(Long watchlistId, String movieTitle) {
-//        Optional<Movie> movie = movieService.findMovieInApiByTitle(movieTitle);
-//        if (movie.isPresent()) {
-//            changeIfPresentById(watchlistId, watchList -> {
-//                if (!watchList.getMovies().contains(movie)) watchList.addMovie(movie.get());
-//            });
-//            return movieTitle;
-//        } else {
-//            return failMessage;
-//        }
-//    }
-
-
+    public void removeMovieByImdbId(Long watchListId, String imdbId) {
+        Optional<Movie> movie = movieService.findMovieByImdbId(imdbId).stream().findFirst();
+        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
+    }
 }
