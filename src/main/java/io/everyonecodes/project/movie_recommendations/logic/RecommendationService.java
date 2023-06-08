@@ -65,12 +65,13 @@ public class RecommendationService {
         List<Long> listOfGenreId = inputMovie.getGenres().stream().map(Genre::getId).collect(toList());
         Set<Long> listOfKeywordId = client.getListOfKeywordsById(inputMovie.getTmdbID()).stream().map(Keyword::getId).collect(Collectors.toSet());
         List<Long> weightedGenres = keepAPercentageOfItems(80, listOfGenreId);
+        Set<Long> weightedKeywords = createSubsetWithRandomElements(listOfKeywordId, 4);
         String genreQueryParam = weightedGenres.stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
         Set<MovieDto> movieDtoSet = new HashSet<>();
         ResultPageDto page;
-        for (int i = listOfKeywordId.size(); i >= 1; i--) {
+        for (int i = weightedKeywords.size(); i >= 1; i--) {
             var combinations = Sets.combinations(listOfKeywordId, i);
             for (Set<Long> combination : combinations) {
                 String keywordQueryParam = combination.stream()
@@ -102,5 +103,31 @@ public class RecommendationService {
         Collections.shuffle(listCopy);
         return listCopy.subList(0, itemsToKeep);
     }
+
+    public Set<Long> createSubsetWithRandomElements(Set<Long> set, int numElementsToKeep) {
+        // Create a copy of the original set
+        Set<Long> subset = new HashSet<>(set);
+
+        int numElementsToRemove = subset.size() - numElementsToKeep;  // Calculate the number of elements to remove
+        Random random = new Random();
+
+        // Remove random elements until the desired number of elements are left
+        while (numElementsToRemove > 0) {
+            // Get a random element from the set
+            Long randomElement = subset.stream()
+                    .skip(random.nextInt(subset.size()))
+                    .findFirst()
+                    .orElse(null);
+
+            // Remove the random element from the set
+            if (randomElement != null) {
+                subset.remove(randomElement);
+                numElementsToRemove--;
+            }
+        }
+
+        return subset;
+    }
+
 
 }
