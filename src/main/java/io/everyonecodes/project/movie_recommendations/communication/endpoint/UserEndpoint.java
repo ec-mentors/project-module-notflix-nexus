@@ -38,6 +38,12 @@ public class UserEndpoint {
         userService.deleteUserById(userId);
     }
 
+    @GetMapping("/current/id")
+    @Secured("ROLE_USER")
+    Optional<UUID> getUserId(Principal principal) {
+        return userService.getUserIdByUsername(principal.getName());
+    }
+
     @GetMapping("/current/watchlist")
     @Secured("ROLE_USER")
     Optional<WatchList> getWatchList(Principal principal) {

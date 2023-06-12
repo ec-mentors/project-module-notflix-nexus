@@ -31,6 +31,11 @@ public class UserService {
 
     public List<UserEntity> getAllUsers() {return userRepository.findAll();}
 
+    public Optional<UUID> getUserIdByUsername(String username) {
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        return optionalUser.map(UserEntity::getId);
+    }
+
     public UserEntity addUser(UserEntity user) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(user.getUsername());
         if (optionalUser.isEmpty()) {
