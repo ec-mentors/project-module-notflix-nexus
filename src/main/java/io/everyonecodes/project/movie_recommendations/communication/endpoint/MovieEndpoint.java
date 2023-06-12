@@ -1,6 +1,7 @@
 package io.everyonecodes.project.movie_recommendations.communication.endpoint;
 
 import io.everyonecodes.project.movie_recommendations.logic.MovieService;
+import io.everyonecodes.project.movie_recommendations.logic.RecommendationService;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +14,12 @@ import java.util.Optional;
 @RequestMapping("/movies")
 public class MovieEndpoint {
     private final MovieService movieService;
+    private final RecommendationService recommendationService;
 
-    public MovieEndpoint(MovieService movieService) {this.movieService = movieService;}
+    public MovieEndpoint(MovieService movieService, RecommendationService recommendationService) {
+        this.movieService = movieService;
+        this.recommendationService = recommendationService;
+    }
 
     @GetMapping
     List<Movie> getAllMovies() {return movieService.findAllMovies();}
@@ -28,9 +33,6 @@ public class MovieEndpoint {
         return movieService.findMovieByImdbId(imdbId);
     }
 
-    @GetMapping("/by_title/{title}")
-    List<Movie> getMoviesByTitle(@PathVariable String title) {return movieService.findMoviesByTitle(title);}
-
     @PutMapping("/{movieId}")
     @Secured("ROLE_ADMIN")
     void updateMovie(@PathVariable Long movieId, @Valid @RequestBody Movie movie) {
@@ -41,5 +43,10 @@ public class MovieEndpoint {
     @Secured("ROLE_ADMIN")
     void deleteMovie(@PathVariable Long movieId) {
         movieService.deleteById(movieId);
+    }
+
+    @GetMapping("/{movieIdOrTitle}/recommendations")
+    List<Movie> getRecommendations(@PathVariable String movieIdOrTitle) {
+        return recommendationService.recommendMovies(movieIdOrTitle);
     }
 }
