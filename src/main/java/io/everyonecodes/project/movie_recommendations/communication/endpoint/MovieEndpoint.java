@@ -28,10 +28,13 @@ public class MovieEndpoint {
     @Secured("ROLE_ADMIN")
     Movie postMovie(@Valid @RequestBody Movie movie) {return movieService.addMovie(movie);}
 
-    @GetMapping("/{imdbId}")
-    Optional<Movie> getMovieByImdbId(@PathVariable String imdbId) {
-        return movieService.findMovieByImdbId(imdbId);
+    @GetMapping("/{tmdbId}")
+    Optional<Movie> getMovieByTmdbId(@PathVariable String tmdbId) {
+        return movieService.findMovieByTmdbId(tmdbId);
     }
+
+    @GetMapping("/by_title/{title}")
+    List<Movie> getMoviesByTitle(@PathVariable String title) {return movieService.findMoviesByTitle(title);}
 
     @PutMapping("/{movieId}")
     @Secured("ROLE_ADMIN")

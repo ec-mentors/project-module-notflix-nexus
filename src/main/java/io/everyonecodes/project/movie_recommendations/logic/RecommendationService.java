@@ -63,7 +63,7 @@ public class RecommendationService {
         }
         String baseUrl = url + urlDiscover;
         List<Long> listOfGenreId = inputMovie.getGenres().stream().map(Genre::getId).collect(toList());
-        Set<Long> listOfKeywordId = client.getListOfKeywordsById(inputMovie.getTmdbID()).stream().map(Keyword::getId).collect(Collectors.toSet());
+        Set<Long> listOfKeywordId = client.getListOfKeywordsById(inputMovie.getTmdbId()).stream().map(Keyword::getId).collect(Collectors.toSet());
         List<Long> weightedGenres = keepAPercentageOfItems(80, listOfGenreId);
         Set<Long> weightedKeywords = createSubsetWithRandomElements(listOfKeywordId, 3);
         String genreQueryParam = weightedGenres.stream()

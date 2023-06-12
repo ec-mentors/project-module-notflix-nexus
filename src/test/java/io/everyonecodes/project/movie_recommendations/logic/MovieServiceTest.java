@@ -47,27 +47,27 @@ class MovieServiceTest {
     }
 
     @Test
-    void findMovieByImdbId_MovieFound() {
+    void findMovieByTmdbId_MovieFound() {
         Movie movie = new Movie();
-        String imdbId = "0";
-        when(movieRepository.findByImdbId(imdbId)).thenReturn(Optional.of(movie));
+        String tmdbId = "0";
+        when(movieRepository.findByTmdbId(tmdbId)).thenReturn(Optional.of(movie));
 
-        movieService.findMovieByImdbId(imdbId);
+        movieService.findMovieByTmdbId(tmdbId);
 
-        verify(movieRepository).findByImdbId(imdbId);
+        verify(movieRepository).findByTmdbId(tmdbId);
         verifyNoMoreInteractions(movieRepository);
         verifyNoMoreInteractions(movieApiClient);
     }
 
     @Test
-    void findMovieByImdbId_MovieNotFound() {
-        String imdbId = "0";
-        when(movieRepository.findByImdbId(imdbId)).thenReturn(Optional.empty());
+    void findMovieByTmdbId_MovieNotFound() {
+        String tmdbId = "0";
+        when(movieRepository.findByTmdbId(tmdbId)).thenReturn(Optional.empty());
 
-        movieService.findMovieByImdbId(imdbId);
+        movieService.findMovieByTmdbId(tmdbId);
 
-        verify(movieRepository).findByImdbId(imdbId);
-        verify(movieApiClient).findByID(imdbId);
+        verify(movieRepository).findByTmdbId(tmdbId);
+        verify(movieApiClient).findByID(tmdbId);
     }
 
     @Test

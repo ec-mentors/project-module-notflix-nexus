@@ -44,9 +44,9 @@ public class MovieApiClient {
     }
 
     //TODO: Change this to TMDBID which is what it actually is.
-    public Optional<Movie> findByID(String imdbId) {
+    public Optional<Movie> findByID(String tmdbId) {
         //TODO: catch client exception, if movie is not found
-        MovieDto dto = restTemplate.getForObject(url + urlGetByID + imdbId + "?api_key=" + apiKey, MovieDto.class);
+        MovieDto dto = restTemplate.getForObject(url + urlGetByID + tmdbId + "?api_key=" + apiKey, MovieDto.class);
         return dto == null ? Optional.empty() : Optional.ofNullable(movieTranslator.fromDTO(dto));
     }
 

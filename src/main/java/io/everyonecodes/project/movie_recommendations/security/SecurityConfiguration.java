@@ -32,7 +32,7 @@ public class SecurityConfiguration {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/movies/{imdbId}").permitAll()
+                .antMatchers(HttpMethod.GET, "/movies/{tmdbId}").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies").permitAll()
                 .anyRequest().authenticated()
                 .and()
