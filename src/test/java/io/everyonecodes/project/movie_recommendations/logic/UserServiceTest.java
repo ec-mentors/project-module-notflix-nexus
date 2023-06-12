@@ -58,6 +58,12 @@ class UserServiceTest {
     }
 
     @Test
+    void getUserIdByUsername() {
+        userService.getUserIdByUsername("test");
+        verify(userRepository).findByUsername("test");
+    }
+
+    @Test
     public void addUserIfDoesNotExist() {
         UserEntity user = new UserEntity();
         user.setPassword(password);
