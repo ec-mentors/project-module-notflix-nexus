@@ -4,13 +4,20 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 public class UserEntity {
 
         @Id
+        @Column(columnDefinition = "BINARY(16)")
         @GeneratedValue
-        private Long id;
+        private UUID id;
+
+//        @Id
+//        @Column(name = "userId", columnDefinition = "BINARY(16)")
+//        @GeneratedValue
+//        private UUID userId;
 
         @NotBlank
         @Column(unique = true)
@@ -46,11 +53,11 @@ public class UserEntity {
                 return Objects.hash(id, username, password, authorities, watchList);
         }
 
-        public Long getId() {
+        public UUID getId() {
                 return id;
         }
 
-        public void setId(Long id) {
+        public void setId(UUID id) {
                 this.id = id;
         }
 

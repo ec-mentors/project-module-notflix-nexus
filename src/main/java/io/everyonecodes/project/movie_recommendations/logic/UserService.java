@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -41,7 +42,7 @@ public class UserService {
         return user;
     }
 
-    public void deleteUserById(Long userId) {userRepository.deleteById(userId);}
+    public void deleteUserById(UUID userId) {userRepository.deleteById(userId);}
 
     public Optional<WatchList> getWatchListByUsername(String username) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);

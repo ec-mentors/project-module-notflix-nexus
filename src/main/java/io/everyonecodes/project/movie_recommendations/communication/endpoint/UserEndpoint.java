@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -33,7 +34,7 @@ public class UserEndpoint {
 
     @DeleteMapping("/{userId}")
     @Secured("ROLE_ADMIN")
-    void deleteUserById(@PathVariable Long userId) {
+    void deleteUserById(@PathVariable UUID userId) {
         userService.deleteUserById(userId);
     }
 

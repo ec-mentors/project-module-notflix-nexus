@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -76,7 +77,7 @@ class UserServiceTest {
 
     @Test
     void deleteUserByIdTest() {
-        Long userId = 1L;
+        UUID userId = UUID.randomUUID();
 
         userService.deleteUserById(userId);
 
