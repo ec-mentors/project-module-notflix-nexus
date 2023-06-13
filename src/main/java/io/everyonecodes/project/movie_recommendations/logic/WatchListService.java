@@ -1,10 +1,15 @@
 package io.everyonecodes.project.movie_recommendations.logic;
 
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
+import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -14,9 +19,12 @@ public class WatchListService {
     private final MovieService movieService;
     private final WatchListRepository watchListRepository;
 
-    public WatchListService(MovieService movieService, WatchListRepository watchListRepository) {
+    private final UserRepository userRepository;
+
+    public WatchListService(UserRepository userRepository, MovieService movieService, WatchListRepository watchListRepository) {
         this.movieService = movieService;
         this.watchListRepository = watchListRepository;
+        this.userRepository = userRepository;
     }
 
     public WatchList createNewWatchList() {return watchListRepository.save(new WatchList());}
@@ -51,5 +59,22 @@ public class WatchListService {
             change.accept(watchList);
             watchListRepository.save(watchList);
         });
+    }
+
+    public List<Movie> compareWatchLists(Long yourUserId, Long otherUserId) {
+        Optional<UserEntity> yourUser = userRepository.findById(yourUserId);
+        Optional<UserEntity> otherUser = userRepository.findById(otherUserId);
+
+        if (yourUser.isPresent() && otherUser.isPresent()) {
+            List<Movie> yourMovies = yourUser.get().getWatchList().getMovies();
+            List<Movie> otherUserMovies = otherUser.get().getWatchList().getMovies();
+
+            List<Movie> commonMovies = new ArrayList<>(yourMovies);
+            commonMovies.retainAll(otherUserMovies);
+
+            return commonMovies;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
     }
 }
