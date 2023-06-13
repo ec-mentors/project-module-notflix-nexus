@@ -3,6 +3,7 @@ package io.everyonecodes.project.movie_recommendations.security;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +32,8 @@ public class SecurityConfiguration {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/movies").permitAll()
+                .antMatchers(HttpMethod.GET, "/movies/{tmdbId}").permitAll()
+                .antMatchers(HttpMethod.GET, "/movies").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

@@ -24,8 +24,6 @@ public class UserEntity {
         @OneToOne(fetch = FetchType.EAGER)
         private Set<Movie> likedMovies;
 
-        public void addMovieToWatchList(Movie movie) {watchList.addMovie(movie);}
-
         @Override
         public String toString() {
                 return "UserEntity{" +

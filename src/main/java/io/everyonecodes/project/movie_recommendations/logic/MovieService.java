@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
@@ -20,9 +21,18 @@ public class MovieService {
 
     public List<Movie> findAllMovies() {return movieRepository.findAll();}
 
-    public Optional<Movie> findMovieById(Long movieId) {return movieRepository.findById(movieId);}
+    public Optional<Movie> findMovieByTmdbId(String tmdbId) {
+        Optional<Movie> optionalMovie = movieRepository.findByTmdbId(tmdbId);
+        if(optionalMovie.isEmpty()) {
+            optionalMovie = movieApiClient.findByID(tmdbId);
+            optionalMovie.ifPresent(this::addMovie);
+        }
+        return optionalMovie;
+    }
 
-    public Optional<Movie> findMovieByImdbId(String imdbId) {return movieApiClient.findByID(imdbId);}
+    public List<Movie> findMoviesByTitle(String title) {
+        return movieApiClient.findByTitle(title).stream().map(this::addMovie).collect(Collectors.toList());
+    }
 
     public void changeMovie(Long movieId, Movie movie) {
         Optional<Movie> optionalMovie = movieRepository.findById(movieId);

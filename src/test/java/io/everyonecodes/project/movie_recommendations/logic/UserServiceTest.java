@@ -57,7 +57,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void testAddUserIfDoesNotExist() {
+    public void addUserIfDoesNotExist() {
         UserEntity user = new UserEntity();
         user.setPassword(password);
 
@@ -141,7 +141,8 @@ class UserServiceTest {
 
         userService.clearWatchlistByUsername(username);
 
-        verify(watchListService.findWatchListById(watchListId));
+        verify(userRepository).findByUsername(username);
+        verify(watchListService).clearWatchListById(watchListId);
     }
 
     @Test

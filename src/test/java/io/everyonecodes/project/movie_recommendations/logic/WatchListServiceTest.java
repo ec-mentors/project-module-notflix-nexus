@@ -67,7 +67,7 @@ class WatchListServiceTest {
     @Test
     void addMovieById() {
         Long id = 123L;
-        Movie movie = new Movie("Movie", "Genre", 2023);
+        Movie movie = new Movie();
         WatchList watchList = new WatchList();
         when(movieService.addMovie(movie)).thenReturn(movie);
         when(watchListRepository.findById(id)).thenReturn(Optional.of(watchList));
