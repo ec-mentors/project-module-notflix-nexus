@@ -1,8 +1,10 @@
 package io.everyonecodes.project.movie_recommendations.logic;
 
+import io.everyonecodes.project.movie_recommendations.communication.client.MovieApiClient;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,13 +15,18 @@ import java.util.function.Consumer;
 public class WatchListService {
     private final MovieService movieService;
     private final WatchListRepository watchListRepository;
+    private final String failMessage;
 
-    public WatchListService(MovieService movieService, WatchListRepository watchListRepository) {
+    public WatchListService(MovieService movieService, WatchListRepository watchListRepository, @Value("${notflix.fail.message")
+    String failMessage) {
         this.movieService = movieService;
         this.watchListRepository = watchListRepository;
+        this.failMessage = failMessage;
     }
 
-    public WatchList createNewWatchList() {return watchListRepository.save(new WatchList());}
+    public WatchList createNewWatchList() {
+        return watchListRepository.save(new WatchList());
+    }
 
     public List<WatchList> findAllWatchLists() {
         return watchListRepository.findAll();
@@ -37,6 +44,17 @@ public class WatchListService {
         return returnedMovie;
     }
 
+    public String addMovieByImdbId(Long watchListId, String imdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+        if (returnedMovie.isPresent()) {
+            changeIfPresentById(watchListId, watchList -> {
+                if (!watchList.getMovies().contains(returnedMovie.get())) watchList.addMovie(returnedMovie.get());
+            });
+            return imdbId;
+        }
+        return failMessage;
+    }
+
     public void clearWatchListById(Long watchListId) {
         changeIfPresentById(watchListId, WatchList::clear);
     }
@@ -51,5 +69,27 @@ public class WatchListService {
             change.accept(watchList);
             watchListRepository.save(watchList);
         });
+    }
+
+    public String addMovieByTitle(Long watchListId, String movieTitle) {
+        Optional<Movie> movie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        if (movie.isPresent()) {
+            changeIfPresentById(watchListId, watchList -> {
+                if (!watchList.getMovies().contains(movie.get())) watchList.addMovie(movie.get());
+            });
+            return movieTitle;
+        } else {
+            return failMessage;
+        }
+    }
+
+    public void removeMovieByTitle(Long watchListId, String movieTitle) {
+        Optional<Movie> movie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
+    }
+
+    public void removeMovieByImdbId(Long watchListId, String imdbId) {
+        Optional<Movie> movie = movieService.findMovieByImdbId(imdbId).stream().findFirst();
+        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
     }
 }

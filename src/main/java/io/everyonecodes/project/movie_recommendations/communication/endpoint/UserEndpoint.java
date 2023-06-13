@@ -1,6 +1,7 @@
 package io.everyonecodes.project.movie_recommendations.communication.endpoint;
 
 import io.everyonecodes.project.movie_recommendations.logic.UserService;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.LikedMoviesList;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
@@ -60,5 +61,41 @@ public class UserEndpoint {
     @Secured("ROLE_USER")
     void deleteMovieFromCurrentWatchListById(Principal principal, @PathVariable Long movieId) {
         userService.removeFromWatchList(principal.getName(), movieId);
+    }
+
+    @GetMapping("/current/likedmovies")
+    @Secured("ROLE_USER")
+    Optional<LikedMoviesList> getLikedMoviesList(Principal principal) {
+        return userService.getLikedMoviesListByUsername(principal.getName());
+    }
+
+    @DeleteMapping("/current/likedmovies")
+    @Secured("ROLE_USER")
+    void clearCurrentLikedMoviesList(Principal principal) {
+        userService.clearLikedMoviesListByUsername(principal.getName());
+    }
+
+    @GetMapping("/current/likedmovies/id/{imdbId}")
+    @Secured("ROLE_USER")
+    String addToCurrentLikedMoviesListByImdbId(Principal principal, @PathVariable String imdbId) {
+        return userService.addToLikedMoviesListByImdbId(principal.getName(), imdbId);
+    }
+
+    @GetMapping("/current/likedmovies/title/{title}")
+    @Secured("ROLE_USER")
+    String addToCurrentLikedMoviesListByTitle(Principal principal, @PathVariable String title) {
+        return userService.addToLikedMoviesListByTitle(principal.getName(), title);
+    }
+
+    @DeleteMapping("/current/likedmovies/id/{imdbId}")
+    @Secured("ROLE_USER")
+    void deleteFromCurrentLikedMoviesListByImdbId(Principal principal, @PathVariable String imdbId) {
+        userService.removeFromLikedMoviesListByImdbId(principal.getName(), imdbId);
+    }
+
+    @DeleteMapping("/current/likedmovies/title/{title}")
+    @Secured("ROLE_USER")
+    void deleteFromCurrentLikedMoviesListByTitle(Principal principal, @PathVariable String title) {
+        userService.removeFromLikedMoviesListByTitle(principal.getName(), title);
     }
 }
