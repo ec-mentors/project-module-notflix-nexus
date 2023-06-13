@@ -44,13 +44,13 @@ public class WatchListService {
         return returnedMovie;
     }
 
-    public String addMovieByImdbId(Long watchListId, String imdbId) {
-        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+    public String addMovieByImdbId(Long watchListId, String tmdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId);
         if (returnedMovie.isPresent()) {
             changeIfPresentById(watchListId, watchList -> {
                 if (!watchList.getMovies().contains(returnedMovie.get())) watchList.addMovie(returnedMovie.get());
             });
-            return imdbId;
+            return tmdbId;
         }
         return failMessage;
     }
@@ -88,8 +88,8 @@ public class WatchListService {
         movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
     }
 
-    public void removeMovieByImdbId(Long watchListId, String imdbId) {
-        Optional<Movie> movie = movieService.findMovieByImdbId(imdbId).stream().findFirst();
+    public void removeMovieByImdbId(Long watchListId, String tmdbId) {
+        Optional<Movie> movie = movieService.findMovieByTmdbId(tmdbId).stream().findFirst();
         movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
     }
 }

@@ -58,8 +58,8 @@ public class LikedMoviesListService {
         });
     }
 
-    public void removeMovieByImdbId(Long likedMoviesListId, String imdbId) {
-        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+    public void removeMovieByImdbId(Long likedMoviesListId, String tmdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId);
         returnedMovie.ifPresent(movie -> changeIfPresentById(likedMoviesListId, likedMoviesList -> {
             likedMoviesList.removeMovieById(movie.getId());
         }));
@@ -72,8 +72,8 @@ public class LikedMoviesListService {
         }));
     }
 
-    public String addMovieByImdbId(Long likedMoviesListId, String imdbId) {
-        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+    public String addMovieByImdbId(Long likedMoviesListId, String tmdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId);
         LikedMoviesList likedMoviesList = likedMoviesListRepository.findById(likedMoviesListId).get();
         if (returnedMovie.isPresent()) {
           //  if (!likedMovies.contains(returnedMovie)) {
@@ -81,17 +81,17 @@ public class LikedMoviesListService {
             likedMoviesList.getLikedMovies().add(returnedMovie.get());
             likedMoviesListRepository.save(likedMoviesList);
           //  }
-            return imdbId;
+            return tmdbId;
         }
         return failMessage;
-//        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+//        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(tmdbId);
 //        if (returnedMovie.isPresent()) {
 //            movieService.addMovie(returnedMovie.get());
 //            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
 //                if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
 //                    likedMoviesList.addMovie(returnedMovie.get());
 //            });
-//            return imdbId;
+//            return tmdbId;
 //        }
 //        return failMessage;
     }
