@@ -20,7 +20,7 @@ class RecommendationServiceTest {
 
     @Test
     void recommend() {
-        recommendationService.recommendMovies("916224");
+        recommendationService.recommendMovies("106");
     }
 
     @ParameterizedTest

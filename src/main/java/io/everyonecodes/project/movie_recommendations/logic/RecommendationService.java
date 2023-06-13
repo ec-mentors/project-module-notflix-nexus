@@ -29,23 +29,22 @@ public class RecommendationService {
     private final String apiKey;
     private final String url;
     private final String urlDiscover;
-    private final RequestController requestController;
 
     public RecommendationService(MovieApiClient client, MovieTranslator movieTranslator, RestTemplate restTemplate,
                                  @Value("${api.key}") String apiKey,
                                  @Value("${api.url}") String url,
-                                 @Value("${api.discover}") String urlDiscover, RequestController requestController) {
+                                 @Value("${api.discover}") String urlDiscover) {
         this.client = client;
         this.movieTranslator = movieTranslator;
         this.restTemplate = restTemplate;
         this.apiKey = apiKey;
         this.url = url;
         this.urlDiscover = urlDiscover;
-        this.requestController = requestController;
     }
 
     //TODO: reduce time complexity
     public List<Movie> recommendMovies(String movieIdOrTitle) {
+        int count = 0;
         String input = movieIdOrTitle.trim();
         Movie inputMovie;
         Optional<Movie> oMovie;
@@ -72,7 +71,7 @@ public class RecommendationService {
         Set<MovieDto> movieDtoSet = new HashSet<>();
         ResultPageDto page;
         for (int i = weightedKeywords.size(); i >= 1; i--) {
-            var combinations = Sets.combinations(listOfKeywordId, i);
+            var combinations = Sets.combinations(weightedKeywords, i);
             for (Set<Long> combination : combinations) {
                 String keywordQueryParam = combination.stream()
                         .map(Object::toString)
@@ -87,12 +86,15 @@ public class RecommendationService {
                         .queryParam("with_keywords", keywordQueryParam);
                 String request = builder.toUriString();
                 page = Objects.requireNonNull(restTemplate.getForObject(request, ResultPageDto.class));
+                count++;
                 movieDtoSet.addAll(page.getResults());
                 if (movieDtoSet.size() >= 20) {
+                    System.out.println(count);
                     return movieDtoSet.stream().map(movieTranslator::fromDTO).collect(toList());
                 }
             }
         }
+        System.out.println(count);
         return movieDtoSet.stream().map(movieTranslator::fromDTO).collect(toList());
     }
 

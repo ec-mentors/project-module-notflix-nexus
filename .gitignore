@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/java/io/everyonecodes/project/movie_recommendations/logic/recommendation/data/
