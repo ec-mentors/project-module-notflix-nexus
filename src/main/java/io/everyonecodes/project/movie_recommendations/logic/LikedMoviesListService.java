@@ -16,7 +16,7 @@ public class LikedMoviesListService {
     private final LikedMoviesListRepository likedMoviesListRepository;
     private final String failMessage;
 
-    public LikedMoviesListService(MovieService movieService, LikedMoviesListRepository likedMoviesListRepository, @Value("${notflix.fail.message") String failMessage) {
+    public LikedMoviesListService(MovieService movieService, LikedMoviesListRepository likedMoviesListRepository, @Value("${notflix.fail.message}") String failMessage) {
         this.movieService = movieService;
         this.likedMoviesListRepository = likedMoviesListRepository;
         this.failMessage = failMessage;
@@ -58,11 +58,9 @@ public class LikedMoviesListService {
         });
     }
 
-    public void removeMovieByImdbId(Long likedMoviesListId, String tmdbId) {
+    public void removeMovieByTmdbId(Long likedMoviesListId, String tmdbId) {
         Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId);
-        returnedMovie.ifPresent(movie -> changeIfPresentById(likedMoviesListId, likedMoviesList -> {
-            likedMoviesList.removeMovieById(movie.getId());
-        }));
+        returnedMovie.ifPresent(movie -> removeMovieByTitle(likedMoviesListId, movie.getTitle()));
     }
 
     public void removeMovieByTitle(Long likedMoviesListId, String title) {
@@ -72,49 +70,27 @@ public class LikedMoviesListService {
         }));
     }
 
-    public String addMovieByImdbId(Long likedMoviesListId, String tmdbId) {
+    public String addMovieByTmdbId(Long likedMoviesListId, String tmdbId) {
         Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId);
-        LikedMoviesList likedMoviesList = likedMoviesListRepository.findById(likedMoviesListId).get();
-        if (returnedMovie.isPresent()) {
-          //  if (!likedMovies.contains(returnedMovie)) {
+        Optional<LikedMoviesList> likedMoviesList = likedMoviesListRepository.findById(likedMoviesListId);
+        if (returnedMovie.isPresent() && likedMoviesList.isPresent()) {
             movieService.addMovie(returnedMovie.get());
-            likedMoviesList.getLikedMovies().add(returnedMovie.get());
-            likedMoviesListRepository.save(likedMoviesList);
-          //  }
+            likedMoviesList.get().getLikedMovies().add(returnedMovie.get());
+            likedMoviesListRepository.save(likedMoviesList.get());
             return tmdbId;
         }
         return failMessage;
-//        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(tmdbId);
-//        if (returnedMovie.isPresent()) {
-//            movieService.addMovie(returnedMovie.get());
-//            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
-//                if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
-//                    likedMoviesList.addMovie(returnedMovie.get());
-//            });
-//            return tmdbId;
-//        }
-//        return failMessage;
     }
 
     public String addMovieByTitle(Long likedMoviesListId, String movieTitle) {
         Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
-        LikedMoviesList likedMoviesList = likedMoviesListRepository.findById(likedMoviesListId).get();
-        if (returnedMovie.isPresent()) {
+        Optional<LikedMoviesList> likedMoviesList = likedMoviesListRepository.findById(likedMoviesListId);
+        if (returnedMovie.isPresent() && likedMoviesList.isPresent()) {
             movieService.addMovie(returnedMovie.get());
-            likedMoviesList.getLikedMovies().add(returnedMovie.get());
-            likedMoviesListRepository.save(likedMoviesList);
+            likedMoviesList.get().getLikedMovies().add(returnedMovie.get());
+            likedMoviesListRepository.save(likedMoviesList.get());
             return movieTitle;
         }
         return failMessage;
-//        Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
-//        if (returnedMovie.isPresent()) {
-//            movieService.addMovie(returnedMovie.get());
-//            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
-//                if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
-//                    likedMoviesList.addMovie(returnedMovie.get());
-//            });
-//            return movieTitle;
-//        }
-//        return failMessage;
     }
 }

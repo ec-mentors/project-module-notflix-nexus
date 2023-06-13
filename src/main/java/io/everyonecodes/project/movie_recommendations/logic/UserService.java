@@ -79,16 +79,16 @@ public class UserService {
                 .ifPresent(user -> likedMoviesListService.clearLikedMoviesListById(user.getLikedMovies().getId()));
     }
 
-    public String addToWatchListByImdbId(String username, String imdbId) {
+    public String addToWatchListByTmdbId(String username, String tmdbId) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        optionalUser.ifPresent(user -> watchListService.addMovieByImdbId(user.getWatchList().getId(), imdbId));
-        return imdbId;
+        optionalUser.ifPresent(user -> watchListService.addMovieByTmdbId(user.getWatchList().getId(), tmdbId));
+        return tmdbId;
     }
 
-    public String addToLikedMoviesListByImdbId(String username, String imdbId) {
+    public String addToLikedMoviesListByTmdbId(String username, String tmdbId) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        optionalUser.ifPresent(user -> likedMoviesListService.addMovieByImdbId(user.getLikedMovies().getId(), imdbId));
-        return imdbId;
+        optionalUser.ifPresent(user -> likedMoviesListService.addMovieByTmdbId(user.getLikedMovies().getId(), tmdbId));
+        return tmdbId;
     }
 
     public String addToWatchListByTitle(String username, String title) {
@@ -103,14 +103,14 @@ public class UserService {
         return title;
     }
 
-    public void removeFromWatchListByImdbId(String username, String imdbId) {
+    public void removeFromWatchListByTmdbId(String username, String tmdbId) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        optionalUser.ifPresent(user -> watchListService.removeMovieByImdbId(user.getWatchList().getId(), imdbId));
+        optionalUser.ifPresent(user -> watchListService.removeMovieByTmdbId(user.getWatchList().getId(), tmdbId));
     }
 
-    public void removeFromLikedMoviesListByImdbId(String username, String imdbId) {
+    public void removeFromLikedMoviesListByTmdbId(String username, String tmdbId) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        optionalUser.ifPresent(user -> likedMoviesListService.removeMovieByImdbId(user.getLikedMovies().getId(), imdbId));
+        optionalUser.ifPresent(user -> likedMoviesListService.removeMovieByTmdbId(user.getLikedMovies().getId(), tmdbId));
     }
 
     public void removeFromWatchListByTitle(String username, String title) {
@@ -131,6 +131,6 @@ public class UserService {
 
     public void removeFromLikedMoviesList(String username, Long movieId) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-      //  optionalUser.ifPresent(user -> likedMoviesListService.removeMovieByIds(user.getWatchList().getId(), movieId));
+        optionalUser.ifPresent(user -> likedMoviesListService.removeMovieByIds(user.getWatchList().getId(), movieId));
     }
 }

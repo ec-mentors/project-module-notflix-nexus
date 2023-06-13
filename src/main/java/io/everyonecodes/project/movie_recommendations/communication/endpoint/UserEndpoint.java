@@ -6,6 +6,7 @@ import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -63,6 +64,42 @@ public class UserEndpoint {
         userService.removeFromWatchList(principal.getName(), movieId);
     }
 
+    @GetMapping("/current/watchlist/id/{tmdbId}")
+    @Secured("ROLE_USER")
+    String addToWatchListByTmdbId(Principal principal, @PathVariable String tmdbId) {
+        return userService.addToWatchListByTmdbId(principal.getName(), tmdbId);
+    }
+
+    @GetMapping("/current/watchlist/title/{title}")
+    @Secured("ROLE_USER")
+    String addToWatchListByTitle(Principal principal, @PathVariable String title) {
+        return userService.addToWatchListByTitle(principal.getName(), title);
+    }
+
+    @DeleteMapping("/current/watchlist/id/{tmdbId}")
+    @Secured("ROLE_USER")
+    void deleteFromCurrentWatchlistByTmdbId(Principal principal, @PathVariable String tmdbId) {
+        userService.removeFromWatchListByTmdbId(principal.getName(), tmdbId);
+    }
+
+    @DeleteMapping("/current/watchlist/title/{title}")
+    @Secured("ROLE_USER")
+    void deleteFromCurrentWatchlistByTitle(Principal principal, @PathVariable String title)  {
+        userService.removeFromWatchListByTitle(principal.getName(), title);
+    }
+
+    @PostMapping("/current/likedmovies")
+    @Secured("ROLE_USER")
+    Movie postToCurrentLikedMoviesList(Principal principal, @Valid @RequestBody Movie movie) {
+        return userService.addToLikedMoviesListByUsername(principal.getName(), movie);
+    }
+
+    @DeleteMapping("/current/likedmovies/{movieId}")
+    @Secured("ROLE_USER")
+    void deleteMovieFromCurrentLikedMoviesListByIs(Principal principal, @PathVariable Long movieId) {
+        userService.removeFromLikedMoviesList(principal.getName(), movieId);
+    }
+
     @GetMapping("/current/likedmovies")
     @Secured("ROLE_USER")
     Optional<LikedMoviesList> getLikedMoviesList(Principal principal) {
@@ -75,10 +112,10 @@ public class UserEndpoint {
         userService.clearLikedMoviesListByUsername(principal.getName());
     }
 
-    @GetMapping("/current/likedmovies/id/{imdbId}")
+    @GetMapping("/current/likedmovies/id/{tmdbId}")
     @Secured("ROLE_USER")
-    String addToCurrentLikedMoviesListByImdbId(Principal principal, @PathVariable String imdbId) {
-        return userService.addToLikedMoviesListByImdbId(principal.getName(), imdbId);
+    String addToCurrentLikedMoviesListByImdbId(Principal principal, @PathVariable String tmdbId) {
+        return userService.addToLikedMoviesListByTmdbId(principal.getName(), tmdbId);
     }
 
     @GetMapping("/current/likedmovies/title/{title}")
@@ -87,10 +124,10 @@ public class UserEndpoint {
         return userService.addToLikedMoviesListByTitle(principal.getName(), title);
     }
 
-    @DeleteMapping("/current/likedmovies/id/{imdbId}")
+    @DeleteMapping("/current/likedmovies/id/{tmdbId}")
     @Secured("ROLE_USER")
-    void deleteFromCurrentLikedMoviesListByImdbId(Principal principal, @PathVariable String imdbId) {
-        userService.removeFromLikedMoviesListByImdbId(principal.getName(), imdbId);
+    void deleteFromCurrentLikedMoviesListByImdbId(Principal principal, @PathVariable String tmdbId) {
+        userService.removeFromLikedMoviesListByTmdbId(principal.getName(), tmdbId);
     }
 
     @DeleteMapping("/current/likedmovies/title/{title}")

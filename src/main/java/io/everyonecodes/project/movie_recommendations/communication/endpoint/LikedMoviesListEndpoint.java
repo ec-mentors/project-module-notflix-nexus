@@ -50,10 +50,10 @@ public class LikedMoviesListEndpoint {
      //   likedMoviesListService.removeMovieByIds(likedMoviesListId, movieId);
     }
 
-    @GetMapping("/{likedMoviesListId}/id/{imdbId}")
+    @GetMapping("/{likedMoviesListId}/id/{tmdbId}")
     @Secured("ROLE_ADMIN")
-    String addMovieByImdbId(@PathVariable Long likedMoviesListId, @PathVariable String imdbId) {
-        return likedMoviesListService.addMovieByImdbId(likedMoviesListId, imdbId);
+    String addMovieByImdbId(@PathVariable Long likedMoviesListId, @PathVariable String tmdbId) {
+        return likedMoviesListService.addMovieByTmdbId(likedMoviesListId, tmdbId);
     }
 
     @GetMapping("/{likedMoviesListId}/title/{movieTitle}")
@@ -62,10 +62,10 @@ public class LikedMoviesListEndpoint {
         return likedMoviesListService.addMovieByTitle(likedMoviesListId, movieTitle);
     }
 
-    @DeleteMapping("/{likedMoviesListId}/id/{imdbId}")
+    @DeleteMapping("/{likedMoviesListId}/id/{tmdbId}")
     @Secured("ROLE_ADMIN")
-    void removeMovieByImdbId(@PathVariable Long likedMoviesListId, @PathVariable String imdbId) {
-        likedMoviesListService.removeMovieByImdbId(likedMoviesListId, imdbId);
+    void removeMovieByImdbId(@PathVariable Long likedMoviesListId, @PathVariable String tmdbId) {
+        likedMoviesListService.removeMovieByTmdbId(likedMoviesListId, tmdbId);
     }
 
     @DeleteMapping("/{likedMoviesListId}/title/{movieTitle}")

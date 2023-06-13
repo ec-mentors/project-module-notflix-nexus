@@ -17,7 +17,7 @@ public class WatchListService {
     private final WatchListRepository watchListRepository;
     private final String failMessage;
 
-    public WatchListService(MovieService movieService, WatchListRepository watchListRepository, @Value("${notflix.fail.message")
+    public WatchListService(MovieService movieService, WatchListRepository watchListRepository, @Value("${notflix.fail.message}")
     String failMessage) {
         this.movieService = movieService;
         this.watchListRepository = watchListRepository;
@@ -44,12 +44,13 @@ public class WatchListService {
         return returnedMovie;
     }
 
-    public String addMovieByImdbId(Long watchListId, String tmdbId) {
+    public String addMovieByTmdbId(Long watchListId, String tmdbId) {
         Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId);
-        if (returnedMovie.isPresent()) {
-            changeIfPresentById(watchListId, watchList -> {
-                if (!watchList.getMovies().contains(returnedMovie.get())) watchList.addMovie(returnedMovie.get());
-            });
+        Optional<WatchList> watchList = watchListRepository.findById(watchListId);
+        if (returnedMovie.isPresent() && watchList.isPresent()) {
+            movieService.addMovie(returnedMovie.get());
+            watchList.get().getMovies().add(returnedMovie.get());
+            watchListRepository.save(watchList.get());
             return tmdbId;
         }
         return failMessage;
@@ -72,24 +73,24 @@ public class WatchListService {
     }
 
     public String addMovieByTitle(Long watchListId, String movieTitle) {
-        Optional<Movie> movie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
-        if (movie.isPresent()) {
-            changeIfPresentById(watchListId, watchList -> {
-                if (!watchList.getMovies().contains(movie.get())) watchList.addMovie(movie.get());
-            });
-            return movieTitle;
-        } else {
-            return failMessage;
+        Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        Optional<WatchList> watchList = watchListRepository.findById(watchListId);
+        if (returnedMovie.isPresent() && watchList.isPresent()) {
+            movieService.addMovie(returnedMovie.get());
+            watchList.get().getMovies().add(returnedMovie.get());
+            watchListRepository.save(watchList.get());
+            return  movieTitle;
         }
+        return failMessage;
     }
 
     public void removeMovieByTitle(Long watchListId, String movieTitle) {
-        Optional<Movie> movie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
-        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
+        Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        returnedMovie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
     }
 
-    public void removeMovieByImdbId(Long watchListId, String tmdbId) {
-        Optional<Movie> movie = movieService.findMovieByTmdbId(tmdbId).stream().findFirst();
-        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
+    public void removeMovieByTmdbId(Long watchListId, String tmdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId).stream().findFirst();
+        returnedMovie.ifPresent(value -> removeMovieByTitle(watchListId, value.getTitle()));
     }
 }
