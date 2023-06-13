@@ -63,6 +63,7 @@ public class UserEndpoint {
     }
 
     @GetMapping("/current/watchlist/compare/{otherUserId}")
+    @Secured("ROLE_USER")
     public List<Movie> compareMovies (Principal principal, @PathVariable Long otherUserId) {
         return userService.compareWatchLists(principal.getName(), otherUserId);
     }
