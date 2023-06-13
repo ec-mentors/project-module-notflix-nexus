@@ -1,9 +1,12 @@
 package io.everyonecodes.project.movie_recommendations.communication.dto;
 
+import io.everyonecodes.project.movie_recommendations.persistance.domain.Genre;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.GenreRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,6 +19,6 @@ public class MovieTranslator {
     public Movie fromDTO(MovieDto dto) {
         if(!dto.getGenreIds().isEmpty())
             dto.setGenres(dto.getGenreIds().stream().map(genreRepository::findById).map(Optional::orElseThrow).collect(Collectors.toList()));
-        return new Movie(dto.getTmdbId(), dto.getTitle(), dto.getGenres(), dto.getRelease_date().getYear());
+        return new Movie(dto.getImdbId(), dto.getTitle(), dto.getGenres(), dto.getRelease_date().getYear());
     }
 }

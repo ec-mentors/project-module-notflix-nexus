@@ -44,13 +44,16 @@ public class WatchListService {
         return returnedMovie;
     }
 
-//    public Movie addMovieByImdbId(Long watchListId, String imdbId) {
-//        Movie returnedMovie = movieService.findMovieByImdbId(imdbId);
-//        changeIfPresentById(watchListId, watchList -> {
-//                if (!watchList.getMovies().contains(returnedMovie)) watchList.addMovie(returnedMovie);
-//        });
-//        return returnedMovie;
-//    }
+    public String addMovieByImdbId(Long watchListId, String imdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+        if (returnedMovie.isPresent()) {
+            changeIfPresentById(watchListId, watchList -> {
+                if (!watchList.getMovies().contains(returnedMovie.get())) watchList.addMovie(returnedMovie.get());
+            });
+            return imdbId;
+        }
+        return failMessage;
+    }
 
     public void clearWatchListById(Long watchListId) {
         changeIfPresentById(watchListId, WatchList::clear);
@@ -68,34 +71,25 @@ public class WatchListService {
         });
     }
 
-//    public String addMovieByTitle(Long watchListId, String movieTitle) {
-//        Optional<Movie> movie = movieService.findMovieByTitle(movieTitle);
-//        if (movie.isPresent()) {
-//            changeIfPresentById(watchListId, watchList -> {
-//                if (!watchList.getMovies().contains(movie)) watchList.addMovie(movie.get());
-//            });
-//            return movieTitle;
-//        } else {
-//            return failMessage;
-//        }
-//    }
+    public String addMovieByTitle(Long watchListId, String movieTitle) {
+        Optional<Movie> movie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        if (movie.isPresent()) {
+            changeIfPresentById(watchListId, watchList -> {
+                if (!watchList.getMovies().contains(movie.get())) watchList.addMovie(movie.get());
+            });
+            return movieTitle;
+        } else {
+            return failMessage;
+        }
+    }
 
-//    public void removeMovieByTitle(Long watchListId, String movieTitle) {
-//        Optional<Movie> movie = movieService.findMovieByTitle(movieTitle);
-//        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
-//    }
+    public void removeMovieByTitle(Long watchListId, String movieTitle) {
+        Optional<Movie> movie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
+    }
 
-//    public String addMovieByTitleFromApi(Long watchlistId, String movieTitle) {
-//        Optional<Movie> movie = movieService.findMovieInApiByTitle(movieTitle);
-//        if (movie.isPresent()) {
-//            changeIfPresentById(watchlistId, watchList -> {
-//                if (!watchList.getMovies().contains(movie)) watchList.addMovie(movie.get());
-//            });
-//            return movieTitle;
-//        } else {
-//            return failMessage;
-//        }
-//    }
-
-
+    public void removeMovieByImdbId(Long watchListId, String imdbId) {
+        Optional<Movie> movie = movieService.findMovieByImdbId(imdbId).stream().findFirst();
+        movie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
+    }
 }

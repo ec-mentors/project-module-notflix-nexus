@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/likedMoviesList")
+@RequestMapping("/likedmovies")
 public class LikedMoviesListEndpoint {
 
     private final LikedMoviesListService likedMoviesListService;
@@ -22,7 +22,7 @@ public class LikedMoviesListEndpoint {
 
     @GetMapping
     @Secured("ROLE_ADMIN")
-    List<LikedMoviesList> getlikedMoviesList() {
+    List<LikedMoviesList> getLikedMoviesList() {
         return likedMoviesListService.findAllLikedMoviesLists();
     }
 
@@ -47,6 +47,36 @@ public class LikedMoviesListEndpoint {
     @DeleteMapping("/{likedMoviesListId}/movies/{movieId}")
     @Secured("ROLE_ADMIN")
     void removeMovieByIds(@PathVariable Long likedMoviesListId, @PathVariable Long movieId) {
-        likedMoviesListService.removeMovieByIds(likedMoviesListId, movieId);
+     //   likedMoviesListService.removeMovieByIds(likedMoviesListId, movieId);
     }
+
+    @GetMapping("/{likedMoviesListId}/id/{imdbId}")
+    @Secured("ROLE_ADMIN")
+    String addMovieByImdbId(@PathVariable Long likedMoviesListId, @PathVariable String imdbId) {
+        return likedMoviesListService.addMovieByImdbId(likedMoviesListId, imdbId);
+    }
+
+    @GetMapping("/{likedMoviesListId}/title/{movieTitle}")
+    @Secured("ROLE_ADMIN")
+    String addMovieByTitle(@PathVariable Long likedMoviesListId, @PathVariable String movieTitle) {
+        return likedMoviesListService.addMovieByTitle(likedMoviesListId, movieTitle);
+    }
+
+    @DeleteMapping("/{likedMoviesListId}/id/{imdbId}")
+    @Secured("ROLE_ADMIN")
+    void removeMovieByImdbId(@PathVariable Long likedMoviesListId, @PathVariable String imdbId) {
+        likedMoviesListService.removeMovieByImdbId(likedMoviesListId, imdbId);
+    }
+
+    @DeleteMapping("/{likedMoviesListId}/title/{movieTitle}")
+    @Secured("ROLE_ADMIN")
+    void removeMovieByTitle(@PathVariable Long likedMoviesListId, @PathVariable String movieTitle) {
+        likedMoviesListService.removeMovieByTitle(likedMoviesListId, movieTitle);
+    }
+
+    @GetMapping("/compareMovies/{yourUserId}/{otherUserId}")
+    public List<Movie> compareMovies (@PathVariable Long yourUserId, @PathVariable Long otherUserId) {
+        return likedMoviesListService.compareMovies(yourUserId, otherUserId);
+    }
+
 }

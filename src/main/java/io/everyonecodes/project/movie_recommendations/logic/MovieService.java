@@ -21,10 +21,10 @@ public class MovieService {
 
     public List<Movie> findAllMovies() {return movieRepository.findAll();}
 
-    public Optional<Movie> findMovieByTmdbId(String tmdbId) {
-        Optional<Movie> optionalMovie = movieRepository.findByTmdbId(tmdbId);
+    public Optional<Movie> findMovieByImdbId(String imdbId) {
+        Optional<Movie> optionalMovie = movieRepository.findByImdbId(imdbId);
         if(optionalMovie.isEmpty()) {
-            optionalMovie = movieApiClient.findByID(tmdbId);
+            optionalMovie = movieApiClient.findByID(imdbId);
             optionalMovie.ifPresent(this::addMovie);
         }
         return optionalMovie;

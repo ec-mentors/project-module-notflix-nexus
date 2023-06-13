@@ -16,8 +16,6 @@ notflix:
         - title: film
 #          genres: action
           releaseYear: 1970
-    fail:
-        message: Movie not found.
 
 spring:
     mvc:
