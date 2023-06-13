@@ -61,4 +61,9 @@ public class UserEndpoint {
     void deleteMovieFromCurrentWatchListById(Principal principal, @PathVariable Long movieId) {
         userService.removeFromWatchList(principal.getName(), movieId);
     }
+
+    @GetMapping("/current/watchlist/compare/{otherUserId}")
+    public List<Movie> compareMovies (Principal principal, @PathVariable Long otherUserId) {
+        return userService.compareWatchLists(principal.getName(), otherUserId);
+    }
 }

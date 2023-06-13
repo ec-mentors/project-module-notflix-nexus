@@ -5,9 +5,12 @@ import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEnt
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -62,5 +65,22 @@ public class UserService {
     public void removeFromWatchList(String username, Long movieId) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
         optionalUser.ifPresent(user -> watchListService.removeMovieByIds(user.getWatchList().getId(), movieId));
+    }
+
+    public List<Movie> compareWatchLists(String username, Long otherUserId) {
+        Optional<UserEntity> yourUser = userRepository.findByUsername(username);
+        Optional<UserEntity> otherUser = userRepository.findById(otherUserId);
+
+        if (yourUser.isPresent() && otherUser.isPresent()) {
+            List<Movie> yourMovies = yourUser.get().getWatchList().getMovies();
+            List<Movie> otherUserMovies = otherUser.get().getWatchList().getMovies();
+
+            List<Movie> commonMovies = new ArrayList<>(yourMovies);
+            commonMovies.retainAll(otherUserMovies);
+
+            return commonMovies;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
     }
 }

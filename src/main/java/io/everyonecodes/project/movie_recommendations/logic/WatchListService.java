@@ -60,21 +60,4 @@ public class WatchListService {
             watchListRepository.save(watchList);
         });
     }
-
-    public List<Movie> compareWatchLists(Long yourUserId, Long otherUserId) {
-        Optional<UserEntity> yourUser = userRepository.findById(yourUserId);
-        Optional<UserEntity> otherUser = userRepository.findById(otherUserId);
-
-        if (yourUser.isPresent() && otherUser.isPresent()) {
-            List<Movie> yourMovies = yourUser.get().getWatchList().getMovies();
-            List<Movie> otherUserMovies = otherUser.get().getWatchList().getMovies();
-
-            List<Movie> commonMovies = new ArrayList<>(yourMovies);
-            commonMovies.retainAll(otherUserMovies);
-
-            return commonMovies;
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-    }
 }

@@ -47,8 +47,4 @@ public class WatchListEndpoint {
         watchListService.removeMovieByIds(watchListId, movieId);
     }
 
-    @GetMapping("/compareMovies/{yourUserId}/{otherUserId}")
-    public List<Movie> compareMovies (@PathVariable Long yourUserId, @PathVariable Long otherUserId) {
-        return watchListService.compareWatchLists(yourUserId, otherUserId);
-    }
 }
