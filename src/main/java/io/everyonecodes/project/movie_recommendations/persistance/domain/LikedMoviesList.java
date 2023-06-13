@@ -1,9 +1,7 @@
 package io.everyonecodes.project.movie_recommendations.persistance.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Entity
 public class LikedMoviesList {
@@ -13,7 +11,7 @@ public class LikedMoviesList {
     private Long id;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Movie> likedMovies = new ArrayList<>();
+    private Set<Movie> likedMovies = new HashSet<>();
 
     public void addMovie(Movie movie) {
         likedMovies.add(movie);
@@ -35,11 +33,11 @@ public class LikedMoviesList {
         this.id = id;
     }
 
-    public List<Movie> getLikedMovies() {
+    public Set<Movie> getLikedMovies() {
         return likedMovies;
     }
 
-    public void setLikedMovies(List<Movie> likedMovies) {
+    public void setLikedMovies(Set<Movie> likedMovies) {
         this.likedMovies = likedMovies;
     }
 }

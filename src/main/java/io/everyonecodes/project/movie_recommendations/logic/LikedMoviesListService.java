@@ -74,27 +74,47 @@ public class LikedMoviesListService {
 
     public String addMovieByImdbId(Long likedMoviesListId, String imdbId) {
         Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+        LikedMoviesList likedMoviesList = likedMoviesListRepository.findById(likedMoviesListId).get();
         if (returnedMovie.isPresent()) {
+          //  if (!likedMovies.contains(returnedMovie)) {
             movieService.addMovie(returnedMovie.get());
-            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
-                if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
-                    likedMoviesList.addMovie(returnedMovie.get());
-            });
+            likedMoviesList.getLikedMovies().add(returnedMovie.get());
+            likedMoviesListRepository.save(likedMoviesList);
+          //  }
             return imdbId;
         }
         return failMessage;
+//        Optional<Movie> returnedMovie = movieService.findMovieByImdbId(imdbId);
+//        if (returnedMovie.isPresent()) {
+//            movieService.addMovie(returnedMovie.get());
+//            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
+//                if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
+//                    likedMoviesList.addMovie(returnedMovie.get());
+//            });
+//            return imdbId;
+//        }
+//        return failMessage;
     }
 
     public String addMovieByTitle(Long likedMoviesListId, String movieTitle) {
         Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        LikedMoviesList likedMoviesList = likedMoviesListRepository.findById(likedMoviesListId).get();
         if (returnedMovie.isPresent()) {
             movieService.addMovie(returnedMovie.get());
-            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
-                if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
-                    likedMoviesList.addMovie(returnedMovie.get());
-            });
+            likedMoviesList.getLikedMovies().add(returnedMovie.get());
+            likedMoviesListRepository.save(likedMoviesList);
             return movieTitle;
         }
         return failMessage;
+//        Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+//        if (returnedMovie.isPresent()) {
+//            movieService.addMovie(returnedMovie.get());
+//            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
+//                if (!likedMoviesList.getLikedMovies().contains(returnedMovie.get()))
+//                    likedMoviesList.addMovie(returnedMovie.get());
+//            });
+//            return movieTitle;
+//        }
+//        return failMessage;
     }
 }
