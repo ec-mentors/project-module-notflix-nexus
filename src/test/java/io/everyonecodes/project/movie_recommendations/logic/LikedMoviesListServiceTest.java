@@ -69,7 +69,7 @@ class LikedMoviesListServiceTest {
     @Test
     void addMovieById() {
         Long id = 123L;
-        Movie movie = new Movie("1234", "Movie", List.of(new Genre()), 2023);
+        Movie movie = new Movie("1234", "Movie", List.of(new Genre()));
         LikedMoviesList likedMoviesList = new LikedMoviesList();
         when(movieService.addMovie(movie)).thenReturn(movie);
         when(likedMoviesListRepository.findById(id)).thenReturn(Optional.of(likedMoviesList));
@@ -144,7 +144,7 @@ class LikedMoviesListServiceTest {
     @Test
     void addMovieByTmdbId() {
         Long likedMoviesListId = 123L;
-        Movie movie = new Movie("456", "Movie", List.of(new Genre()), 2023);
+        Movie movie = new Movie("456", "Movie", List.of(new Genre()));
         String tmdbId = "456";
         LikedMoviesList likedMoviesList = new LikedMoviesList();
         when(movieService.findMovieByTmdbId(tmdbId)).thenReturn(Optional.of(movie));
@@ -160,7 +160,7 @@ class LikedMoviesListServiceTest {
     @Test
     void addMovieByTitle() {
         Long likedMoviesListId = 123L;
-        Movie movie = new Movie("456", "Movie", List.of(new Genre()), 2023);
+        Movie movie = new Movie("456", "Movie", List.of(new Genre()));
         List<Movie> movieList = List.of(movie);
         String title = "Movie";
         LikedMoviesList likedMoviesList = new LikedMoviesList();
@@ -179,7 +179,7 @@ class LikedMoviesListServiceTest {
         Long likedMoviesListId = 123L;
         String title = "Movie";
         String tmdbId = "456";
-        Movie movie = new Movie(tmdbId, title, List.of(new Genre()), 2023);
+        Movie movie = new Movie(tmdbId, title, List.of(new Genre()));
         movie.setId(0L);
         movie.setTmdbId(tmdbId);
         LikedMoviesList likedMoviesList = new LikedMoviesList();
@@ -199,7 +199,7 @@ class LikedMoviesListServiceTest {
     void removeMovieByTitle() {
         Long likedMoviesListId = 123L;
         String title = "Movie";
-        Movie movie = new Movie("456", "Movie", List.of(new Genre()), 2023);
+        Movie movie = new Movie("456", "Movie", List.of(new Genre()));
         movie.setId(0L);
         LikedMoviesList likedMoviesList = new LikedMoviesList();
         likedMoviesList.addMovie(movie);
