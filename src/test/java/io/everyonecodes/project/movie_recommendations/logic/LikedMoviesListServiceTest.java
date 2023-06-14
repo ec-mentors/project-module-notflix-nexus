@@ -175,15 +175,19 @@ class LikedMoviesListServiceTest {
     }
 
     @Test
-    void removeMovieByImdbId() {
+    void removeMovieByTmdbId() {
         Long likedMoviesListId = 123L;
+        String title = "Movie";
         String tmdbId = "456";
-        Movie movie = new Movie();
+        Movie movie = new Movie(tmdbId, title, List.of(new Genre()), 2023);
+        movie.setId(0L);
         movie.setTmdbId(tmdbId);
         LikedMoviesList likedMoviesList = new LikedMoviesList();
         likedMoviesList.addMovie(movie);
 
         when(likedMoviesListRepository.findById(likedMoviesListId)).thenReturn(Optional.of(likedMoviesList));
+        when(movieService.findMovieByTmdbId(tmdbId)).thenReturn(Optional.of(movie));
+        when(movieService.findMoviesByTitle(title)).thenReturn(List.of(movie));
         Assertions.assertTrue(likedMoviesList.getLikedMovies().contains(movie));
 
         likedMoviesListService.removeMovieByTmdbId(likedMoviesListId, tmdbId);
