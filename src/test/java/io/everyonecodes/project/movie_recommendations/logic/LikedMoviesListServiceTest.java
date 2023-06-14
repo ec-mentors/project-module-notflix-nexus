@@ -196,10 +196,12 @@ class LikedMoviesListServiceTest {
         Long likedMoviesListId = 123L;
         String title = "Movie";
         Movie movie = new Movie("456", "Movie", List.of(new Genre()), 2023);
+        movie.setId(0L);
         LikedMoviesList likedMoviesList = new LikedMoviesList();
         likedMoviesList.addMovie(movie);
 
         when(likedMoviesListRepository.findById(likedMoviesListId)).thenReturn(Optional.of(likedMoviesList));
+        when(movieService.findMoviesByTitle(title)).thenReturn(List.of(movie));
         Assertions.assertTrue(likedMoviesList.getLikedMovies().contains(movie));
 
         likedMoviesListService.removeMovieByTitle(likedMoviesListId, title);
