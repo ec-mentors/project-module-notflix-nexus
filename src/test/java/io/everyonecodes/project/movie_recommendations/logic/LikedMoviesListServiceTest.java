@@ -5,7 +5,6 @@ import io.everyonecodes.project.movie_recommendations.configuration.DefaultUserR
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Genre;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.LikedMoviesList;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
-import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.LikedMoviesListRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -140,5 +139,71 @@ class LikedMoviesListServiceTest {
 
         verify(likedMoviesListRepository).findById(likedMoviesListId);
         verifyNoMoreInteractions(likedMoviesListRepository);
+    }
+
+    @Test
+    void addMovieByTmdbId() {
+        Long likedMoviesListId = 123L;
+        Movie movie = new Movie("456", "Movie", List.of(new Genre()), 2023);
+        String tmdbId = "456";
+        LikedMoviesList likedMoviesList = new LikedMoviesList();
+        when(movieService.findMovieByTmdbId(tmdbId)).thenReturn(Optional.of(movie));
+        when(likedMoviesListRepository.findById(likedMoviesListId)).thenReturn(Optional.of(likedMoviesList));
+
+        String result = likedMoviesListService.addMovieByTmdbId(likedMoviesListId, tmdbId);
+
+        Assertions.assertEquals(tmdbId, result);
+        verify(movieService).addMovie(movie);
+        verify(likedMoviesListRepository).save(likedMoviesList);
+    }
+
+    @Test
+    void addMovieByTitle() {
+        Long likedMoviesListId = 123L;
+        Movie movie = new Movie("456", "Movie", List.of(new Genre()), 2023);
+        List<Movie> movieList = List.of(movie);
+        String title = "Movie";
+        LikedMoviesList likedMoviesList = new LikedMoviesList();
+        when(movieService.findMoviesByTitle(title)).thenReturn(movieList);
+        when(likedMoviesListRepository.findById(likedMoviesListId)).thenReturn(Optional.of(likedMoviesList));
+
+        String result = likedMoviesListService.addMovieByTitle(likedMoviesListId, title);
+
+        Assertions.assertEquals(title, result);
+        verify(movieService).addMovie(movie);
+        verify(likedMoviesListRepository).save(likedMoviesList);
+    }
+
+    @Test
+    void removeMovieByImdbId() {
+        Long likedMoviesListId = 123L;
+        String tmdbId = "456";
+        Movie movie = new Movie();
+        movie.setTmdbId(tmdbId);
+        LikedMoviesList likedMoviesList = new LikedMoviesList();
+        likedMoviesList.addMovie(movie);
+
+        when(likedMoviesListRepository.findById(likedMoviesListId)).thenReturn(Optional.of(likedMoviesList));
+        Assertions.assertTrue(likedMoviesList.getLikedMovies().contains(movie));
+
+        likedMoviesListService.removeMovieByTmdbId(likedMoviesListId, tmdbId);
+
+        Assertions.assertFalse(likedMoviesList.getLikedMovies().contains(movie));
+    }
+
+    @Test
+    void removeMovieByTitle() {
+        Long likedMoviesListId = 123L;
+        String title = "Movie";
+        Movie movie = new Movie("456", "Movie", List.of(new Genre()), 2023);
+        LikedMoviesList likedMoviesList = new LikedMoviesList();
+        likedMoviesList.addMovie(movie);
+
+        when(likedMoviesListRepository.findById(likedMoviesListId)).thenReturn(Optional.of(likedMoviesList));
+        Assertions.assertTrue(likedMoviesList.getLikedMovies().contains(movie));
+
+        likedMoviesListService.removeMovieByTitle(likedMoviesListId, title);
+
+        Assertions.assertFalse(likedMoviesList.getLikedMovies().contains(movie));
     }
 }
