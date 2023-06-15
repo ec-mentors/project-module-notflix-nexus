@@ -17,6 +17,7 @@ public class MovieDto {
     @JsonProperty("genre_ids")
     private List<Long> genreIds = new ArrayList<>();
     private LocalDate release_date;
+
     public String getTmdbId() {return tmdbId;}
     public String getTitle() {return title;}
     public List<Genre> getGenres() {return genres;}

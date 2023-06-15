@@ -16,12 +16,6 @@ public class UserEntity {
         @Column(columnDefinition = "BINARY(16)")
         @GeneratedValue
         private UUID id;
-
-//        @Id
-//        @Column(name = "userId", columnDefinition = "BINARY(16)")
-//        @GeneratedValue
-//        private UUID userId;
-
         @NotBlank
         @Column(unique = true)
         private String username;
