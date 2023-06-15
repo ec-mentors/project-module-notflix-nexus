@@ -46,4 +46,28 @@ public class WatchListEndpoint {
     void removeMovieByIds(@PathVariable Long watchListId, @PathVariable Long movieId) {
         watchListService.removeMovieByIds(watchListId, movieId);
     }
+
+    @GetMapping("/{watchListId}/id/{tmdbId}")
+    @Secured("ROLE_ADMIN")
+    String addMovieByImdbId(@PathVariable Long watchListId, @PathVariable String tmdbId) {
+        return watchListService.addMovieByTmdbId(watchListId, tmdbId);
+    }
+
+    @GetMapping("/{watchListId}/title/{movieTitle}")
+    @Secured("ROLE_ADMIN")
+    String addMovieByTitle(@PathVariable Long watchListId, @PathVariable String movieTitle) {
+        return watchListService.addMovieByTitle(watchListId, movieTitle);
+    }
+
+    @DeleteMapping("/{watchListId}/id/{tmdbId}")
+    @Secured("ROLE_ADMIN")
+    void removeMovieByImdbId(@PathVariable Long watchListId, @PathVariable String tmdbId) {
+        watchListService.removeMovieByTmdbId(watchListId, tmdbId);
+    }
+
+    @DeleteMapping("/{watchListId}/title/{movieTitle}")
+    @Secured("ROLE_ADMIN")
+    void removeMovieByTitle(@PathVariable Long watchListId, @PathVariable String movieTitle) {
+        watchListService.removeMovieByTitle(watchListId, movieTitle);
+    }
 }

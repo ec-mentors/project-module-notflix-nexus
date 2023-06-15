@@ -1,5 +1,8 @@
 package io.everyonecodes.project.movie_recommendations.persistance.domain;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
@@ -26,17 +29,20 @@ public class UserEntity {
         private String password;
         @ElementCollection(fetch = FetchType.EAGER)
         private Set<String> authorities;
-        @OneToOne(fetch = FetchType.EAGER)
+        @OneToOne(fetch = FetchType.LAZY)
         private WatchList watchList = new WatchList();
+        @OneToOne(cascade = CascadeType.ALL)
+        private LikedMoviesList likedMovies = new LikedMoviesList();
 
         @Override
         public String toString() {
-                return "User{" +
+                return "UserEntity{" +
                         "id=" + id +
                         ", username='" + username + '\'' +
                         ", password='" + password + '\'' +
                         ", authorities=" + authorities +
                         ", watchList=" + watchList +
+                        ", likedMovies=" + likedMovies +
                         '}';
         }
 
@@ -44,13 +50,13 @@ public class UserEntity {
         public boolean equals(Object o) {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
-                UserEntity user = (UserEntity) o;
-                return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(authorities, user.authorities) && Objects.equals(watchList, user.watchList);
+                UserEntity that = (UserEntity) o;
+                return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(authorities, that.authorities) && Objects.equals(watchList, that.watchList) && Objects.equals(likedMovies, that.likedMovies);
         }
 
         @Override
         public int hashCode() {
-                return Objects.hash(id, username, password, authorities, watchList);
+                return Objects.hash(id, username, password, authorities, watchList, likedMovies);
         }
 
         public UUID getId() {
@@ -91,4 +97,11 @@ public class UserEntity {
                 this.watchList = watchList;
         }
 
+        public LikedMoviesList getLikedMovies() {
+                return likedMovies;
+        }
+
+        public void setLikedMovies(LikedMoviesList likedMovies) {
+                this.likedMovies = likedMovies;
+        }
 }
