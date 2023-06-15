@@ -15,6 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -159,5 +161,33 @@ class UserServiceTest {
         userService.removeFromWatchList(username, movieId);
 
         verify(watchListService).removeMovieByIds(watchListId, movieId);
+    }
+
+    @Test
+    void testCompareWatchLists() {
+        Long otherUserId = 2L;
+        Movie testMovie = new Movie();
+        testMovie.setTitle("Movie 1");
+        WatchList yourWatchList = new WatchList();
+        WatchList otherUserWatchList = new WatchList();
+
+        UserEntity yourUser = new UserEntity();
+        yourUser.setUsername(username);
+        yourUser.setWatchList(yourWatchList);
+
+        UserEntity otherUser = new UserEntity();
+        otherUser.setId(otherUserId);
+        otherUser.setWatchList(otherUserWatchList);
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(yourUser));
+        when(userRepository.findById(otherUserId)).thenReturn(Optional.of(otherUser));
+
+        List<Movie> expectedCommonMovies = Collections.singletonList(testMovie);
+
+        List<Movie> result = userService.compareWatchLists(username, otherUserId);
+
+        assertEquals(expectedCommonMovies, result);
+        verify(userRepository).findByUsername(username);
+        verify(userRepository).findById(otherUserId);
     }
 }
