@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -59,6 +60,12 @@ class UserServiceTest {
     }
 
     @Test
+    void getUserIdByUsername() {
+        userService.getUserIdByUsername("test");
+        verify(userRepository).findByUsername("test");
+    }
+
+    @Test
     public void addUserIfDoesNotExist() {
         UserEntity user = new UserEntity();
         user.setPassword(password);
@@ -78,7 +85,7 @@ class UserServiceTest {
 
     @Test
     void deleteUserByIdTest() {
-        Long userId = 1L;
+        UUID userId = UUID.randomUUID();
 
         userService.deleteUserById(userId);
 

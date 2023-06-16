@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Movie {
@@ -19,11 +20,10 @@ public class Movie {
 
     public Movie() {}
 
-    public Movie(String tmdbId, String title, List<Genre> genres, int releaseYear) {
+    public Movie(String tmdbId, String title, List<Genre> genres) {
         this.tmdbId = tmdbId;
         this.title = title;
         this.genres = genres;
-        this.releaseYear = releaseYear;
     }
 
     public Long getId() {return id;}

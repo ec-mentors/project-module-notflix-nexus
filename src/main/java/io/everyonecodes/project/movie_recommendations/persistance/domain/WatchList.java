@@ -1,9 +1,7 @@
 package io.everyonecodes.project.movie_recommendations.persistance.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Entity
 public class WatchList {
@@ -11,7 +9,7 @@ public class WatchList {
     @GeneratedValue
     private Long id;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Movie> movies = new ArrayList<>();
+    private Set<Movie> movies = new HashSet<>();
 
     public void addMovie(Movie movie) {movies.add(movie);}
     public void removeMovieById(Long id) {
@@ -20,7 +18,7 @@ public class WatchList {
     }
     public void clear() {movies.clear();}
     public Long getId() {return id;}
-    public List<Movie> getMovies() {return movies;}
+    public Set<Movie> getMovies() {return movies;}
     public void setId(Long id) {this.id = id;}
-    public void setMovies(List<Movie> movies) {this.movies = movies;}
+    public void setMovies(Set<Movie> movies) {this.movies = movies;}
 }

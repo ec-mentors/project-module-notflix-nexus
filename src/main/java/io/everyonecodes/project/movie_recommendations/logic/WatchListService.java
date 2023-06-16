@@ -1,11 +1,13 @@
 package io.everyonecodes.project.movie_recommendations.logic;
 
+import io.everyonecodes.project.movie_recommendations.communication.client.MovieApiClient;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,16 +20,18 @@ import java.util.function.Consumer;
 public class WatchListService {
     private final MovieService movieService;
     private final WatchListRepository watchListRepository;
+    private final String failMessage;
 
-    private final UserRepository userRepository;
-
-    public WatchListService(UserRepository userRepository, MovieService movieService, WatchListRepository watchListRepository) {
+    public WatchListService(MovieService movieService, WatchListRepository watchListRepository, @Value("${notflix.fail.message}")
+    String failMessage) {
         this.movieService = movieService;
         this.watchListRepository = watchListRepository;
-        this.userRepository = userRepository;
+        this.failMessage = failMessage;
     }
 
-    public WatchList createNewWatchList() {return watchListRepository.save(new WatchList());}
+    public WatchList createNewWatchList() {
+        return watchListRepository.save(new WatchList());
+    }
 
     public List<WatchList> findAllWatchLists() {
         return watchListRepository.findAll();
@@ -45,6 +49,18 @@ public class WatchListService {
         return returnedMovie;
     }
 
+    public String addMovieByTmdbId(Long watchListId, String tmdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId);
+        Optional<WatchList> watchList = watchListRepository.findById(watchListId);
+        if (returnedMovie.isPresent() && watchList.isPresent()) {
+            movieService.addMovie(returnedMovie.get());
+            watchList.get().getMovies().add(returnedMovie.get());
+            watchListRepository.save(watchList.get());
+            return tmdbId;
+        }
+        return failMessage;
+    }
+
     public void clearWatchListById(Long watchListId) {
         changeIfPresentById(watchListId, WatchList::clear);
     }
@@ -59,5 +75,28 @@ public class WatchListService {
             change.accept(watchList);
             watchListRepository.save(watchList);
         });
+    }
+}
+
+    public String addMovieByTitle(Long watchListId, String movieTitle) {
+        Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        Optional<WatchList> watchList = watchListRepository.findById(watchListId);
+        if (returnedMovie.isPresent() && watchList.isPresent()) {
+            movieService.addMovie(returnedMovie.get());
+            watchList.get().getMovies().add(returnedMovie.get());
+            watchListRepository.save(watchList.get());
+            return  movieTitle;
+        }
+        return failMessage;
+    }
+
+    public void removeMovieByTitle(Long watchListId, String movieTitle) {
+        Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
+        returnedMovie.ifPresent(value -> changeIfPresentById(watchListId, watchList -> watchList.removeMovieById(value.getId())));
+    }
+
+    public void removeMovieByTmdbId(Long watchListId, String tmdbId) {
+        Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId).stream().findFirst();
+        returnedMovie.ifPresent(value -> removeMovieByTitle(watchListId, value.getTitle()));
     }
 }

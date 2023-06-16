@@ -15,7 +15,8 @@ public class MovieService {
 
     private final MovieApiClient movieApiClient;
 
-    public MovieService(MovieRepository movieRepository, MovieApiClient movieApiClient) {this.movieRepository = movieRepository;
+    public MovieService(MovieRepository movieRepository, MovieApiClient movieApiClient) {
+        this.movieRepository = movieRepository;
         this.movieApiClient = movieApiClient;
     }
 
