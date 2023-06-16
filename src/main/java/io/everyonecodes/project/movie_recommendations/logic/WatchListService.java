@@ -2,11 +2,16 @@ package io.everyonecodes.project.movie_recommendations.logic;
 
 import io.everyonecodes.project.movie_recommendations.communication.client.MovieApiClient;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
+import io.everyonecodes.project.movie_recommendations.persistance.repository.UserRepository;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.WatchListRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -71,6 +76,7 @@ public class WatchListService {
             watchListRepository.save(watchList);
         });
     }
+}
 
     public String addMovieByTitle(Long watchListId, String movieTitle) {
         Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();

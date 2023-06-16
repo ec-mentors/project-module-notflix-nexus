@@ -71,6 +71,11 @@ public class UserEndpoint {
         userService.removeFromWatchList(principal.getName(), movieId);
     }
 
+    @GetMapping("/current/watchlist/compare/{otherUserId}")
+    @Secured("ROLE_USER")
+    public List<Movie> compareMovies (Principal principal, @PathVariable Long otherUserId) {
+        return userService.compareWatchLists(principal.getName(), otherUserId);
+
     @GetMapping("/current/watchlist/id/{tmdbId}")
     @Secured("ROLE_USER")
     String addToWatchListByTmdbId(Principal principal, @PathVariable String tmdbId) {
