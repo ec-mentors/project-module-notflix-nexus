@@ -168,16 +168,14 @@ class UserServiceTest {
         Long otherUserId = 2L;
         Movie testMovie = new Movie();
         testMovie.setTitle("Movie 1");
-        WatchList yourWatchList = new WatchList();
-        WatchList otherUserWatchList = new WatchList();
 
         UserEntity yourUser = new UserEntity();
         yourUser.setUsername(username);
-        yourUser.setWatchList(yourWatchList);
+        yourUser.getWatchList().addMovie(testMovie);
 
         UserEntity otherUser = new UserEntity();
         otherUser.setId(otherUserId);
-        otherUser.setWatchList(otherUserWatchList);
+        otherUser.getWatchList().addMovie(testMovie);
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(yourUser));
         when(userRepository.findById(otherUserId)).thenReturn(Optional.of(otherUser));
