@@ -15,10 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -172,7 +169,7 @@ class UserServiceTest {
 
     @Test
     void testCompareWatchLists() {
-        Long otherUserId = 2L;
+        UUID otherUserId = UUID.fromString("uuid");
         Movie testMovie = new Movie();
         testMovie.setTitle("Movie 1");
 
@@ -187,9 +184,9 @@ class UserServiceTest {
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(yourUser));
         when(userRepository.findById(otherUserId)).thenReturn(Optional.of(otherUser));
 
-        List<Movie> expectedCommonMovies = Collections.singletonList(testMovie);
+        Set<Movie> expectedCommonMovies = Set.of(testMovie);
 
-        List<Movie> result = userService.compareWatchLists(username, otherUserId);
+        Set<Movie> result = userService.compareWatchLists(username, otherUserId);
 
         assertEquals(expectedCommonMovies, result);
         verify(userRepository).findByUsername(username);

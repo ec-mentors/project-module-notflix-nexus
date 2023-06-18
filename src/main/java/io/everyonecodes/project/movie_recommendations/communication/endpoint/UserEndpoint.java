@@ -6,13 +6,13 @@ import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.WatchList;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -73,8 +73,9 @@ public class UserEndpoint {
 
     @GetMapping("/current/watchlist/compare/{otherUserId}")
     @Secured("ROLE_USER")
-    public List<Movie> compareMovies (Principal principal, @PathVariable Long otherUserId) {
+    public Set<Movie> compareMovies (Principal principal, @PathVariable UUID otherUserId) {
         return userService.compareWatchLists(principal.getName(), otherUserId);
+    }
 
     @GetMapping("/current/watchlist/id/{tmdbId}")
     @Secured("ROLE_USER")
