@@ -23,7 +23,7 @@ public class UserEntity {
         private String password;
         @ElementCollection(fetch = FetchType.EAGER)
         private Set<String> authorities;
-        @OneToOne(fetch = FetchType.LAZY)
+        @OneToOne(cascade = CascadeType.ALL)
         private WatchList watchList = new WatchList();
         @OneToOne(cascade = CascadeType.ALL)
         private LikedMoviesList likedMovies = new LikedMoviesList();

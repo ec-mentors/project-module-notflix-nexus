@@ -9,13 +9,7 @@ notflix:
         - username: dummy
           password: dummy
           authorities: ${notflix.roles.user}
-    movies:
-        - title: movie
-#          genres: love
-          releaseYear: 2022
-        - title: film
-#          genres: action
-          releaseYear: 1970
+
     fail:
         message: "not found"
 
