@@ -1,0 +1,35 @@
+<!--<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>next one</title>
+    </head>
+
+    <body>
+        <h1 th:text="${header}">header missing</h1>
+
+        <table>
+            <thead>
+            <tr>
+                <th>tmdbId</th>
+                <th>Title</th>
+                <th>Genres</th>
+                <th>release year</th>
+<!--                <th>Delete</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="movie : ${movies}">
+                <td th:text="${movie.tmdbId}"></td>
+                <td th:text="${movie.title}"></td>
+                <td th:text="${#strings.arrayJoin(movie.genres.![name], ',')}"></td>
+                <td th:text="${movie.releaseYear}"></td>
+<!--                <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>-->
+            </tr>
+            </tbody>
+        </table>
+
+    </body>
+</html>
