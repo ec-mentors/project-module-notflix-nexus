@@ -1,13 +1,18 @@
 package io.everyonecodes.project.movie_recommendations.logic;
 
 import io.everyonecodes.project.movie_recommendations.communication.client.MovieApiClient;
+import io.everyonecodes.project.movie_recommendations.communication.dto.ResultPageDto;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.MovieRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class MovieService {
@@ -15,15 +20,18 @@ public class MovieService {
 
     private final MovieApiClient movieApiClient;
 
-    public MovieService(MovieRepository movieRepository, MovieApiClient movieApiClient) {this.movieRepository = movieRepository;
+    public MovieService(MovieRepository movieRepository, MovieApiClient movieApiClient) {
+        this.movieRepository = movieRepository;
         this.movieApiClient = movieApiClient;
     }
 
-    public List<Movie> findAllMovies() {return movieRepository.findAll();}
+    public List<Movie> findAllMovies() {
+        return movieRepository.findAll();
+    }
 
     public Optional<Movie> findMovieByTmdbId(String tmdbId) {
         Optional<Movie> optionalMovie = movieRepository.findByTmdbId(tmdbId);
-        if(optionalMovie.isEmpty()) {
+        if (optionalMovie.isEmpty()) {
             optionalMovie = movieApiClient.findByID(tmdbId);
             optionalMovie.ifPresent(this::addMovie);
         }
@@ -36,7 +44,7 @@ public class MovieService {
 
     public void changeMovie(Long movieId, Movie movie) {
         Optional<Movie> optionalMovie = movieRepository.findById(movieId);
-        if(optionalMovie.isPresent()) {
+        if (optionalMovie.isPresent()) {
             movie.setId(optionalMovie.get().getId());
             movieRepository.save(movie);
         }
@@ -48,6 +56,14 @@ public class MovieService {
     }
 
     public void deleteById(Long movieId) {
-        if(movieRepository.existsById(movieId)) movieRepository.deleteById(movieId);
+        if (movieRepository.existsById(movieId)) movieRepository.deleteById(movieId);
+    }
+
+    public List<Movie> findRecommendationsById(String id) {
+        return movieApiClient.findRecommendationsById(id);
+    }
+
+    public List<Movie> findRecommendationsByTitle(String title) {
+        return movieApiClient.findByTitle(title);
     }
 }

@@ -14,11 +14,9 @@ import java.util.Optional;
 @RequestMapping("/movies")
 public class MovieEndpoint {
     private final MovieService movieService;
-    private final MovieApiClient movieApiClient;
 
-    public MovieEndpoint(MovieService movieService, MovieApiClient movieApiClient) {
+    public MovieEndpoint(MovieService movieService) {
         this.movieService = movieService;
-        this.movieApiClient = movieApiClient;
     }
 
     @GetMapping
@@ -56,11 +54,11 @@ public class MovieEndpoint {
 
     @GetMapping("/{movieId}/recommendationsById")
     List<Movie> getRecommendationsById(@PathVariable String movieId) {
-        return movieApiClient.findRecommendationsById(movieId);
+        return movieService.findRecommendationsById(movieId);
     }
 
     @GetMapping("/{title}/recommendationsByTitle")
     List<Movie> getRecommendationsByTitle(@PathVariable String title) {
-        return movieApiClient.findRecommendationsByTitle(title);
+        return movieService.findRecommendationsByTitle(title);
     }
 }
