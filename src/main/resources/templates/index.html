@@ -1,15 +1,26 @@
 <!--<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">-->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:hover="http://www.w3.org/1999/xhtml">
 
     <head>
         <meta charset="UTF-8">
         <title>next one</title>
     </head>
 
-    <body>
+    <tbody>
         <h1>Your uuid</h1>
         <p>this is (the optional;) of your ID:</p>
+
         <p th:text="${user_id}">oops!</p>
-    </body>
+
+<!--        todo: introduce class or something for better formatting-->
+<!--        todo: add "hover-effect" - hover:text-white-->
+        <form th:action="@{/watchlist}">
+            <input type="submit" value="your Watchlist"/>
+        </form>
+
+        <form th:action="@{/watchlist}">
+            <button hover:text-white type="submit" >go to your Watchlist</button>
+        </form>
+    </tbody>
 </html>

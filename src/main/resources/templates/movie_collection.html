@@ -18,7 +18,7 @@
                 <th>Title</th>
                 <th>Genres</th>
                 <th>release year</th>
-<!--                <th>Delete</th>-->
+                <th>Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
                 <td th:text="${movie.title}"></td>
                 <td th:text="${#strings.arrayJoin(movie.genres.![name], ',')}"></td>
                 <td th:text="${movie.releaseYear}"></td>
-<!--                <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>-->
+                <td><a method="GET" th:href="@{/current/watchlist/{movieId}(movieId=${movie.tmdbId})}">delete</a></td>
             </tr>
             </tbody>
         </table>
