@@ -32,8 +32,9 @@ public class SecurityConfiguration {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/movies/{tmdbId}").permitAll()
+                .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies").permitAll()
+                .antMatchers(HttpMethod.GET, "/movies/{tmdbId}").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

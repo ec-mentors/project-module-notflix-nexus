@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:object="${movie}">
+    <h1 th:text="*{title}">title missing</h1>
+
+    <p>released: <span th:text="${user_id}">oops!</span></p>
+
+</body>
+</html>

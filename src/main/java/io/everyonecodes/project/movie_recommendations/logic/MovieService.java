@@ -51,4 +51,8 @@ public class MovieService {
     public void deleteById(Long movieId) {
         if(movieRepository.existsById(movieId)) movieRepository.deleteById(movieId);
     }
+
+    public Optional<Movie> findMovieById(Long movieId) {
+        return movieRepository.findById(movieId);
+    }
 }

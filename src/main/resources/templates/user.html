@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>next one - home</title>
+</head>
+<tbody>
+<!--    <h1 th:text="${user_id}">Hello</h1>-->
+<!--    <h1>Hello <span sec:authentication="name"></span></h1>-->
+    <h1>Hello <span th:text="${username}"></span></h1>
+
+<!--    <p sec:authentication="name"></p>-->
+
+    <a href="/watchlist"><button type="submit">go to your watchlist</button></a>
+
+</tbody>
+</html>

@@ -1,30 +1,59 @@
 package io.everyonecodes.project.movie_recommendations.communication.endpoint;
 
+import io.everyonecodes.project.movie_recommendations.logic.MovieService;
 import io.everyonecodes.project.movie_recommendations.logic.UserService;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.security.Principal;
 import java.util.Collection;
+import java.util.Optional;
 
 @Controller
 public class UIController {
 
     private final UserService userService;
 
-    public UIController(UserService userService) {this.userService = userService;}
+    private final MovieService movieService;
 
+    public UIController(UserService userService, MovieService movieService) {this.userService = userService;
+        this.movieService = movieService;
+    }
+
+//    @GetMapping("/")
+//    public String viewUuid(Model model, Principal principal) {
+//        return "index";
+//    }
     @GetMapping("/")
-    public String viewUuid(Model model, Principal principal) {
-        model.addAttribute("user_id", userService.getUserIdByUsername(principal.getName()));
+    public String viewUuid() {
         return "index";
+    }
+
+    @GetMapping("/user")
+    @Secured("ROLE_USER")
+    public String viewHome(Model model, Principal principal) {
+        model.addAttribute("username", principal.getName());
+        return "user";
+    }
+
+
+//     HttpServletRequest request
+    @GetMapping("/movie/{movieId}")
+    public String viewMovie(@PathVariable Long movieId, Model model, @RequestHeader String referer) {
+        Optional<Movie> optionalMovie = movieService.findMovieById(movieId);
+        if (optionalMovie.isPresent()) {
+            model.addAttribute(optionalMovie.get());
+            return "movie";
+        } else {
+//            return "redirect:" + request.getHeader("Referer");
+            return "redirect:" + referer;
+        }
     }
 
     @PostMapping("/watchlist/{movieId}")

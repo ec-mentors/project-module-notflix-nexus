@@ -1,33 +1,27 @@
 <!--<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">-->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:hover="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:hover="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 
-    <head>
+<head>
         <meta charset="UTF-8">
         <title>next one</title>
 <!--        <script src="https://cdn.tailwindcss.com"></script>-->
-    </head>
+</head>
 
-    <tbody>
-        <h1>Your uuid</h1>
-        <p>this is (the optional;) of your ID:</p>
+<tbody>
+    <h1>Welcome to next one</h1>
+<!--        <h1>Welcome to next one <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h1>-->
 
-        <p th:text="${user_id}">oops!</p>
+<!--        <div sec:authorize="isAuthenticated()">-->
+<!--        <div sec:authorize="hasRole('ROLE_USER')">-->
+<!--            <a href="/user"><button type="submit">go to your home</button></a>-->
+<!--        </div>-->
+<!--        <div ! sec:authorize="hasRole('ROLE_USER')">-->
+<!--            <a href="/user"><button type="submit">login</button></a>-->
+<!--        </div>-->
 
-<!--        todo: introduce class or something for better formatting-->
-<!--        todo: add "hover-effect" - hover:text-white-->
-        <form th:action="@{'/watchlist'}" method="GET">
-            <input type="submit" value="your Watchlist"/>
-        </form>
+    <a href="/user"><button type="submit">go to your home</button></a>
 
-        <form th:action="@{'/watchlist'}">
-            <button hover:text-white type="submit" >go to your Watchlist</button>
-        </form>
-
-        <button type="submit"><a href="/watchlist"> go to your Watchlist</a></button>
-
-        <a href="/watchlist"><button type="submit"> Watched</button></a>
-
-        <p><a href="/register">Click here to register</a></p>
-    </tbody>
+</tbody>
 </html>
