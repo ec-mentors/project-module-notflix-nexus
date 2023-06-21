@@ -1,27 +1,24 @@
 <!--<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">-->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:hover="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-        <meta charset="UTF-8">
-        <title>next one</title>
-<!--        <script src="https://cdn.tailwindcss.com"></script>-->
+    <meta charset="UTF-8">
+    <title>next one</title>
+<!--    somehow the link to the stylesheet forces user to log in oO-->
+    <div th:if="${authenticated}"><link th:href="@{/css/style.css}" rel="stylesheet" /></div>
 </head>
 
 <tbody>
-    <h1>Welcome to next one</h1>
-<!--        <h1>Welcome to next one <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h1>-->
-
 <!--        <div sec:authorize="isAuthenticated()">-->
-<!--        <div sec:authorize="hasRole('ROLE_USER')">-->
-<!--            <a href="/user"><button type="submit">go to your home</button></a>-->
-<!--        </div>-->
-<!--        <div ! sec:authorize="hasRole('ROLE_USER')">-->
-<!--            <a href="/user"><button type="submit">login</button></a>-->
-<!--        </div>-->
+    <div th:if="${authenticated}">
+        <h1>Welcome to next one <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h1>
+        <a href="/user"><button type="submit">go to your home</button></a>
+    </div>
 
-    <a href="/user"><button type="submit">go to your home</button></a>
-
+    <div th:unless="${authenticated}">
+        <h1>Welcome to next one</h1>
+        <a href="/user"><button type="submit">login</button></a>
+    </div>
 </tbody>
 </html>

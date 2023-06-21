@@ -4,6 +4,7 @@ import io.everyonecodes.project.movie_recommendations.logic.MovieService;
 import io.everyonecodes.project.movie_recommendations.logic.UserService;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +27,9 @@ public class UIController {
         this.movieService = movieService;
     }
 
-//    @GetMapping("/")
-//    public String viewUuid(Model model, Principal principal) {
-//        return "index";
-//    }
     @GetMapping("/")
-    public String viewUuid() {
+    public String viewRoot(Model model, Authentication authentication) {
+        model.addAttribute("authenticated", authentication != null && authentication.isAuthenticated());
         return "index";
     }
 
@@ -43,7 +41,6 @@ public class UIController {
     }
 
 
-//     HttpServletRequest request
     @GetMapping("/movie/{movieId}")
     public String viewMovie(@PathVariable Long movieId, Model model, @RequestHeader String referer) {
         Optional<Movie> optionalMovie = movieService.findMovieById(movieId);
@@ -51,14 +48,13 @@ public class UIController {
             model.addAttribute(optionalMovie.get());
             return "movie";
         } else {
-//            return "redirect:" + request.getHeader("Referer");
             return "redirect:" + referer;
         }
     }
 
     @PostMapping("/watchlist/{movieId}")
     @Secured("ROLE_USER")
-    public String removeById(@PathVariable Long movieId, Model model, Principal principal) {
+    public String removeById(@PathVariable Long movieId, Principal principal) {
         userService.removeFromWatchList(principal.getName(), movieId);
         return "redirect:/watchlist";
     }
