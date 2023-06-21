@@ -22,12 +22,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="movie : ${movies}">
-                <td th:text="${movie.tmdbId}"></td>
-                <td th:text="${movie.title}"></td>
+            <tr th:object="${movie}" th:each="movie : ${movies}">
+
+                <td th:text="*{tmdbId}"></td>
+                <td th:text="*{title}"></td>
                 <td th:text="${#strings.arrayJoin(movie.genres.![name], ',')}"></td>
-                <td th:text="${movie.releaseYear}"></td>
-                <td><a method="GET" th:href="@{/current/watchlist/{movieId}(movieId=${movie.tmdbId})}">delete</a></td>
+                <td th:text="*{releaseYear}"></td>
+                <td><form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="POST">
+                    <button type="submit" class="btn">remove</button>
+                </form></td>
+                <!--                <td><a th:href="@{'/watchlist/{id}'(id=*{id})}"><button type="submit"> remove</button></a></td>-->
             </tr>
             </tbody>
         </table>

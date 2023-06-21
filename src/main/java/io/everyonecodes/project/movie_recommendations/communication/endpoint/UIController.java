@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
@@ -25,7 +27,13 @@ public class UIController {
         return "index";
     }
 
-//    @RequestMapping(value="/", params={"watchlist"})
+    @PostMapping("/watchlist/{movieId}")
+    @Secured("ROLE_USER")
+    public String removeById(@PathVariable Long movieId, Model model, Principal principal) {
+        userService.removeFromWatchList(principal.getName(), movieId);
+        return "redirect:/watchlist";
+    }
+
     @GetMapping("/watchlist")
     @Secured("ROLE_USER")
     public String viewUsersWatchlist(Model model, Principal principal) {

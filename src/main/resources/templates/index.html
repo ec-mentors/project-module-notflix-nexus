@@ -5,6 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <title>next one</title>
+<!--        <script src="https://cdn.tailwindcss.com"></script>-->
     </head>
 
     <tbody>
@@ -15,12 +16,18 @@
 
 <!--        todo: introduce class or something for better formatting-->
 <!--        todo: add "hover-effect" - hover:text-white-->
-        <form th:action="@{/watchlist}">
+        <form th:action="@{'/watchlist'}" method="GET">
             <input type="submit" value="your Watchlist"/>
         </form>
 
-        <form th:action="@{/watchlist}">
+        <form th:action="@{'/watchlist'}">
             <button hover:text-white type="submit" >go to your Watchlist</button>
         </form>
+
+        <button type="submit"><a href="/watchlist"> go to your Watchlist</a></button>
+
+        <a href="/watchlist"><button type="submit"> Watched</button></a>
+
+        <p><a href="/register">Click here to register</a></p>
     </tbody>
 </html>
