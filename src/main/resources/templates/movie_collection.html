@@ -27,8 +27,8 @@
 <!--                <td th:text="*{tmdbId}"></td>-->
             <td><a th:href="@{'/movie/{id}'(id=*{id})}" th:text="*{title}">title</a></td>
             <td th:text="*{releaseYear}"></td>
-            <td th:text="${#strings.arrayJoin(movie.genres.![name], ',')}"></td>
-            <td><form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="POST">
+            <td th:text="${#strings.arrayJoin(movie.genres.![name], ', ')}"></td>
+            <td><form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="GET">
                 <button type="submit" class="btn">remove</button>
             </form></td>
             <!--                <td><a th:href="@{'/watchlist/{id}'(id=*{id})}"><button type="submit"> remove</button></a></td>-->

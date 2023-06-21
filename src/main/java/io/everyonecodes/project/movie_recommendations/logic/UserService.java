@@ -155,4 +155,10 @@ public class UserService {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
         optionalUser.ifPresent(user -> likedMoviesListService.removeMovieByIds(user.getWatchList().getId(), movieId));
     }
+
+    public void addToWatchListById(String username, Long movieId) {
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        optionalUser.ifPresent(user -> watchListService.addMovieByIds(user.getWatchList().getId(), movieId));
+
+    }
 }

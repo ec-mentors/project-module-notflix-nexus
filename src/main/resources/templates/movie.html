@@ -8,7 +8,16 @@
 <body th:object="${movie}">
     <h1 th:text="*{title}">title missing</h1>
 
-    <p>released: <span th:text="${user_id}">oops!</span></p>
+    <p>released: <span th:text="*{releaseYear}">oops!</span></p>
+    <p>Genres: <span th:text="${#strings.arrayJoin(movie.genres.![name], ', ')}">oops!</span></p>
+
+<!--    <form action="#" th:action="@{'/enterpath!!!/{id}'(id=*{id})}" th:method="POST">-->
+<!--        <button type="submit" class="btn">find recommendations based on <span th:text="*{title}">oops!</span></button>-->
+<!--    </form>-->
+
+    <p><form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="POST">
+        <button type="submit" class="btn">add to watchlist</button>
+    </form></p>
 
 </body>
 </html>

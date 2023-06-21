@@ -40,7 +40,6 @@ public class UIController {
         return "user";
     }
 
-
     @GetMapping("/movie/{movieId}")
     public String viewMovie(@PathVariable Long movieId, Model model, @RequestHeader String referer) {
         Optional<Movie> optionalMovie = movieService.findMovieById(movieId);
@@ -53,6 +52,13 @@ public class UIController {
     }
 
     @PostMapping("/watchlist/{movieId}")
+    @Secured("ROLE_USER")
+    public String addById(@PathVariable Long movieId, Principal principal) {
+        userService.addToWatchListById(principal.getName(), movieId);
+        return "redirect:/watchlist";
+    }
+
+    @GetMapping("/watchlist/{movieId}")
     @Secured("ROLE_USER")
     public String removeById(@PathVariable Long movieId, Principal principal) {
         userService.removeFromWatchList(principal.getName(), movieId);
