@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>next one</title>
@@ -15,9 +16,10 @@
 <!--        <button type="submit" class="btn">find recommendations based on <span th:text="*{title}">oops!</span></button>-->
 <!--    </form>-->
 
-    <p><form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="POST">
-        <button type="submit" class="btn">add to watchlist</button>
-    </form></p>
-
+    <div sec:authorize="isAuthenticated()">
+        <p><form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="POST">
+            <button type="submit" class="btn">add to watchlist</button>
+        </form></p>
+    </div>
 </body>
 </html>

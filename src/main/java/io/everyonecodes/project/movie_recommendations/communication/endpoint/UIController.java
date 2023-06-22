@@ -4,7 +4,6 @@ import io.everyonecodes.project.movie_recommendations.logic.MovieService;
 import io.everyonecodes.project.movie_recommendations.logic.UserService;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +27,7 @@ public class UIController {
     }
 
     @GetMapping("/")
-    public String viewRoot(Model model, Authentication authentication) {
-        model.addAttribute("authenticated", authentication != null && authentication.isAuthenticated());
+    public String viewRoot() {
         return "index";
     }
 
@@ -51,6 +49,12 @@ public class UIController {
         }
     }
 
+    @GetMapping("/search/{title}")
+    public String searchByTitle(@PathVariable String title, Model model) {
+        model.addAttribute("title_searched", title);
+        return prepareMovieCollection(MovieCollection.SEARCH_TITLE, movieService.findMoviesByTitle(title), model);
+    }
+
     @PostMapping("/watchlist/{movieId}")
     @Secured("ROLE_USER")
     public String addById(@PathVariable Long movieId, Principal principal) {
@@ -67,12 +71,12 @@ public class UIController {
 
     @GetMapping("/watchlist")
     @Secured("ROLE_USER")
-    public String viewUsersWatchlist(Model model, Principal principal) {
-        return prepareMovieCollection(model, principal.getName().concat("'s Watchlist"), userService.getWatchListByUsername(principal.getName()).get().getMovies());
+    public String viewUsersWatchlist(Principal principal, Model model) {
+        return prepareMovieCollection(MovieCollection.WATCHLIST, userService.getWatchListByUsername(principal.getName()).get().getMovies(), model);
     }
 
-    private String prepareMovieCollection(Model model, String header, Collection<Movie> movies) {
-        model.addAttribute("header", header);
+    private String prepareMovieCollection(MovieCollection type, Collection<Movie> movies, Model model) {
+        model.addAttribute("collection_type", type);
         model.addAttribute("movies", movies);
         return "movie_collection";
     }

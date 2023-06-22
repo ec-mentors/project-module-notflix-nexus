@@ -1,24 +1,25 @@
 <!--<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">-->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <title>next one</title>
 <!--    somehow the link to the stylesheet forces user to log in oO-->
-    <div th:if="${authenticated}"><link th:href="@{/css/style.css}" rel="stylesheet" /></div>
+    <div sec:authorize="isAuthenticated()"><link th:href="@{/css/style.css}" rel="stylesheet" /></div>
 </head>
 
 <tbody>
-<!--        <div sec:authorize="isAuthenticated()">-->
-    <div th:if="${authenticated}">
-        <h1>Welcome to next one <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h1>
-        <a href="/user"><button type="submit">go to your home</button></a>
-    </div>
+    <div sec:authorize="isAuthenticated()"><h1>Welcome to next one <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h1></div>
+    <div sec:authorize="!isAuthenticated()"><h1>Welcome to next one</h1></div>
 
-    <div th:unless="${authenticated}">
-        <h1>Welcome to next one</h1>
-        <a href="/user"><button type="submit">login</button></a>
-    </div>
+
+
+    <a href="/user">
+        <div sec:authorize="isAuthenticated()"><button type="submit">go to your home</button></div>
+        <div sec:authorize="!isAuthenticated()"><button type="submit">login</button></div>
+    </a>
+
 </tbody>
 </html>

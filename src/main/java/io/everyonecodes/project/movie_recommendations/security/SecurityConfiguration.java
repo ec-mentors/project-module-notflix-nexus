@@ -34,7 +34,9 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies").permitAll()
-                .antMatchers(HttpMethod.GET, "/movies/{tmdbId}").permitAll()
+                .antMatchers(HttpMethod.GET, "/movies/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/search/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/movie/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
