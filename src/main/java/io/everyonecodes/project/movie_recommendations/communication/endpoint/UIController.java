@@ -54,14 +54,14 @@ public class UIController {
 
     @PostMapping("/watchlist/{movieId}")
     @Secured("ROLE_USER")
-    public String addById(@PathVariable Long movieId, Principal principal) {
+    public String addToWLById(@PathVariable Long movieId, Principal principal) {
         userService.addToWatchListById(principal.getName(), movieId);
         return "redirect:/watchlist";
     }
 
     @GetMapping("/watchlist/{movieId}")
     @Secured("ROLE_USER")
-    public String removeById(@PathVariable Long movieId, Principal principal) {
+    public String removeFromWLById(@PathVariable Long movieId, Principal principal) {
         userService.removeFromWatchList(principal.getName(), movieId);
         return "redirect:/watchlist";
     }
@@ -70,6 +70,26 @@ public class UIController {
     @Secured("ROLE_USER")
     public String viewUsersWatchlist(Principal principal, Model model) {
         return prepareMovieCollection(MovieCollection.WATCHLIST, userService.getWatchListByUsername(principal.getName()).get().getMovies(), model);
+    }
+
+    @PostMapping("/liked/{movieId}")
+    @Secured("ROLE_USER")
+    public String likeById(@PathVariable Long movieId, Principal principal) {
+        userService.addToLikedMoviesListById(principal.getName(), movieId);
+        return "redirect:/liked";
+    }
+
+    @GetMapping("/liked/{movieId}")
+    @Secured("ROLE_USER")
+    public String unlikeById(@PathVariable Long movieId, Principal principal) {
+        userService.removeFromLikedMoviesList(principal.getName(), movieId);
+        return "redirect:/liked";
+    }
+
+    @GetMapping("/liked")
+    @Secured("ROLE_USER")
+    public String viewUsersLikedMovies(Principal principal, Model model) {
+        return prepareMovieCollection(MovieCollection.LIKED, userService.getLikedMoviesListByUsername(principal.getName()).get().getLikedMovies(), model);
     }
 
     private String prepareMovieCollection(MovieCollection type, Collection<Movie> movies, Model model) {

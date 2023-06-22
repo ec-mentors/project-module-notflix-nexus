@@ -35,7 +35,7 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies").permitAll()
                 .antMatchers(HttpMethod.GET, "/movies/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/search/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/search").permitAll()
                 .antMatchers(HttpMethod.GET, "/movie/*").permitAll()
                 .anyRequest().authenticated()
                 .and()

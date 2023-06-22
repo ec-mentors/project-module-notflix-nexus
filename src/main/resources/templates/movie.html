@@ -17,6 +17,10 @@
 <!--    </form>-->
 
     <div sec:authorize="isAuthenticated()">
+        <p><form action="#" th:action="@{'/liked/{id}'(id=*{id})}" th:method="POST">
+            <button type="submit" class="btn">like</button>
+        </form></p>
+
         <p><form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="POST">
             <button type="submit" class="btn">add to watchlist</button>
         </form></p>

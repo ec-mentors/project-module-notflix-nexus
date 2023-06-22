@@ -44,6 +44,11 @@
                     <button type="submit" class="btn">remove</button>
                 </form></td>
             </div>
+            <div th:if="${collection_type.name() == 'LIKED'}">
+                <td><form action="#" th:action="@{'/liked/{id}'(id=*{id})}" th:method="GET">
+                    <button type="submit" class="btn">remove</button>
+                </form></td>
+            </div>
 
             <!--                <td><a th:href="@{'/watchlist/{id}'(id=*{id})}"><button type="submit"> remove</button></a></td>-->
         </tr>
