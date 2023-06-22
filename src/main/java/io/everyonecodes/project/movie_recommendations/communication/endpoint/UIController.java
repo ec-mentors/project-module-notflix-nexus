@@ -6,10 +6,7 @@ import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Collection;
@@ -49,8 +46,8 @@ public class UIController {
         }
     }
 
-    @GetMapping("/search/{title}")
-    public String searchByTitle(@PathVariable String title, Model model) {
+    @GetMapping("/search")
+    public String searchByTitle(@RequestParam String title, Model model) {
         model.addAttribute("title_searched", title);
         return prepareMovieCollection(MovieCollection.SEARCH_TITLE, movieService.findMoviesByTitle(title), model);
     }

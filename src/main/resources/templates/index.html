@@ -15,6 +15,11 @@
     <div sec:authorize="!isAuthenticated()"><h1>Welcome to next one</h1></div>
 
 
+    <form action="#" th:action="@{'/search{title}'(title=${movie_title})}" th:method="GET">
+        <label for="movie_title">find Movies</label>
+        <input type="text" id="movie_title" name="title" th:value="${movie_title}" placeholder="enter Title"/>
+        <input type="submit" value="Search"/>
+    </form>
 
     <a href="/user">
         <div sec:authorize="isAuthenticated()"><button type="submit">go to your home</button></div>
