@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/movies")
+@RequestMapping("/web/movies")
 public class MovieViewController {
     private final MovieService movieService;
 
@@ -19,7 +19,8 @@ public class MovieViewController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/{movieId}/recommendationsById")
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    @RequestMapping("/{movieId}/recommendationsById")
     public String getRecommendationsById(@PathVariable String movieId, Model model) {
         var inputMovie = movieService.findMovieByTmdbId(movieId);
         List<Movie> movies = movieService.findRecommendationsById(movieId);

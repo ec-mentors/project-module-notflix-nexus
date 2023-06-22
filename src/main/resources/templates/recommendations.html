@@ -8,8 +8,10 @@
 <h1>Movie Recommendations for the movie  [<span th:text="${inputMovie}"></span>] </h1>
 <ul>
     <li th:each="movie : ${movies}">
-        <span th:text="${movie.title}"></span>
+        <span th:text="${movie.title}"></span>, tmdb Id:
         <span th:text="${movie.tmdbId}"></span>
+        <br>
+        <img th:src="@{'http://image.tmdb.org/t/p/w500/' + ${movie.posterPath}}" alt="Movie Poster">
         <!-- Add other movie properties here -->
     </li>
 </ul>

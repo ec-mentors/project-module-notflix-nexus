@@ -13,21 +13,60 @@ public class MovieDto {
     @JsonProperty("id")
     private String tmdbId;
     private String title;
+    @JsonProperty("poster_path")
+    private String posterPath;
     private List<Genre> genres = new ArrayList<>();
     @JsonProperty("genre_ids")
     private List<Long> genreIds = new ArrayList<>();
     private LocalDate release_date;
-    public String getTmdbId() {return tmdbId;}
-    public String getTitle() {return title;}
-    public List<Genre> getGenres() {return genres;}
-    public List<Long> getGenreIds() {return genreIds;}
-    public LocalDate getRelease_date() {return release_date;}
 
-    public void setTmdbId(String tmdbId) {this.tmdbId = tmdbId;}
-    public void setTitle(String title) {this.title = title;}
-    public void setGenres(List<Genre> genres) {this.genres = genres;}
-    public void setGenreIds(List<Long> genreIds) {this.genreIds = genreIds;}
-    public void setRelease_date(LocalDate release_date) {this.release_date = release_date;}
+    public String getTmdbId() {
+        return tmdbId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public List<Long> getGenreIds() {
+        return genreIds;
+    }
+
+    public LocalDate getRelease_date() {
+        return release_date;
+    }
+
+    public void setTmdbId(String tmdbId) {
+        this.tmdbId = tmdbId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public void setGenreIds(List<Long> genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    public void setRelease_date(LocalDate release_date) {
+        this.release_date = release_date;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
 
     @Override
     public boolean equals(Object o) {
