@@ -21,7 +21,7 @@ ul {
     justify-content: center;
 }
 
-li {
+.movie-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,7 +32,7 @@ li {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-li img {
+.movie-poster {
     width: 300px;
     height: auto;
     margin-bottom: 10px;
@@ -59,3 +59,12 @@ li img {
 .movie-item {
     transition: transform 0.3s ease;
 }
+ .movie-item .button-container {
+            text-align: center;
+            opacity: 0; /* Initially hide the buttons */
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .movie-item:hover .button-container {
+            opacity: 1; /* Show the buttons on hover */
+        }

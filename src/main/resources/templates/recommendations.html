@@ -13,9 +13,11 @@
 <ul>
     <li th:each="movie : ${movies}" class="movie-item">
         <span th:text="${movie.title}" class="movie-title"></span>
-        <a th:href="'https://www.themoviedb.org/movie/' + ${movie.tmdbId}">
-            <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster" class="movie-poster">
-        </a>
+        <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster" class="movie-poster">
+        <div class="button-container">
+            <button>Add to Watchlist</button>
+            <button>Like Movie</button>
+        </div>
     </li>
 </ul>
 </body>
