@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Recommendations</title>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<h1>Movie Recommendations for the movie  [<span th:text="${inputMovie}"></span>] </h1>
+<img class="logo" src="/images/logo.png" alt="Logo">
+<h1>Recommendations for "<span th:text="${inputMovie}"></span>"</h1>
 <ul>
     <li th:each="movie : ${movies}">
-        <span th:text="${movie.title}"></span>, tmdb Id:
-        <span th:text="${movie.tmdbId}"></span>
-        <br>
-        <img th:src="'http://image.tmdb.org/t/p/w500/' + ${movie.posterPath}" alt="Movie Poster">
-        <!-- Add other movie properties here -->
+        <span th:text="${movie.title}" class="movie-title"></span>
+        <a th:href="'https://www.themoviedb.org/movie/' + ${movie.tmdbId}">
+            <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster">
+        </a>
     </li>
 </ul>
 </body>
