@@ -3,6 +3,7 @@ package io.everyonecodes.project.movie_recommendations.communication.endpoint;
 import io.everyonecodes.project.movie_recommendations.logic.MovieService;
 import io.everyonecodes.project.movie_recommendations.logic.UserService;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
+import io.everyonecodes.project.movie_recommendations.persistance.domain.UserEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class UIController {
@@ -50,6 +52,40 @@ public class UIController {
     public String searchByTitle(@RequestParam String title, Model model) {
         model.addAttribute("title_searched", title);
         return prepareMovieCollection(MovieCollection.SEARCH_TITLE, movieService.findMoviesByTitle(title), model);
+    }
+
+    @GetMapping("/friends")
+    @Secured("ROLE_USER")
+    public String viewFriends(Principal principal, Model model) {
+        model.addAttribute("user_id", userService.getUserIdByUsername(principal.getName()).get());
+        return "/friends";
+    }
+
+    @GetMapping("/friends/bad_id")
+    @Secured("ROLE_USER")
+    public String viewFriendsBadId(Principal principal, Model model) {
+        model.addAttribute("user_id", userService.getUserIdByUsername(principal.getName()).get());
+        model.addAttribute("id_not_found", true);
+        return "/friends";
+    }
+
+    @GetMapping("/compare/watchlist")
+    @Secured("ROLE_USER")
+    public String compareWatchlist(@RequestParam String friendId, Principal principal, Model model) {
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(friendId);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            model.addAttribute("id_not_found", true);
+            return "redirect:/friends/bad_id";
+        }
+        Optional<UserEntity> optionalUser = userService.getUserById(UUID.fromString(friendId));
+        if(optionalUser.isPresent()) {
+            model.addAttribute("friend", optionalUser.get().getUsername());
+            return prepareMovieCollection(MovieCollection.COMPARE_WATCHLIST, userService.compareWatchLists(principal.getName(), uuid), model);
+        } else {
+            return "redirect:/friends/bad_id";
+        }
     }
 
     @PostMapping("/watchlist/{movieId}")

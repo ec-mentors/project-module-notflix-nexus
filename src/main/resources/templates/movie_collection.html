@@ -18,6 +18,9 @@
     <div th:if="${collection_type.name() == 'SEARCH_TITLE'}">
         <h1>Results for '<span th:text="${title_searched}">title</span>':</h1>
     </div>
+    <div th:if="${collection_type.name() == 'COMPARE_WATCHLIST'}">
+        <h1>You and <span th:text="${friend}">title</span> both watched:</h1>
+    </div>
 
 
     <h1 th:text="${header}">header missing</h1>

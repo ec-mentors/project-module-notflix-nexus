@@ -165,4 +165,8 @@ public class UserService {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
         optionalUser.ifPresent(user -> likedMoviesListService.addMovieByIds(user.getLikedMovies().getId(), movieId));
     }
+
+    public Optional<UserEntity> getUserById(UUID userId) {
+        return userRepository.findById(userId);
+    }
 }
