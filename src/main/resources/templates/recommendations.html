@@ -6,7 +6,9 @@
     <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<img class="logo" src="/images/logo.png" alt="Logo">
+<a th:href="@{/}"> <!-- Add this anchor tag around the image -->
+    <img class="logo" src="/images/logo.png" alt="Logo">
+</a>
 <h1>Recommendations for "<span th:text="${inputMovie}"></span>"</h1>
 <ul>
     <li th:each="movie : ${movies}">

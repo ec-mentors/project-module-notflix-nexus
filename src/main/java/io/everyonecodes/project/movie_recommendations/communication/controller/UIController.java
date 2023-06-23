@@ -1,5 +1,6 @@
-package io.everyonecodes.project.movie_recommendations.communication.endpoint;
+package io.everyonecodes.project.movie_recommendations.communication.controller;
 
+import io.everyonecodes.project.movie_recommendations.communication.endpoint.MovieCollection;
 import io.everyonecodes.project.movie_recommendations.logic.MovieService;
 import io.everyonecodes.project.movie_recommendations.logic.UserService;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -126,6 +128,15 @@ public class UIController {
     @Secured("ROLE_USER")
     public String viewUsersLikedMovies(Principal principal, Model model) {
         return prepareMovieCollection(MovieCollection.LIKED, userService.getLikedMoviesListByUsername(principal.getName()).get().getLikedMovies(), model);
+    }
+
+    @GetMapping("/{movieId}/recommendations")
+    public String getRecommendationsById(@PathVariable String movieId, Model model) {
+        var inputMovie = movieService.findMovieByTmdbId(movieId);
+        List<Movie> movies = movieService.findRecommendationsById(movieId);
+        model.addAttribute("movies", movies);
+        model.addAttribute("inputMovie", inputMovie.get().getTitle());
+        return "recommendations";
     }
 
     private String prepareMovieCollection(MovieCollection type, Collection<Movie> movies, Model model) {
