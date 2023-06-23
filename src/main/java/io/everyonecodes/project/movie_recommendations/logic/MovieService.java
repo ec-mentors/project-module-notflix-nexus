@@ -64,6 +64,11 @@ public class MovieService {
     }
 
     public List<Movie> findRecommendationsByTitle(String title) {
-        return movieApiClient.findByTitle(title);
+        List<Movie> movieList = new ArrayList<>();
+        Optional<Movie> movie = findMoviesByTitle(title).stream().findFirst();
+        if (movie.isPresent()) {
+            movieList = findRecommendationsById(movie.get().getTmdbId());
+        }
+        return movieList;
     }
 }
