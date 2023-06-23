@@ -41,26 +41,21 @@ li img {
 
 .movie-title {
     color: #fff;
-    -webkit-text-stroke: 0.25px black;
     font-weight: bold;
     font-size: 16px;
     max-width: 300px;
-
 }
 .logo {
-    width: 100px; /* Adjust the width as desired */
-    height: auto; /* Maintain aspect ratio */
+    width: 100px;
+    height: auto;
     position: absolute;
     top: 10px;
     left: 10px;
 }
-/* Add hover effect to movie posters */
-li img {
-    position: relative;
-    overflow: hidden;
-    transition: filter 0.3s;
-}
 
-li img:hover {
-    filter: brightness(110%) saturate(110%);
+.movie-item:hover {
+    transform: scale(1.2);
+}
+.movie-item {
+    transition: transform 0.3s ease;
 }

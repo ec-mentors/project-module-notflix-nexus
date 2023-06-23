@@ -6,15 +6,15 @@
     <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<a th:href="@{/}"> <!-- Add this anchor tag around the image -->
+<a href="/"> <!-- Add this anchor tag around the image -->
     <img class="logo" src="/images/logo.png" alt="Logo">
 </a>
 <h1>Recommendations for "<span th:text="${inputMovie}"></span>"</h1>
 <ul>
-    <li th:each="movie : ${movies}">
+    <li th:each="movie : ${movies}" class="movie-item">
         <span th:text="${movie.title}" class="movie-title"></span>
         <a th:href="'https://www.themoviedb.org/movie/' + ${movie.tmdbId}">
-            <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster">
+            <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster" class="movie-poster">
         </a>
     </li>
 </ul>
