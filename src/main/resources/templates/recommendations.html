@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Recommendations</title>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<img class="logo" src="/images/logo.png" alt="Logo">
+<h1>Recommendations for "<span th:text="${inputMovie}"></span>"</h1>
+<ul>
+    <li th:each="movie : ${movies}">
+        <span th:text="${movie.title}" class="movie-title"></span>
+        <a th:href="'https://www.themoviedb.org/movie/' + ${movie.tmdbId}">
+            <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster">
+        </a>
+    </li>
+</ul>
+</body>
+</html>

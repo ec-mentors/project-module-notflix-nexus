@@ -32,3 +32,4 @@ api:
     getbyid: /3/movie/
     discover: /3/discover/movie
     keywords: /3/movie/{movie_id}/keywords
+    recommendations: /3/movie/{movie_id}/recommendations

@@ -7,6 +7,7 @@ import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
 
@@ -21,6 +22,7 @@ public class MovieApiClient {
     private final String urlSearchByName;
     private final String urlGetByID;
     private final String urlKeywords;
+    private final String recommendations;
 
     public MovieApiClient(
             MovieTranslator movieTranslator, RestTemplate restTemplate,
@@ -28,7 +30,8 @@ public class MovieApiClient {
             @Value("${api.key}") String apiKey,
             @Value("${api.searchbyname}") String urlSearchByName,
             @Value("${api.getbyid}") String urlGetByID,
-            @Value("${api.keywords}") String urlKeywords) {
+            @Value("${api.keywords}") String urlKeywords,
+            @Value("${api.recommendations}") String recommendations) {
         this.urlKeywords = urlKeywords;
         this.movieTranslator = movieTranslator;
         this.restTemplate = restTemplate;
@@ -36,6 +39,7 @@ public class MovieApiClient {
         this.apiKey = apiKey;
         this.urlSearchByName = urlSearchByName;
         this.urlGetByID = urlGetByID;
+        this.recommendations = recommendations;
     }
 
     public List<Movie> findByTitle(String movieTitle) {
@@ -61,4 +65,30 @@ public class MovieApiClient {
         KeywordDto keywords = restTemplate.getForObject(request, KeywordDto.class);
         return keywords != null ? keywords.getKeywords() : Collections.emptyList();
     }
+
+    public List<Movie> findRecommendationsById(String id) {
+        var request = UriComponentsBuilder.fromHttpUrl(url + recommendations.replace("{movie_id}", id))
+                .queryParam("api_key", apiKey).toUriString();
+        var page = restTemplate.getForObject(request, ResultPageDto.class);
+        if (page != null) {
+            return page.getResults().stream().map(movieTranslator::fromDTO).collect(toList());
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Movie> findRecommendationsByTitle(String title) {
+        var movie = findByTitle(title).stream().findFirst();
+        String id;
+        if (movie.isPresent()) {
+            id = movie.get().getTmdbId();
+        } else return new ArrayList<>();
+        var request = UriComponentsBuilder.fromHttpUrl(url + recommendations.replace("{movie_id}", id))
+                .queryParam("api_key", apiKey).toUriString();
+        var page = restTemplate.getForObject(request, ResultPageDto.class);
+        if (page != null) {
+            return page.getResults().stream().map(movieTranslator::fromDTO).collect(toList());
+        }
+        return new ArrayList<>();
+    }
+
 }
