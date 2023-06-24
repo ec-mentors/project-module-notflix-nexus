@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>next one - friends</title>
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
-    <h1>compare interests with friends</h1>
+<a href="/">
+    <img class="logo" src="/images/logo.png" alt="Logo">
+</a>
+<h1>compare interests with friends</h1>
 
-    <form action="#" th:action="@{'/compare/watchlist{id}'(id=${friendId})}" th:method="GET">
-        <label for="friend_id">friend's id: </label>
-        <input type="text" id="friend_id" name="friendId" th:value="${friendId}" placeholder="enter uuid"/>
-        <input type="submit" value="compare Watchlist"/>
-    </form>
+<form action="#" th:action="@{'/compare/watchlist{id}'(id=${friendId})}" th:method="GET">
+    <label for="friend_id">friend's id: </label>
+    <input type="text" id="friend_id" name="friendId" th:value="${friendId}" placeholder="enter uuid"/>
+    <input type="submit" value="compare Watchlist"/>
+</form>
 
-    <div th:if="${id_not_found}"><br/>friends uuid not found</div>
+<div th:if="${id_not_found}"><br/>friends uuid not found</div>
 
-    <p>this is your id: <span th:text="${user_id}">userId</span></p>
-
+<p>this is your id: <span th:text="${user_id}">userId</span></p>
 
 
 </body>

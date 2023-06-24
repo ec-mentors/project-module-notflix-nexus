@@ -4,26 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <title>next one</title>
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body th:object="${movie}">
-    <h1 th:text="*{title}">title missing</h1>
+<a href="/">
+    <img class="logo" src="/images/logo.png" alt="Logo">
+</a>
+<h1 th:text="*{title}">title missing</h1>
 
-    <p>released: <span th:text="*{releaseYear}">oops!</span></p>
-    <p>Genres: <span th:text="${#strings.arrayJoin(movie.genres.![name], ', ')}">oops!</span></p>
+<p>released: <span th:text="*{releaseYear}">oops!</span></p>
+<p>Genres: <span th:text="${#strings.arrayJoin(movie.genres.![name], ', ')}">oops!</span></p>
 
 <!--    <form action="#" th:action="@{'/enterpath!!!/{id}'(id=*{id})}" th:method="POST">-->
 <!--        <button type="submit" class="btn">find recommendations based on <span th:text="*{title}">oops!</span></button>-->
 <!--    </form>-->
 
-    <div sec:authorize="isAuthenticated()">
-        <p><form action="#" th:action="@{'/liked/{id}'(id=*{id})}" th:method="POST">
-            <button type="submit" class="btn">like</button>
-        </form></p>
+<div sec:authorize="isAuthenticated()">
+    <p>
+    <form action="#" th:action="@{'/liked/{id}'(id=*{id})}" th:method="POST">
+        <button type="submit" class="btn">like</button>
+    </form>
+    </p>
 
-        <p><form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="POST">
-            <button type="submit" class="btn">add to watchlist</button>
-        </form></p>
-    </div>
+    <p>
+    <form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="POST">
+        <button type="submit" class="btn">add to watchlist</button>
+    </form>
+    </p>
+</div>
 </body>
 </html>

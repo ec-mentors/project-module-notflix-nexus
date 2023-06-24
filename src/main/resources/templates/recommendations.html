@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Movie Recommendations</title>
@@ -14,8 +13,9 @@
 <ul>
     <li th:each="movie : ${movies}" class="movie-item">
         <span th:text="${movie.title + ' (' + movie.releaseYear + ')'}" class="movie-title"></span>
-        <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster" class="movie-poster">
-        <div class="forms" sec:authorize="isAuthenticated()">
+        <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster"
+             class="movie-poster">
+        <div class="forms">
             <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
                 <button type="submit">Add to Watchlist</button>
             </form>

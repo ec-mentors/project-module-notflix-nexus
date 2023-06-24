@@ -6,33 +6,40 @@
 <head>
     <meta charset="UTF-8">
     <title>next one</title>
-<!--    somehow the link to the stylesheet forces user to log in oO-->
-    <div sec:authorize="isAuthenticated()"><link th:href="@{/css/style.css}" rel="stylesheet" /></div>
+    <!--    somehow the link to the stylesheet forces user to log in oO-->
+    <div sec:authorize="isAuthenticated()">
+        <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    </div>
 </head>
 
 <tbody>
 <a href="/">
     <img class="logo" src="/images/logo.png" alt="Logo">
 </a>
-    <div sec:authorize="isAuthenticated()"><h1>Welcome to next one <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h1></div>
-    <div sec:authorize="!isAuthenticated()"><h1>Welcome to next one</h1></div>
+<div sec:authorize="isAuthenticated()"><h1>Welcome to next one <span
+        th:text="${#authentication.getPrincipal().getUsername()}"></span></h1></div>
+<div sec:authorize="!isAuthenticated()"><h1>Welcome to next one</h1></div>
 
 
-    <form action="#" th:action="@{'/search{title}'(title=${movie_title})}" th:method="GET">
-        <label for="movie_title">find Movies</label>
-        <input type="text" id="movie_title" name="title" th:value="${movie_title}" placeholder="enter Title"/>
-        <input type="submit" value="Search"/>
-    </form>
-    <form action="#" th:action="@{/recommendations/{tmdbId}(tmdbId=${tmdbId})}" th:method="GET">
-        <label for="tmdbId">find Recommendations</label>
-        <input type="text" id="tmdbId" name="tmdbId" th:value="${tmdbId}" placeholder="enter movie tmdb id"/>
-        <input type="submit" value="Search"/>
-    </form>
+<form action="#" th:action="@{'/search{title}'(title=${movie_title})}" th:method="GET">
+    <label for="movie_title">find Movies</label>
+    <input type="text" id="movie_title" name="title" th:value="${movie_title}" placeholder="enter Title"/>
+    <input type="submit" value="Search"/>
+</form>
+<form action="#" th:action="@{/recommendations/{tmdbId}(tmdbId=${tmdbId})}" th:method="GET">
+    <label for="tmdbId">find Recommendations</label>
+    <input type="text" id="tmdbId" name="tmdbId" th:value="${tmdbId}" placeholder="enter movie tmdb id"/>
+    <input type="submit" value="Search"/>
+</form>
 
-    <a href="/user">
-        <div sec:authorize="isAuthenticated()" class="home-button"><button type="submit">go to your home</button></div>
-        <div sec:authorize="!isAuthenticated()" class="home-button"><button type="submit">login</button></div>
-    </a>
+<a href="/user">
+    <div sec:authorize="isAuthenticated()" class="home-button">
+        <button type="submit">go to your home</button>
+    </div>
+    <div sec:authorize="!isAuthenticated()" class="home-button">
+        <button type="submit">login</button>
+    </div>
+</a>
 
 </tbody>
 </html>
