@@ -13,13 +13,13 @@
     <img class="logo" src="/images/logo.png" alt="Logo">
 </a>
 <div th:if="${collection_type.name() == 'WATCHLIST'}">
-    <h1><span th:text="${#authentication.getPrincipal().getUsername()}">user</span>'s Watchlist</h1>
+    <h1><span th:text="${#authentication.getPrincipal().getUsername()}"></span>'s Watchlist</h1>
 </div>
 <div th:if="${collection_type.name() == 'LIKED'}">
-    <h1><span th:text="${#authentication.getPrincipal().getUsername()}">user</span> likes:</h1>
+    <h1><span th:text="${#authentication.getPrincipal().getUsername()}"></span> Likes</h1>
 </div>
 <div th:if="${collection_type.name() == 'SEARCH_TITLE'}">
-    <h1>Results for '<span th:text="${title_searched}">title</span>':</h1>
+    <h1>Results for "<span th:text="${title_searched}"></span>"</h1>
 </div>
 <div th:if="${collection_type.name() == 'RECOMMENDATIONS'}">
     <h1>Recommendations for "<span th:text="${recommendationInputMovie.title}"></span>"</h1>
