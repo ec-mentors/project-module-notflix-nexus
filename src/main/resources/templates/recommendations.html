@@ -22,6 +22,10 @@
             <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
                 <button type="submit">Like Movie</button>
             </form>
+            <form th:action="@{/recommendations/(tmdbId=${movie.tmdbId})}" th:method="GET" class="inline-form">
+                <input type="hidden" name="tmdbId" th:value="${movie.tmdbId}"/>
+                <button type="submit">Recommendations</button>
+            </form>
         </div>
 
     </li>

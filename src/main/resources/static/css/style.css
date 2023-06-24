@@ -92,6 +92,9 @@ button {
      transition: background-color 0.3s ease;
      cursor: pointer;
 }
+.home-button{
+    margin-top: 5px;
+ }
 
 button:hover {
   background-color: #45a049;
