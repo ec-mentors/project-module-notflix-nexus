@@ -130,9 +130,9 @@ public class UIController {
         return prepareMovieCollection(MovieCollection.LIKED, userService.getLikedMoviesListByUsername(principal.getName()).get().getLikedMovies(), model);
     }
 
-    @GetMapping("/{movieId}/recommendations")
+    @GetMapping("/recommendations")
     @Secured("ROLE_USER")
-    public String getRecommendationsById(@PathVariable String movieId, Model model) {
+    public String getRecommendationsById(@RequestParam String movieId, Model model) {
         var inputMovie = movieService.findMovieByTmdbId(movieId);
         List<Movie> movies = movieService.findRecommendationsById(movieId);
         model.addAttribute("movies", movies);

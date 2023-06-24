@@ -11,6 +11,9 @@
 </head>
 
 <tbody>
+<a href="/">
+    <img class="logo" src="/images/logo.png" alt="Logo">
+</a>
     <div sec:authorize="isAuthenticated()"><h1>Welcome to next one <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h1></div>
     <div sec:authorize="!isAuthenticated()"><h1>Welcome to next one</h1></div>
 
@@ -18,6 +21,11 @@
     <form action="#" th:action="@{'/search{title}'(title=${movie_title})}" th:method="GET">
         <label for="movie_title">find Movies</label>
         <input type="text" id="movie_title" name="title" th:value="${movie_title}" placeholder="enter Title"/>
+        <input type="submit" value="Search"/>
+    </form>
+    <form action="#" th:action="@{/recommendations/{movieId}(movieId=${movie_id})}" th:method="GET">
+        <label for="movie_id">find Recommendations</label>
+        <input type="text" id="movie_id" name="movieId" th:value="${movie_id}" placeholder="enter movie tmdb id"/>
         <input type="submit" value="Search"/>
     </form>
 

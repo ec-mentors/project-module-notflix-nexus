@@ -28,7 +28,8 @@ ul {
     margin: 10px;
     padding: 10px;
     background-color: #2b2b2b;
-    border-radius: 5px;
+    border-radius: 25px;
+    border: 1px solid #f3f9fa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -59,12 +60,21 @@ ul {
 .movie-item {
     transition: transform 0.3s ease;
 }
- .movie-item .button-container {
+ .movie-item .forms {
             text-align: center;
             opacity: 0; /* Initially hide the buttons */
             transition: opacity 0.3s ease-in-out;
         }
 
-        .movie-item:hover .button-container {
+        .movie-item:hover .forms {
             opacity: 1; /* Show the buttons on hover */
         }
+.forms {
+    display: flex;
+    justify-content: center; /* Align buttons horizontally in the center */
+}
+
+.inline-form {
+    display: inline-block; /* Display forms inline */
+    margin-right: 10px; /* Add some spacing between buttons */
+}

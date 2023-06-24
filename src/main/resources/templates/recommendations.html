@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<a href="/"> <!-- Add this anchor tag around the image -->
+<a href="/">
     <img class="logo" src="/images/logo.png" alt="Logo">
 </a>
 <h1>Recommendations for "<span th:text="${inputMovie}"></span>"</h1>
@@ -14,10 +14,15 @@
     <li th:each="movie : ${movies}" class="movie-item">
         <span th:text="${movie.title}" class="movie-title"></span>
         <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster" class="movie-poster">
-        <div class="button-container">
-            <button>Add to Watchlist</button>
-            <button>Like Movie</button>
+        <div class="forms">
+            <form th:action="@{/watchlist/{id}(id=${movie.tmdbId})}" th:method="POST" class="inline-form">
+                <button type="submit">Add to Watchlist</button>
+            </form>
+            <form th:action="@{/liked/{id}(id=${movie.tmdbId})}" th:method="POST" class="inline-form">
+                <button type="submit">Like Movie</button>
+            </form>
         </div>
+
     </li>
 </ul>
 </body>
