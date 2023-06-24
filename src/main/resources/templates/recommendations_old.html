@@ -9,7 +9,7 @@
 <a href="/">
     <img class="logo" src="/images/logo.png" alt="Logo">
 </a>
-<h1>Recommendations for "<span th:text="${inputMovie.title}"></span>"</h1>
+<h1>Recommendations for "<span th:text="${recommendationInputMovie.title}"></span>"</h1>
 <ul>
     <li th:each="movie : ${movies}" class="movie-item">
         <span th:text="${movie.title + ' (' + movie.releaseYear + ')'}" class="movie-title"></span>
@@ -27,7 +27,6 @@
                 <button type="submit">Recommendations</button>
             </form>
         </div>
-
     </li>
 </ul>
 </body>

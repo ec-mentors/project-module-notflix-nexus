@@ -23,7 +23,8 @@ public class UIController {
 
     private final MovieService movieService;
 
-    public UIController(UserService userService, MovieService movieService) {this.userService = userService;
+    public UIController(UserService userService, MovieService movieService) {
+        this.userService = userService;
         this.movieService = movieService;
     }
 
@@ -82,7 +83,7 @@ public class UIController {
             return "redirect:/friends/bad_id";
         }
         Optional<UserEntity> optionalUser = userService.getUserById(UUID.fromString(friendId));
-        if(optionalUser.isPresent()) {
+        if (optionalUser.isPresent()) {
             model.addAttribute("friend", optionalUser.get().getUsername());
             return prepareMovieCollection(MovieCollection.COMPARE_WATCHLIST, userService.compareWatchLists(principal.getName(), uuid), model);
         } else {
@@ -135,9 +136,8 @@ public class UIController {
     public String getRecommendationsById(@RequestParam String tmdbId, Model model) {
         var inputMovie = movieService.findMovieByTmdbId(tmdbId);
         List<Movie> movies = movieService.findRecommendationsById(tmdbId);
-        model.addAttribute("movies", movies);
-        model.addAttribute("inputMovie", inputMovie.get());
-        return "recommendations";
+        model.addAttribute("recommendationInputMovie", inputMovie.get());
+        return prepareMovieCollection(MovieCollection.RECOMMENDATIONS, movies, model);
     }
 
     private String prepareMovieCollection(MovieCollection type, Collection<Movie> movies, Model model) {

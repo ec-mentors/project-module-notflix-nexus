@@ -21,29 +21,43 @@
 <div th:if="${collection_type.name() == 'SEARCH_TITLE'}">
     <h1>Results for '<span th:text="${title_searched}">title</span>':</h1>
 </div>
+<div th:if="${collection_type.name() == 'RECOMMENDATIONS'}">
+    <h1>Recommendations for "<span th:text="${recommendationInputMovie.title}"></span>"</h1>
+</div>
 <div th:if="${collection_type.name() == 'COMPARE_WATCHLIST'}">
     <h1>You and <span th:text="${friend}">title</span> both watched:</h1>
 </div>
-
-
 <ul>
     <li th:each="movie : ${movies}" class="movie-item">
         <span th:text="${movie.title + ' (' + movie.releaseYear + ')'}" class="movie-title"></span>
         <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster"
              class="movie-poster">
         <div class="forms">
-            <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
-                <button type="submit">Add to Watchlist</button>
-            </form>
-            <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
-                <button type="submit">Like Movie</button>
-            </form>
+            <div th:if="${collection_type.name() == 'WATCHLIST'}">
+                <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="GET" class="inline-form">
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+            <div th:if="${collection_type.name() == 'LIKED'}">
+                <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="GET" class="inline-form">
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+            <div th:unless="${collection_type.name() == 'WATCHLIST'}">
+                <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
+                    <button type="submit">Add to Watchlist</button>
+                </form>
+            </div>
+            <div th:unless="${collection_type.name() == 'LIKED'}">
+                <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
+                    <button type="submit">Like Movie</button>
+                </form>
+            </div>
             <form th:action="@{/recommendations/(tmdbId=${movie.tmdbId})}" th:method="GET" class="inline-form">
                 <input type="hidden" name="tmdbId" th:value="${movie.tmdbId}"/>
                 <button type="submit">Recommendations</button>
             </form>
         </div>
-
     </li>
 </ul>
 

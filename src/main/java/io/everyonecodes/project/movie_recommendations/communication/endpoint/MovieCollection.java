@@ -5,4 +5,5 @@ public enum MovieCollection {
     LIKED,
     SEARCH_TITLE,
     COMPARE_WATCHLIST,
+    RECOMMENDATIONS,
 }
