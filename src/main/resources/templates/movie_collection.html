@@ -29,7 +29,8 @@
 </div>
 <ul>
     <li th:each="movie : ${movies}" class="movie-item">
-        <span th:text="${movie.title + ' (' + movie.releaseYear + ')'}" class="movie-title"></span>
+        <a th:href="'https://www.themoviedb.org/movie/' + ${movie.tmdbId}" class="movie-title">
+            <span th:text="${movie.title + ' (' + movie.releaseYear + ')'}" ></span></a>
         <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster"
              class="movie-poster">
         <div class="forms">
@@ -60,6 +61,5 @@
         </div>
     </li>
 </ul>
-
 </body>
 </html>

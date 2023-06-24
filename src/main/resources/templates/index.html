@@ -22,22 +22,22 @@
 
 
 <form action="#" th:action="@{'/search{title}'(title=${movie_title})}" th:method="GET">
-    <label for="movie_title">find Movies</label>
-    <input type="text" id="movie_title" name="title" th:value="${movie_title}" placeholder="enter Title"/>
+    <label for="movie_title">Find Movies</label>
+    <input type="text" id="movie_title" name="title" th:value="${movie_title}" placeholder="enter title"/>
     <input type="submit" value="Search"/>
 </form>
 <form action="#" th:action="@{/recommendations/{tmdbId}(tmdbId=${tmdbId})}" th:method="GET">
-    <label for="tmdbId">find Recommendations</label>
-    <input type="text" id="tmdbId" name="tmdbId" th:value="${tmdbId}" placeholder="enter movie tmdb id"/>
+    <label for="tmdbId">Get Recommendations</label>
+    <input type="text" id="tmdbId" name="tmdbId" th:value="${tmdbId}" placeholder="enter tmdb id"/>
     <input type="submit" value="Search"/>
 </form>
 
 <a href="/user">
     <div sec:authorize="isAuthenticated()" class="home-button">
-        <button type="submit">go to your home</button>
+        <button type="submit">Home</button>
     </div>
     <div sec:authorize="!isAuthenticated()" class="home-button">
-        <button type="submit">login</button>
+        <button type="submit">Login</button>
     </div>
 </a>
 
