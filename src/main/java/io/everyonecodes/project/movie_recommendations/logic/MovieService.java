@@ -60,11 +60,11 @@ public class MovieService {
     }
 
     public List<Movie> findRecommendationsById(String id) {
-        return movieApiClient.findRecommendationsById(id);
+        return movieApiClient.findRecommendationsById(id).stream().map(this::addMovie).collect(Collectors.toList());
     }
 
     public List<Movie> findRecommendationsByTitle(String title) {
-        return movieApiClient.findByTitle(title);
+        return movieApiClient.findByTitle(title).stream().map(this::addMovie).collect(Collectors.toList());
     }
 
     public Optional<Movie> findMovieById(Long movieId) {

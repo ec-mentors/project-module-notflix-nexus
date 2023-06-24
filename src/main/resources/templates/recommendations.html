@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Movie Recommendations</title>
@@ -9,16 +10,16 @@
 <a href="/">
     <img class="logo" src="/images/logo.png" alt="Logo">
 </a>
-<h1>Recommendations for "<span th:text="${inputMovie}"></span>"</h1>
+<h1>Recommendations for "<span th:text="${inputMovie.title}"></span>"</h1>
 <ul>
     <li th:each="movie : ${movies}" class="movie-item">
-        <span th:text="${movie.title}" class="movie-title"></span>
+        <span th:text="${movie.title + ' (' + movie.releaseYear + ')'}" class="movie-title"></span>
         <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster" class="movie-poster">
-        <div class="forms">
-            <form th:action="@{/watchlist/{id}(id=${movie.tmdbId})}" th:method="POST" class="inline-form">
+        <div class="forms" sec:authorize="isAuthenticated()">
+            <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
                 <button type="submit">Add to Watchlist</button>
             </form>
-            <form th:action="@{/liked/{id}(id=${movie.tmdbId})}" th:method="POST" class="inline-form">
+            <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
                 <button type="submit">Like Movie</button>
             </form>
         </div>

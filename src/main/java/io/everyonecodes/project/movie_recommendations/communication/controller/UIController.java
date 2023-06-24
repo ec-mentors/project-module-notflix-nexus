@@ -136,7 +136,7 @@ public class UIController {
         var inputMovie = movieService.findMovieByTmdbId(movieId);
         List<Movie> movies = movieService.findRecommendationsById(movieId);
         model.addAttribute("movies", movies);
-        model.addAttribute("inputMovie", inputMovie.get().getTitle());
+        model.addAttribute("inputMovie", inputMovie.get());
         return "recommendations";
     }
 
