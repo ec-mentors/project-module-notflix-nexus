@@ -37,6 +37,12 @@ public class Movie {
         this.posterPath = posterPath;
     }
 
+    public Movie(String tmdbId, String title, List<Genre> genres) {
+        this.tmdbId = tmdbId;
+        this.title = title;
+        this.genres = genres;
+    }
+
     public Long getId() {
         return id;
     }

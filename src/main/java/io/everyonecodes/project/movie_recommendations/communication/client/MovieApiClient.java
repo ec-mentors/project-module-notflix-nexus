@@ -67,13 +67,18 @@ public class MovieApiClient {
     }
 
     public List<Movie> findRecommendationsById(String id) {
-        var request = UriComponentsBuilder.fromHttpUrl(url + recommendations.replace("{movie_id}", id))
-                .queryParam("api_key", apiKey).toUriString();
-        var page = restTemplate.getForObject(request, ResultPageDto.class);
-        if (page != null) {
-            return page.getResults().stream().map(movieTranslator::fromDTO).collect(toList());
+        int pageNumber = 1;
+        Set<MovieDto> movieDtoList = new LinkedHashSet<>();
+        for (pageNumber = 1; pageNumber <= 2; pageNumber++) {
+            var request = UriComponentsBuilder.fromHttpUrl(url + recommendations.replace("{movie_id}", id))
+                    .queryParam("api_key", apiKey)
+                    .queryParam("page", pageNumber).toUriString();
+            var page = restTemplate.getForObject(request, ResultPageDto.class);
+            if (page != null) {
+                movieDtoList.addAll(page.getResults());
+            }
         }
-        return new ArrayList<>();
+        return movieDtoList.stream().map(movieTranslator::fromDTO).collect(toList());
     }
 
     public List<Movie> findRecommendationsByTitle(String title) {
@@ -82,13 +87,18 @@ public class MovieApiClient {
         if (movie.isPresent()) {
             id = movie.get().getTmdbId();
         } else return new ArrayList<>();
-        var request = UriComponentsBuilder.fromHttpUrl(url + recommendations.replace("{movie_id}", id))
-                .queryParam("api_key", apiKey).toUriString();
-        var page = restTemplate.getForObject(request, ResultPageDto.class);
-        if (page != null) {
-            return page.getResults().stream().map(movieTranslator::fromDTO).collect(toList());
+        int pageNumber = 1;
+        Set<MovieDto> movieDtoList = new LinkedHashSet<>();
+        for (pageNumber = 1; pageNumber <= 2; pageNumber++) {
+            var request = UriComponentsBuilder.fromHttpUrl(url + recommendations.replace("{movie_id}", id))
+                    .queryParam("api_key", apiKey)
+                    .queryParam("page", pageNumber).toUriString();
+            var page = restTemplate.getForObject(request, ResultPageDto.class);
+            if (page != null) {
+                movieDtoList.addAll(page.getResults());
+            }
         }
-        return new ArrayList<>();
+        return movieDtoList.stream().map(movieTranslator::fromDTO).collect(toList());
     }
 
 }
