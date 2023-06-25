@@ -31,15 +31,16 @@
     <input type="text" id="tmdbId" name="tmdbId" th:value="${tmdbId}" placeholder="enter tmdb id"/>
     <input type="submit" value="Search"/>
 </form>
-
-<a href="/user">
-    <div sec:authorize="isAuthenticated()" class="home-button">
+<div sec:authorize="isAuthenticated()" class="home-button">
+    <a href="/user">
         <button type="submit">Home</button>
-    </div>
-    <div sec:authorize="!isAuthenticated()" class="home-button">
+    </a>
+</div>
+<div sec:authorize="!isAuthenticated()" class="home-button">
+    <a href="/user">
         <button type="submit">Login</button>
-    </div>
-</a>
+    </a>
 
+</div>
 </tbody>
 </html>
