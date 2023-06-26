@@ -169,7 +169,7 @@ class UserServiceTest {
 
     @Test
     void testCompareWatchLists() {
-        UUID otherUserId = UUID.fromString("uuid");
+        UUID otherUserId = UUID.randomUUID();
         Movie testMovie = new Movie();
         testMovie.setTitle("Movie 1");
 
