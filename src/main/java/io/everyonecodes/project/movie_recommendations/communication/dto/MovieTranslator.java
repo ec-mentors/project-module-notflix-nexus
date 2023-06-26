@@ -11,13 +11,15 @@ import java.util.stream.Collectors;
 public class MovieTranslator {
     private final GenreRepository genreRepository;
 
-    public MovieTranslator(GenreRepository genreRepository) {this.genreRepository = genreRepository;}
+    public MovieTranslator(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
+    }
 
     public Movie fromDTO(MovieDto dto) {
-        if(!dto.getGenreIds().isEmpty())
+        if (!dto.getGenreIds().isEmpty())
             dto.setGenres(dto.getGenreIds().stream().map(genreRepository::findById).map(Optional::orElseThrow).collect(Collectors.toList()));
-        Movie created = new Movie(dto.getTmdbId(), dto.getTitle(), dto.getGenres());
-        if(null!=dto.getRelease_date()) created.setReleaseYear(dto.getRelease_date().getYear());
+        Movie created = new Movie(dto.getTmdbId(), dto.getTitle(), dto.getGenres(), dto.getPosterPath());
+        if (null != dto.getRelease_date()) created.setReleaseYear(dto.getRelease_date().getYear());
         return created;
     }
 }

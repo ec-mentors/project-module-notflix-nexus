@@ -1,0 +1,109 @@
+body {
+    background-color: #f3f9fa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 50px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.movie-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    background-color: #2b2b2b;
+    border-radius: 25px;
+    border: 1px solid #f3f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.movie-poster {
+    width: 300px;
+    height: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.movie-title {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    max-width: 300px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+.logo {
+    width: 100px;
+    height: auto;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.movie-item:hover {
+    transform: scale(1.2);
+}
+.movie-item {
+    transition: transform 0.3s ease;
+}
+.movie-item .forms {
+           text-align: center;
+           opacity: 0; /* Initially hide the buttons */
+           transition: opacity 0.3s ease-in-out;
+}
+.movie-item:hover .forms {
+    opacity: 1; /* Show the buttons on hover */
+}
+.forms {
+    display: flex;
+    justify-content: center; /* Align buttons horizontally in the center */
+}
+
+.inline-form {
+    display: inline-block; /* Display forms inline */
+    margin-right: 10px; /* Add some spacing between buttons */
+}
+button {
+     display: inline-block;
+     padding: 2px 6px;
+     font-size: 12px;
+     font-weight: bold;
+     text-align: center;
+     text-decoration: none;
+     background-color: #4b5554;
+     color: #ffffff;
+     border: none;
+     border-radius: 4px;
+     transition: background-color 0.3s ease;
+     cursor: pointer;
+}
+.home-button{
+    margin-top: 5px;
+ }
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  background-color: #3e8e41;
+}
+.movie-title:hover {
+    color: #a0dbad;
+}

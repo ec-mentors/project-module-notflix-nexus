@@ -1,0 +1,65 @@
+<!--<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>next one</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<a href="/">
+    <img class="logo" src="/images/logo.png" alt="Logo">
+</a>
+<div th:if="${collection_type.name() == 'WATCHLIST'}">
+    <h1><span th:text="${#authentication.getPrincipal().getUsername()}"></span>'s Watchlist</h1>
+</div>
+<div th:if="${collection_type.name() == 'LIKED'}">
+    <h1><span th:text="${#authentication.getPrincipal().getUsername()}"></span>'s Likes</h1>
+</div>
+<div th:if="${collection_type.name() == 'SEARCH_TITLE'}">
+    <h1>Results for "<span th:text="${title_searched}"></span>"</h1>
+</div>
+<div th:if="${collection_type.name() == 'RECOMMENDATIONS'}">
+    <h1>Recommendations for "<span th:text="${recommendationInputMovie.title}"></span>"</h1>
+</div>
+<div th:if="${collection_type.name() == 'COMPARE_WATCHLIST'}">
+    <h1>You and <span th:text="${friend}"></span> share the movies</h1>
+</div>
+<ul>
+    <li th:each="movie : ${movies}" class="movie-item">
+        <a th:href="'https://www.themoviedb.org/movie/' + ${movie.tmdbId}" class="movie-title">
+            <span th:text="${movie.title + ' (' + movie.releaseYear + ')'}" ></span></a>
+        <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster"
+             class="movie-poster">
+        <div class="forms">
+            <div th:if="${collection_type.name() == 'WATCHLIST'}">
+                <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="GET" class="inline-form">
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+            <div th:if="${collection_type.name() == 'LIKED'}">
+                <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="GET" class="inline-form">
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+            <div th:unless="${collection_type.name() == 'WATCHLIST'}">
+                <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
+                    <button type="submit">Add to Watchlist</button>
+                </form>
+            </div>
+            <div th:unless="${collection_type.name() == 'LIKED'}">
+                <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
+                    <button type="submit">Like Movie</button>
+                </form>
+            </div>
+            <form th:action="@{/recommendations(tmdbId=${movie.tmdbId})}" th:method="GET" class="inline-form">
+                <input type="hidden" name="tmdbId" th:value="${movie.tmdbId}"/>
+                <button type="submit">Recommendations</button>
+            </form>
+        </div>
+    </li>
+</ul>
+</body>
+</html>

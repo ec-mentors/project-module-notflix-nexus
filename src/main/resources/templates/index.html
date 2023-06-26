@@ -1,0 +1,38 @@
+<!--<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>next one</title>
+    <!--    somehow the link to the stylesheet forces user to log in oO-->
+    <div sec:authorize="isAuthenticated()">
+        <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    </div>
+</head>
+
+<tbody>
+<a href="/">
+    <img class="logo" src="/images/logo.png" alt="Logo">
+</a>
+<div sec:authorize="isAuthenticated()"><h1>Welcome to next one <span
+        th:text="${#authentication.getPrincipal().getUsername()}"></span></h1></div>
+<div sec:authorize="!isAuthenticated()"><h1>Welcome to next one</h1></div>
+<form action="#" th:action="@{'/search{title}'(title=${movie_title})}" th:method="GET">
+    <label for="movie_title">Find Movies</label>
+    <input type="text" id="movie_title" name="title" th:value="${movie_title}" placeholder="enter title"/>
+    <input type="submit" value="Search"/>
+</form>
+<div sec:authorize="isAuthenticated()" class="home-button">
+    <a href="/user">
+        <button type="submit">Home</button>
+    </a>
+</div>
+<div sec:authorize="!isAuthenticated()" class="home-button">
+    <a href="/user">
+        <button type="submit">Login</button>
+    </a>
+</div>
+</tbody>
+</html>

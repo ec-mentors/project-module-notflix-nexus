@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>next one - home</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <style>
+        a {
+        text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<a href="/">
+    <img class="logo" src="/images/logo.png" alt="Logo">
+</a>
+<h1><span th:text="${#authentication.getPrincipal().getUsername()}">user</span>'s Home</h1>
+
+<a href="/liked">
+    <button type="submit">see the movies you liked</button>
+</a>
+
+<a href="/watchlist">
+    <button type="submit">go to your watchlist</button>
+</a>
+
+<a href="/friends">
+    <button type="submit">compare with your friends</button>
+</a>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>next one - friends</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+<body>
+<a href="/">
+    <img class="logo" src="/images/logo.png" alt="Logo">
+</a>
+<h1>compare interests with friends</h1>
+
+<form action="#" th:action="@{'/compare/watchlist{id}'(id=${friendId})}" th:method="GET">
+    <label for="friend_id">Friend's id: </label>
+    <input type="text" id="friend_id" name="friendId" th:value="${friendId}" placeholder="enter uuid"/>
+    <input type="submit" value="compare Watchlist"/>
+</form>
+
+<div th:if="${id_not_found}"><br/>Friend's uuid not found</div>
+
+<p>This is your id: <span th:text="${user_id}"></span></p>
+
+
+</body>
+</html>

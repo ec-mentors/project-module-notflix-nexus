@@ -153,6 +153,20 @@ public class UserService {
 
     public void removeFromLikedMoviesList(String username, Long movieId) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        optionalUser.ifPresent(user -> likedMoviesListService.removeMovieByIds(user.getWatchList().getId(), movieId));
+        optionalUser.ifPresent(user -> likedMoviesListService.removeMovieByIds(user.getLikedMovies().getId(), movieId));
+    }
+
+    public void addToWatchListById(String username, Long movieId) {
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        optionalUser.ifPresent(user -> watchListService.addMovieByIds(user.getWatchList().getId(), movieId));
+    }
+
+    public void addToLikedMoviesListById(String username, Long movieId) {
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        optionalUser.ifPresent(user -> likedMoviesListService.addMovieByIds(user.getLikedMovies().getId(), movieId));
+    }
+
+    public Optional<UserEntity> getUserById(UUID userId) {
+        return userRepository.findById(userId);
     }
 }

@@ -40,4 +40,5 @@ public class LikedMoviesList {
     public void setLikedMovies(Set<Movie> likedMovies) {
         this.likedMovies = likedMovies;
     }
+
 }

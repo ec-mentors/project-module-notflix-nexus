@@ -43,6 +43,15 @@ public class WatchListService {
         return returnedMovie;
     }
 
+    public void addMovieByIds(Long watchListId, Long movieId) {
+        Optional<Movie> optionalMovie = movieService.findMovieById(movieId);
+        optionalMovie.ifPresent(movie -> {
+            changeIfPresentById(watchListId, watchList -> {
+                if (!watchList.getMovies().contains(movie)) watchList.addMovie(movie);
+            });
+        });
+    }
+
     public String addMovieByTmdbId(Long watchListId, String tmdbId) {
         Optional<Movie> returnedMovie = movieService.findMovieByTmdbId(tmdbId);
         Optional<WatchList> watchList = watchListRepository.findById(watchListId);

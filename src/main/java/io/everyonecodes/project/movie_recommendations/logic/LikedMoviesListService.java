@@ -42,6 +42,15 @@ public class LikedMoviesListService {
         return returnedMovie;
     }
 
+    public void addMovieByIds(Long likedMoviesListId, Long movieId) {
+        Optional<Movie> optionalMovie = movieService.findMovieById(movieId);
+        optionalMovie.ifPresent(movie -> {
+            changeIfPresentById(likedMoviesListId, likedMoviesList -> {
+                if (!likedMoviesList.getLikedMovies().contains(movie)) likedMoviesList.addMovie(movie);
+            });
+        });
+    }
+
     public void clearLikedMoviesListById(Long likedMoviesListId) {
         changeIfPresentById(likedMoviesListId, LikedMoviesList::clear);
     }

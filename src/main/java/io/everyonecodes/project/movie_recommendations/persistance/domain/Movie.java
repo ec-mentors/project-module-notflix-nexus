@@ -17,8 +17,25 @@ public class Movie {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Genre> genres = new ArrayList<>();
     private int releaseYear;
+    private String posterPath;
 
-    public Movie() {}
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public Movie() {
+    }
+
+    public Movie(String tmdbId, String title, List<Genre> genres, String posterPath) {
+        this.tmdbId = tmdbId;
+        this.title = title;
+        this.genres = genres;
+        this.posterPath = posterPath;
+    }
 
     public Movie(String tmdbId, String title, List<Genre> genres) {
         this.tmdbId = tmdbId;
@@ -26,15 +43,43 @@ public class Movie {
         this.genres = genres;
     }
 
-    public Long getId() {return id;}
-    public String getTmdbId() {return tmdbId;}
-    public String getTitle() {return title;}
-    public List<Genre> getGenres() {return genres;}
-    public int getReleaseYear() {return releaseYear;}
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) {this.id = id;}
-    public void setTmdbId(String tmdbId) {this.tmdbId = tmdbId;}
-    public void setTitle(String title) {this.title = title;}
-    public void setGenres(List<Genre> genres) {this.genres = genres;}
-    public void setReleaseYear(int releaseYear) {this.releaseYear = releaseYear;}
+    public String getTmdbId() {
+        return tmdbId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTmdbId(String tmdbId) {
+        this.tmdbId = tmdbId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
 }
