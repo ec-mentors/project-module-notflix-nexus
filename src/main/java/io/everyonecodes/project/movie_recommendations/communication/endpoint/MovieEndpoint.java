@@ -55,7 +55,7 @@ public class MovieEndpoint {
         movieService.deleteById(movieId);
     }
 
-    @GetMapping(value = "/{movieId}/recommendationsById")
+    @GetMapping(value = "/{movieId}/recommendations")
     public List<Movie> getRecommendationsById(@PathVariable String movieId, Model model) {
         List<Movie> movies = movieService.findRecommendationsById(movieId);
         return movies;

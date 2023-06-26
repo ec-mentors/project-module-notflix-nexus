@@ -19,16 +19,9 @@
 <div sec:authorize="isAuthenticated()"><h1>Welcome to next one <span
         th:text="${#authentication.getPrincipal().getUsername()}"></span></h1></div>
 <div sec:authorize="!isAuthenticated()"><h1>Welcome to next one</h1></div>
-
-
 <form action="#" th:action="@{'/search{title}'(title=${movie_title})}" th:method="GET">
     <label for="movie_title">Find Movies</label>
     <input type="text" id="movie_title" name="title" th:value="${movie_title}" placeholder="enter title"/>
-    <input type="submit" value="Search"/>
-</form>
-<form action="#" th:action="@{/recommendations/{tmdbId}(tmdbId=${tmdbId})}" th:method="GET">
-    <label for="tmdbId">Get Recommendations</label>
-    <input type="text" id="tmdbId" name="tmdbId" th:value="${tmdbId}" placeholder="enter tmdb id"/>
     <input type="submit" value="Search"/>
 </form>
 <div sec:authorize="isAuthenticated()" class="home-button">
@@ -40,7 +33,6 @@
     <a href="/user">
         <button type="submit">Login</button>
     </a>
-
 </div>
 </tbody>
 </html>
