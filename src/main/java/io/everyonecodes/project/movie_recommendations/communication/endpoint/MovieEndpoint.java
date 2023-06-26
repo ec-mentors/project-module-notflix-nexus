@@ -1,12 +1,8 @@
 package io.everyonecodes.project.movie_recommendations.communication.endpoint;
 
-import io.everyonecodes.project.movie_recommendations.communication.client.MovieApiClient;
 import io.everyonecodes.project.movie_recommendations.logic.MovieService;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -56,9 +52,12 @@ public class MovieEndpoint {
     }
 
     @GetMapping(value = "/{movieId}/recommendations")
-    public List<Movie> getRecommendationsById(@PathVariable String movieId, Model model) {
-        List<Movie> movies = movieService.findRecommendationsById(movieId);
-        return movies;
+    public List<Movie> getRecommendationsById(@PathVariable String movieId) {
+        return movieService.findRecommendationsById(movieId);
     }
 
+    @GetMapping("/{title}/recommendationsByTitle")
+    List<Movie> getRecommendationsByTitle(@PathVariable String title) {
+        return movieService.findRecommendationsByTitle(title);
+    }
 }
