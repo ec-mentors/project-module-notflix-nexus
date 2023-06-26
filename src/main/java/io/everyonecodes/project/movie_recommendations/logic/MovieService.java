@@ -1,18 +1,14 @@
 package io.everyonecodes.project.movie_recommendations.logic;
 
 import io.everyonecodes.project.movie_recommendations.communication.client.MovieApiClient;
-import io.everyonecodes.project.movie_recommendations.communication.dto.ResultPageDto;
 import io.everyonecodes.project.movie_recommendations.persistance.domain.Movie;
 import io.everyonecodes.project.movie_recommendations.persistance.repository.MovieRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class MovieService {
@@ -60,7 +56,7 @@ public class MovieService {
     }
 
     public List<Movie> findRecommendationsById(String id) {
-        return movieApiClient.findRecommendationsById(id);
+        return movieApiClient.findRecommendationsById(id).stream().map(this::addMovie).collect(Collectors.toList());
     }
 
     public List<Movie> findRecommendationsByTitle(String title) {
@@ -70,5 +66,9 @@ public class MovieService {
             movieList = findRecommendationsById(movie.get().getTmdbId());
         }
         return movieList;
+    }
+
+    public Optional<Movie> findMovieById(Long movieId) {
+        return movieRepository.findById(movieId);
     }
 }
