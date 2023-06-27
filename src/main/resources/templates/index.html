@@ -6,10 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>next one</title>
-    <!--    somehow the link to the stylesheet forces user to log in oO-->
-    <div sec:authorize="isAuthenticated()">
-        <link th:href="@{/css/style.css}" rel="stylesheet"/>
-    </div>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
 </head>
 
 <tbody>
