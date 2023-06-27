@@ -48,6 +48,12 @@ ul {
     transition: color 0.3s ease;
     text-decoration: none;
 }
+
+.movie-description {
+    text-align: center;
+    margin-top: 55px;
+}
+
 .logo {
     width: 100px;
     height: auto;
