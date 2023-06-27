@@ -31,8 +31,10 @@
     <li th:each="movie : ${movies}" class="movie-item">
         <a th:href="'https://www.themoviedb.org/movie/' + ${movie.tmdbId}" class="movie-title">
             <span th:text="${movie.title + ' (' + movie.releaseYear + ')'}" ></span></a>
-        <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster"
-             class="movie-poster">
+        <a th:href="@{/movie/{id}(id=${movie.id})}">
+            <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster"
+            class="movie-poster">
+        </a>
         <div class="forms">
             <div th:if="${collection_type.name() == 'WATCHLIST'}">
                 <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="GET" class="inline-form">
