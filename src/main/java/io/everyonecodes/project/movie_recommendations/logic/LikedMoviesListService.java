@@ -91,15 +91,16 @@ public class LikedMoviesListService {
         return failMessage;
     }
 
-    public String addMovieByTitle(Long likedMoviesListId, String movieTitle) {
+    public Optional<Movie> addMovieByTitle(Long likedMoviesListId, String movieTitle) {
         Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
         Optional<LikedMoviesList> likedMoviesList = likedMoviesListRepository.findById(likedMoviesListId);
         if (returnedMovie.isPresent() && likedMoviesList.isPresent()) {
             movieService.addMovie(returnedMovie.get());
             likedMoviesList.get().getLikedMovies().add(returnedMovie.get());
             likedMoviesListRepository.save(likedMoviesList.get());
-            return movieTitle;
+            return returnedMovie;
         }
-        return failMessage;
+        System.out.println(failMessage);
+        return Optional.empty();
     }
 }
