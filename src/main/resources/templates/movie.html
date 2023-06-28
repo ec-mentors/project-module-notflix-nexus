@@ -43,11 +43,6 @@
     <p>released: <span th:text="*{releaseYear}">oops!</span></p>
     <p>Genres: <span th:text="${#strings.arrayJoin(movie.genres.![name], ', ')}">oops!</span></p>
     <p class="summary"><span th:text="*{overview}">sorry, there is no summary available</span></p>
-
-
-    <form action="#" th:action="@{/recommendations(tmdbId=${movie.tmdbId})}" th:method="POST">
-        <button type="submit" class="btn">find recommendations based on <span th:text="*{title}">oops!</span></button>
-    </form>
 </div>
 
 </body>
