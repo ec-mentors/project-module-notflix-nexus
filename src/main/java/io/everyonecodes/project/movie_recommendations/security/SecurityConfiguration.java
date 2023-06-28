@@ -37,6 +37,9 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.GET, "/movies/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/search").permitAll()
                 .antMatchers(HttpMethod.GET, "/movie/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/recommendations").permitAll()
+                .antMatchers(HttpMethod.GET, "/images/logo.png").permitAll()
+                .antMatchers(HttpMethod.GET, "/css/style.css").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
