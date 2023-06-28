@@ -49,6 +49,17 @@ ul {
     transition: color 0.3s ease;
     text-decoration: none;
 }
+
+.movie-description {
+    text-align: center;
+    margin-top: 55px;
+}
+
+.summary {
+    width: 500px;
+    display: inline-block;
+}
+
 .logo {
     width: 100px;
     height: auto;
