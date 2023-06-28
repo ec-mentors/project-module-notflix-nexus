@@ -132,7 +132,6 @@ public class UIController {
     }
 
     @GetMapping("/recommendations")
-    @Secured("ROLE_USER")
     public String getRecommendationsById(@RequestParam String tmdbId, Model model) {
         var inputMovie = movieService.findMovieByTmdbId(tmdbId);
         List<Movie> movies = movieService.findRecommendationsById(tmdbId);
