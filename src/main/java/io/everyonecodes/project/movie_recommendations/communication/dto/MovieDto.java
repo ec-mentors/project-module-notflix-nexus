@@ -13,12 +13,13 @@ public class MovieDto {
     @JsonProperty("id")
     private String tmdbId;
     private String title;
-    @JsonProperty("poster_path")
-    private String posterPath;
     private List<Genre> genres = new ArrayList<>();
     @JsonProperty("genre_ids")
     private List<Long> genreIds = new ArrayList<>();
     private LocalDate release_date;
+    private String overview;
+    @JsonProperty("poster_path")
+    private String posterPath;
 
     public String getTmdbId() {
         return tmdbId;
@@ -40,6 +41,10 @@ public class MovieDto {
         return release_date;
     }
 
+    public String getOverview() {return overview;}
+
+    public String getPosterPath() {return posterPath;}
+
     public void setTmdbId(String tmdbId) {
         this.tmdbId = tmdbId;
     }
@@ -60,9 +65,7 @@ public class MovieDto {
         this.release_date = release_date;
     }
 
-    public String getPosterPath() {
-        return posterPath;
-    }
+    public void setOverview(String overview) {this.overview = overview;}
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;

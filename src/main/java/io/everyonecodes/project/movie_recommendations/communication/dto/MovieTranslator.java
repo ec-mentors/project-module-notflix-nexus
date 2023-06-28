@@ -18,7 +18,7 @@ public class MovieTranslator {
     public Movie fromDTO(MovieDto dto) {
         if (!dto.getGenreIds().isEmpty())
             dto.setGenres(dto.getGenreIds().stream().map(genreRepository::findById).map(Optional::orElseThrow).collect(Collectors.toList()));
-        Movie created = new Movie(dto.getTmdbId(), dto.getTitle(), dto.getGenres(), dto.getPosterPath());
+        Movie created = new Movie(dto.getTmdbId(), dto.getTitle(), dto.getGenres(), dto.getOverview(), dto.getPosterPath());
         if (null != dto.getRelease_date()) created.setReleaseYear(dto.getRelease_date().getYear());
         return created;
     }

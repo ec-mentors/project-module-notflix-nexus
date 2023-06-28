@@ -12,25 +12,38 @@
 </a>
 <h1 th:text="*{title}">title missing</h1>
 
-<p>released: <span th:text="*{releaseYear}">oops!</span></p>
-<p>Genres: <span th:text="${#strings.arrayJoin(movie.genres.![name], ', ')}">oops!</span></p>
+<ul>
+    <li class="movie-item">
+        <a class="movie-title">
+            <span th:text="${movie.title}" ></span>
+        </a>
 
-<!--    <form action="#" th:action="@{'/enterpath!!!/{id}'(id=*{id})}" th:method="POST">-->
-<!--        <button type="submit" class="btn">find recommendations based on <span th:text="*{title}">oops!</span></button>-->
-<!--    </form>-->
+        <a th:href="'https://www.themoviedb.org/movie/' + ${movie.tmdbId}" class="movie-title">
+            <img th:src="'http://image.tmdb.org/t/p/original/' + ${movie.posterPath}" alt="Movie Poster"
+                 class="movie-poster">
+        </a>
+        <div class="forms">
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
+                    <button type="submit">Add to Watchlist</button>
+                </form>
+                <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
+                    <button type="submit">Like Movie</button>
+                </form>
+            </div>
+            <form th:action="@{/recommendations(tmdbId=${movie.tmdbId})}" th:method="GET" class="inline-form">
+                <input type="hidden" name="tmdbId" th:value="${movie.tmdbId}"/>
+                <button class="recommendation-button" type="submit">Recommendations</button>
+            </form>
+        </div>
+    </li>
+</ul>
 
-<div sec:authorize="isAuthenticated()">
-    <p>
-    <form action="#" th:action="@{'/liked/{id}'(id=*{id})}" th:method="POST">
-        <button type="submit" class="btn">like</button>
-    </form>
-    </p>
-
-    <p>
-    <form action="#" th:action="@{'/watchlist/{id}'(id=*{id})}" th:method="POST">
-        <button type="submit" class="btn">add to watchlist</button>
-    </form>
-    </p>
+<div class="movie-description">
+    <p>released: <span th:text="*{releaseYear}">oops!</span></p>
+    <p>Genres: <span th:text="${#strings.arrayJoin(movie.genres.![name], ', ')}">oops!</span></p>
+    <p class="summary"><span th:text="*{overview}">sorry, there is no summary available</span></p>
 </div>
+
 </body>
 </html>
