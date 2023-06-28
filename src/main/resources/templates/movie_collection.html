@@ -1,7 +1,7 @@
 <!--<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">-->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>next one</title>
@@ -36,22 +36,22 @@
             class="movie-poster">
         </a>
         <div class="forms">
-            <div th:if="${collection_type.name() == 'WATCHLIST'}">
+            <div th:if="${collection_type.name() == 'WATCHLIST'}" sec:authorize="isAuthenticated()">
                 <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="GET" class="inline-form">
                     <button class="remove-button" type="submit">Remove</button>
                 </form>
             </div>
-            <div th:if="${collection_type.name() == 'LIKED'}">
+            <div th:if="${collection_type.name() == 'LIKED'}" sec:authorize="isAuthenticated()">
                 <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="GET" class="inline-form">
                     <button class="remove-button" type="submit">Remove</button>
                 </form>
             </div>
-            <div th:unless="${collection_type.name() == 'WATCHLIST'}">
+            <div th:unless="${collection_type.name() == 'WATCHLIST'}" sec:authorize="isAuthenticated()">
                 <form th:action="@{/watchlist/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
                     <button type="submit">Add to Watchlist</button>
                 </form>
             </div>
-            <div th:unless="${collection_type.name() == 'LIKED'}">
+            <div th:unless="${collection_type.name() == 'LIKED'}" sec:authorize="isAuthenticated()">
                 <form th:action="@{/liked/{id}(id=${movie.id})}" th:method="POST" class="inline-form">
                     <button type="submit">Like Movie</button>
                 </form>
