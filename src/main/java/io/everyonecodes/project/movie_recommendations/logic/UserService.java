@@ -31,7 +31,9 @@ public class UserService {
     }
 
 
-    public List<UserEntity> getAllUsers() {return userRepository.findAll();}
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     public Optional<UUID> getUserIdByUsername(String username) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
@@ -50,7 +52,9 @@ public class UserService {
         return user;
     }
 
-    public void deleteUserById(UUID userId) {userRepository.deleteById(userId);}
+    public void deleteUserById(UUID userId) {
+        userRepository.deleteById(userId);
+    }
 
     public Optional<WatchList> getWatchListByUsername(String username) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
@@ -113,16 +117,21 @@ public class UserService {
         return tmdbId;
     }
 
-    public String addToWatchListByTitle(String username, String title) {
+    public Optional<Movie> addToWatchListByTitle(String username, String title) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        optionalUser.ifPresent(user -> watchListService.addMovieByTitle(user.getWatchList().getId(), title));
-        return title;
+        if (optionalUser.isPresent()) {
+            return watchListService.addMovieByTitle(optionalUser.get().getWatchList().getId(), title);
+        }
+        return Optional.empty();
     }
 
-    public String addToLikedMoviesListByTitle(String username, String title) {
+    public Optional<Movie> addToLikedMoviesListByTitle(String username, String title) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        optionalUser.ifPresent(user -> likedMoviesListService.addMovieByTitle(user.getLikedMovies().getId(), title));
-        return title;
+        if (optionalUser.isPresent()) {
+            return likedMoviesListService.addMovieByTitle(optionalUser.get().getLikedMovies().getId(), title);
+
+        }
+        return Optional.empty();
     }
 
     public void removeFromWatchListByTmdbId(String username, String tmdbId) {

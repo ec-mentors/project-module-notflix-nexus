@@ -58,8 +58,8 @@ public class LikedMoviesListEndpoint {
 
     @GetMapping("/{likedMoviesListId}/title/{movieTitle}")
     @Secured("ROLE_ADMIN")
-    String addMovieByTitle(@PathVariable Long likedMoviesListId, @PathVariable String movieTitle) {
-        return likedMoviesListService.addMovieByTitle(likedMoviesListId, movieTitle);
+    Movie addMovieByTitle(@PathVariable Long likedMoviesListId, @PathVariable String movieTitle) {
+        return likedMoviesListService.addMovieByTitle(likedMoviesListId, movieTitle).orElse(null);
     }
 
     @DeleteMapping("/{likedMoviesListId}/id/{tmdbId}")

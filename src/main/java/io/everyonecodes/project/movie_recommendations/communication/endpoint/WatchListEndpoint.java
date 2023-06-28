@@ -15,7 +15,9 @@ import java.util.Optional;
 public class WatchListEndpoint {
     private final WatchListService watchListService;
 
-    public WatchListEndpoint(WatchListService watchListService) {this.watchListService = watchListService;}
+    public WatchListEndpoint(WatchListService watchListService) {
+        this.watchListService = watchListService;
+    }
 
     @GetMapping
     @Secured("ROLE_ADMIN")
@@ -55,8 +57,8 @@ public class WatchListEndpoint {
 
     @GetMapping("/{watchListId}/title/{movieTitle}")
     @Secured("ROLE_ADMIN")
-    String addMovieByTitle(@PathVariable Long watchListId, @PathVariable String movieTitle) {
-        return watchListService.addMovieByTitle(watchListId, movieTitle);
+    Movie addMovieByTitle(@PathVariable Long watchListId, @PathVariable String movieTitle) {
+        return watchListService.addMovieByTitle(watchListId, movieTitle).orElse(null);
     }
 
     @DeleteMapping("/{watchListId}/id/{tmdbId}")

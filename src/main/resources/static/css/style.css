@@ -111,6 +111,12 @@ button {
 button:hover {
   background-color: #45a049;
 }
+.remove-button:hover {
+  background-color: #e32020;
+}
+.recommendation-button:hover {
+  background-color: #36768f;
+}
 
 button:active {
   background-color: #3e8e41;

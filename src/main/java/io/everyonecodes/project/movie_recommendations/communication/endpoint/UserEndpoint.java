@@ -20,7 +20,9 @@ import java.util.UUID;
 public class UserEndpoint {
     private final UserService userService;
 
-    public UserEndpoint(UserService userService) {this.userService = userService;}
+    public UserEndpoint(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     @Secured("ROLE_ADMIN")
@@ -73,7 +75,7 @@ public class UserEndpoint {
 
     @GetMapping("/current/watchlist/compare/{otherUserId}")
     @Secured("ROLE_USER")
-    public Set<Movie> compareMovies (Principal principal, @PathVariable UUID otherUserId) {
+    public Set<Movie> compareMovies(Principal principal, @PathVariable UUID otherUserId) {
         return userService.compareWatchLists(principal.getName(), otherUserId);
     }
 
@@ -85,8 +87,8 @@ public class UserEndpoint {
 
     @GetMapping("/current/watchlist/title/{title}")
     @Secured("ROLE_USER")
-    String addToWatchListByTitle(Principal principal, @PathVariable String title) {
-        return userService.addToWatchListByTitle(principal.getName(), title);
+    Movie addToWatchListByTitle(Principal principal, @PathVariable String title) {
+        return userService.addToWatchListByTitle(principal.getName(), title).orElse(null);
     }
 
     @DeleteMapping("/current/watchlist/id/{tmdbId}")
@@ -97,7 +99,7 @@ public class UserEndpoint {
 
     @DeleteMapping("/current/watchlist/title/{title}")
     @Secured("ROLE_USER")
-    void deleteFromCurrentWatchlistByTitle(Principal principal, @PathVariable String title)  {
+    void deleteFromCurrentWatchlistByTitle(Principal principal, @PathVariable String title) {
         userService.removeFromWatchListByTitle(principal.getName(), title);
     }
 
@@ -133,8 +135,8 @@ public class UserEndpoint {
 
     @GetMapping("/current/likedmovies/title/{title}")
     @Secured("ROLE_USER")
-    String addToCurrentLikedMoviesListByTitle(Principal principal, @PathVariable String title) {
-        return userService.addToLikedMoviesListByTitle(principal.getName(), title);
+    Movie addToCurrentLikedMoviesListByTitle(Principal principal, @PathVariable String title) {
+        return userService.addToLikedMoviesListByTitle(principal.getName(), title).orElse(null);
     }
 
     @DeleteMapping("/current/likedmovies/id/{tmdbId}")

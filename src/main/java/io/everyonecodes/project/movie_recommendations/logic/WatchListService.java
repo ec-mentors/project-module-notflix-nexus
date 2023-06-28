@@ -80,16 +80,17 @@ public class WatchListService {
         });
     }
 
-    public String addMovieByTitle(Long watchListId, String movieTitle) {
+    public Optional<Movie> addMovieByTitle(Long watchListId, String movieTitle) {
         Optional<Movie> returnedMovie = movieService.findMoviesByTitle(movieTitle).stream().findFirst();
         Optional<WatchList> watchList = watchListRepository.findById(watchListId);
         if (returnedMovie.isPresent() && watchList.isPresent()) {
             movieService.addMovie(returnedMovie.get());
             watchList.get().getMovies().add(returnedMovie.get());
             watchListRepository.save(watchList.get());
-            return  movieTitle;
+            return returnedMovie;
         }
-        return failMessage;
+        System.out.println(failMessage);
+        return Optional.empty();
     }
 
     public void removeMovieByTitle(Long watchListId, String movieTitle) {
