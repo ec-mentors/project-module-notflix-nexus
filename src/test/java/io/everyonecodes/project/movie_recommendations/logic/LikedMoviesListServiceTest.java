@@ -167,7 +167,9 @@ class LikedMoviesListServiceTest {
         when(movieService.findMoviesByTitle(title)).thenReturn(movieList);
         when(likedMoviesListRepository.findById(likedMoviesListId)).thenReturn(Optional.of(likedMoviesList));
 
-        String result = likedMoviesListService.addMovieByTitle(likedMoviesListId, title);
+        var oResult = likedMoviesListService.addMovieByTitle(likedMoviesListId, title);
+
+        String result = oResult.get().getTitle();
 
         Assertions.assertEquals(title, result);
         verify(movieService).addMovie(movie);
