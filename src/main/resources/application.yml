@@ -6,9 +6,6 @@ notflix:
         - username: admin
           password: admin
           authorities: ${notflix.roles.admin}, ${notflix.roles.user}
-        - username: dummy
-          password: dummy
-          authorities: ${notflix.roles.user}
 
     fail:
         message: "not found"
@@ -18,7 +15,7 @@ spring:
         format:
             date: yyyy-MM-dd
     datasource:
-        url: jdbc:mysql://mysql.c94wpx4yhkpj.eu-north-1.rds.amazonaws.com:3306/mysql
+        url: jdbc:mysql://mysql.c94wpx4yhkpj.eu-north-1.rds.amazonaws.com:3306/notflix-nexus-1
         username: NNAdmin
         password: JTKABnn23!
     jpa:
