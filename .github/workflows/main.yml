@@ -19,7 +19,6 @@ jobs:
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
-          entryPoint: 'project-module-notflix-nexus/target'
         env:
           AWS_S3_BUCKET: notflix-nexus-bucket
           AWS_REGION: eu-north-1
