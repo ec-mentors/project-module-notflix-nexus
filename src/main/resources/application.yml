@@ -18,9 +18,9 @@ spring:
         format:
             date: yyyy-MM-dd
     datasource:
-        url: jdbc:mysql://localhost:3306/notflix_nexus?useSSL=false
-        username: root
-        password: root
+        url: jdbc:mysql://mysql.c94wpx4yhkpj.eu-north-1.rds.amazonaws.com:3306/mysql
+        username: NNAdmin
+        password: JTKABnn23!
     jpa:
         hibernate:
             ddl-auto: update
