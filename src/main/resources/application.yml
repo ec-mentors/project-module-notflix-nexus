@@ -15,7 +15,7 @@ spring:
         format:
             date: yyyy-MM-dd
     datasource:
-        url: jdbc:mysql://notflix-nexus-db1.c94wpx4yhkpj.eu-north-1.rds.amazonaws.com:3306/notflix_nexus?useSSL=false
+        url: jdbc:mysql://nfnexus.c94wpx4yhkpj.eu-north-1.rds.amazonaws.com:3306/nfnexus?useSSL=false
         username: nnadmin
         password: '!nnadmin23'
     jpa:
