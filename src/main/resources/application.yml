@@ -22,6 +22,10 @@ spring:
         hibernate:
             ddl-auto: update
 
+server:
+    port: 5000
+
+
 api:
     url: https://api.themoviedb.org
     key: 7c0af285bec5ba381f87bb2a0eea17a0
