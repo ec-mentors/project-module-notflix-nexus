@@ -8,17 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Build Maven project
+        run: mvn package
 
       - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
